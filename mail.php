@@ -1,7 +1,7 @@
-<?php
+<?php 
 phpinfo();
 exit;
-        $subject = "Zaron Ticket ID ";
+        $subject = "Zaron Ticket ID1 ";
         $body = '54656';
         $headers = "MIME-Version: 1.0" . "\r\n";
         $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
