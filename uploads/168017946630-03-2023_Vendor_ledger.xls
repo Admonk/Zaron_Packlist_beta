@@ -1,0 +1,535 @@
+                  
+                   <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100"  border="1"    style="border: #d1d1d1 solid 1px;border-collapse: collapse;width: 100%;line-height: 1.5;" >
+                         <thead>
+                             
+                             
+                              <tr><th colspan="9">SIMMHA STEELS</th></tr>
+                              <tr><th colspan="9">9965418338</th></tr>
+                              
+                          
+                         </thead> 
+                         
+                    </table>
+                    
+                                             
+                           <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100" border="1"   style="border: #d1d1d1 solid 1px;border-collapse: collapse;width: 100%;line-height: 1.5;" >
+                      <thead>
+                        <tr style="text-align: left;">
+
+                          <th> No</th>
+                          <th>Name</th>
+                          <th>Date</th>
+                          <th>Chq/Ref.No</th>
+                          
+                          <th>Debit</th>
+                          <th>Credit</th>
+                          <th>Balance</th>
+                          <th>Payment Mode</th>
+                          <th>Notes</th>
+                         
+            
+                        </tr>
+                      </thead>
+                      <tbody>
+                          
+                                                      
+                          <tr>
+                              
+                         
+                           <td> #</td>
+                          <td>Opening Balance</td>
+                          <td>01-Nov-2022</td>
+                          <td></td>
+                          
+                          <td>10307477.8</td>
+                          <td>0</td>
+                          <td style="color:red">10307477.8</td>
+                          <td> <br> </td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 1</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>07-Nov-2022</td>
+                          <td></td>
+                          
+                          <td>3500000</td>
+                          <td>0</td>
+                          <td style="color:red">13807477.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 2</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>25-Nov-2022</td>
+                          <td></td>
+                          
+                          <td>1900000</td>
+                          <td>0</td>
+                          <td style="color:red">15707477.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 3</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>30-Nov-2022</td>
+                          <td></td>
+                          
+                          <td>2000000</td>
+                          <td>0</td>
+                          <td style="color:red">17707477.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 4</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>02-Dec-2022</td>
+                          <td></td>
+                          
+                          <td>800000</td>
+                          <td>0</td>
+                          <td style="color:red">18507477.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 5</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>09-Dec-2022</td>
+                          <td>20</td>
+                          
+                          <td>0</td>
+                          <td>26196</td>
+                          <td style="color:red">18481281.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 6</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>27-Dec-2022</td>
+                          <td></td>
+                          
+                          <td>4500000</td>
+                          <td>0</td>
+                          <td style="color:red">22981281.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 7</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>29-Dec-2022</td>
+                          <td></td>
+                          
+                          <td>4000000</td>
+                          <td>0</td>
+                          <td style="color:red">26981281.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 8</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>02-Jan-2023</td>
+                          <td>21</td>
+                          
+                          <td>0</td>
+                          <td>2836840</td>
+                          <td style="color:red">24144441.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 9</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>18-Jan-2023</td>
+                          <td>25</td>
+                          
+                          <td>0</td>
+                          <td>3445034</td>
+                          <td style="color:red">20699407.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 10</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>18-Jan-2023</td>
+                          <td>23</td>
+                          
+                          <td>0</td>
+                          <td>178004</td>
+                          <td style="color:red">20521403.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 11</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>18-Jan-2023</td>
+                          <td>22</td>
+                          
+                          <td>0</td>
+                          <td>3517563</td>
+                          <td style="color:red">17003840.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 12</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>20-Jan-2023</td>
+                          <td></td>
+                          
+                          <td>5000000</td>
+                          <td>0</td>
+                          <td style="color:red">22003840.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 13</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>23-Jan-2023</td>
+                          <td></td>
+                          
+                          <td>5000000</td>
+                          <td>0</td>
+                          <td style="color:red">27003840.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 14</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>27-Jan-2023</td>
+                          <td>24</td>
+                          
+                          <td>0</td>
+                          <td>2894313</td>
+                          <td style="color:red">24109527.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 15</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>27-Jan-2023</td>
+                          <td></td>
+                          
+                          <td>2000000</td>
+                          <td>0</td>
+                          <td style="color:red">26109527.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 16</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>28-Jan-2023</td>
+                          <td></td>
+                          
+                          <td>3000000</td>
+                          <td>0</td>
+                          <td style="color:red">29109527.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 17</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>28-Jan-2023</td>
+                          <td>26</td>
+                          
+                          <td>0</td>
+                          <td>2351000</td>
+                          <td style="color:red">26758527.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 18</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>31-Jan-2023</td>
+                          <td>27</td>
+                          
+                          <td>0</td>
+                          <td>2909078</td>
+                          <td style="color:red">23849449.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 19</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>04-Feb-2023</td>
+                          <td></td>
+                          
+                          <td>10000000</td>
+                          <td>0</td>
+                          <td style="color:red">33849449.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 20</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>09-Feb-2023</td>
+                          <td>30</td>
+                          
+                          <td>0</td>
+                          <td>3531701</td>
+                          <td style="color:red">30317748.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 21</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>09-Feb-2023</td>
+                          <td>29</td>
+                          
+                          <td>0</td>
+                          <td>2953954</td>
+                          <td style="color:red">27363794.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 22</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>11-Feb-2023</td>
+                          <td>31</td>
+                          
+                          <td>0</td>
+                          <td>3276636</td>
+                          <td style="color:red">24087158.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 23</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>13-Feb-2023</td>
+                          <td>32</td>
+                          
+                          <td>0</td>
+                          <td>992076</td>
+                          <td style="color:red">23095082.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 24</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>20-Feb-2023</td>
+                          <td></td>
+                          
+                          <td>60000</td>
+                          <td>0</td>
+                          <td style="color:red">23155082.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 25</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>20-Feb-2023</td>
+                          <td></td>
+                          
+                          <td>50000</td>
+                          <td>0</td>
+                          <td style="color:red">23205082.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 26</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>21-Feb-2023</td>
+                          <td>33</td>
+                          
+                          <td>0</td>
+                          <td>954101</td>
+                          <td style="color:red">22250981.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 27</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>27-Feb-2023</td>
+                          <td>28/2022-23</td>
+                          
+                          <td>0</td>
+                          <td>2797001</td>
+                          <td style="color:red">19453980.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 28</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>06-Mar-2023</td>
+                          <td></td>
+                          
+                          <td>5000000</td>
+                          <td>0</td>
+                          <td style="color:red">24453980.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 29</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>10-Mar-2023</td>
+                          <td></td>
+                          
+                          <td>990000</td>
+                          <td>0</td>
+                          <td style="color:red">25443980.8</td>
+                          <td>NEFT/RTGS <br> KARUR VYSYA BANK</td>
+                          <td></td>
+                         
+                           </tr>
+                                                        
+                          <tr>
+                              
+                         
+                           <td> 30</td>
+                          <td>SIMMHA STEELS</td>
+                          <td>15-Mar-2023</td>
+                          <td>34</td>
+                          
+                          <td>0</td>
+                          <td>2749114</td>
+                          <td style="color:red">22694866.8</td>
+                          <td>Cash <br> CASH IN HAND</td>
+                          <td>Purchase Invoice Create</td>
+                         
+                           </tr>
+                                                        
+                         
+                     <tbody>
+                         </table>
+                         
