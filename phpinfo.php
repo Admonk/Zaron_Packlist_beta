@@ -1,7 +1,7 @@
 <?php
 phpinfo();
 exit;
-// Database connection settings
+// Database connection settings  12211
 // $servername = "localhost";
 // $username = "zaronlive";
 // $password = "Zaronlive@54321$";

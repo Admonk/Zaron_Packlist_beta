@@ -5,7 +5,7 @@ $conn = mysqli_connect("localhost", "zaronlive", "Zaronlive@54321$", "zaronlive"
 require_once('excel/php-excel-reader/excel_reader2.php');
 require_once('excel/SpreadsheetReader.php');
 
-
+    
  $date_time=date('g:i A');
 $allowedFileType = ['application/vnd.ms-excel','text/xls','text/xlsx','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
     
