@@ -1,0 +1,7 @@
+[09-Jun-2022 04:08:28 UTC] PHP Warning:  Use of undefined constant SITE_NAME - assumed 'SITE_NAME' (this will throw an Error in a future version of PHP) in /home3/efficq6n/public_html/admonk.in/zaron_beta/application/views/order/header.php on line 8
+[09-Jun-2022 04:08:28 UTC] PHP Warning:  Use of undefined constant FAV_ICON - assumed 'FAV_ICON' (this will throw an Error in a future version of PHP) in /home3/efficq6n/public_html/admonk.in/zaron_beta/application/views/order/header.php on line 15
+[09-Jun-2022 04:08:28 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function base_url() in /home3/efficq6n/public_html/admonk.in/zaron_beta/application/views/order/header.php:18
+Stack trace:
+#0 /home3/efficq6n/public_html/admonk.in/zaron_beta/application/views/order/ordercreate.php(2): include()
+#1 {main}
+  thrown in /home3/efficq6n/public_html/admonk.in/zaron_beta/application/views/order/header.php on line 18

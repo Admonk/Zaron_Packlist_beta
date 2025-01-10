@@ -1,0 +1,192 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Accountheads_sub extends CI_Controller {
+
+    function __construct() {
+             error_reporting(0);
+             parent::__construct();
+             $this->load->model('Admin/Auth');
+               $this->load->model('Main_model');
+
+             if(isset($this->session->userdata['logged_in']))
+             {
+
+
+	           $sess_array =$this->session->userdata['logged_in'];
+			   $userid=$sess_array['userid'];
+			   $email=$sess_array['email'];
+			   $this->userid=$userid;
+			   $this->user_mail=$email;
+
+			   
+			}
+          
+    }
+   
+
+    public function index()
+    {
+                  
+
+                 
+                  
+                                        if(isset($this->session->userdata['logged_in']))
+                                        {
+                                            
+                                             $data['accounttype']= $this->Main_model->where_names('accounttype','deleteid','0');
+                                             $data['active_base']='route';
+                                             $data['active']='route';
+                                             $data['title']    = 'Account Heads';
+                                             $data['top_nav']  = $this->load->view('commen/top_nav', $data, TRUE);
+                                             $data['side_nav'] = $this->load->view('commen/side_nav', $data, TRUE);
+                                             $data['footer_copy_rights'] = $this->load->view('commen/footer_copy_rights', $data, TRUE);
+                                             $this->load->view('accountheads_sub/index.php',$data);
+
+
+                                        }
+                                        else
+                                        {
+
+                                              redirect('index.php/adminmain');
+
+                                        }                    
+
+                  
+
+
+    }
+   
+	public function insertandupdate()
+	{
+
+                 $form_data = json_decode(file_get_contents("php://input"));
+                 
+
+                 if($form_data->action=='Add')
+                 {
+                     
+                     if($form_data->name!='')
+                     {
+
+                     $tablename=$form_data->tablename;
+                     $data['name']=$form_data->name;
+                     $data['account_type']=$form_data->account_type;
+                     
+                     $data['spilt_status']=$form_data->spilt_status;
+                    
+                 	 
+                     $data['balance']=$form_data->balance;
+                    
+                     $this->Main_model->insert_commen($data,$tablename);
+
+                     }
+                     else
+                     {
+                         $array=array('error'=>'1');
+                         echo json_encode($array);
+                     }
+
+
+                 }
+                 if($form_data->action=="Update")
+                 {
+
+                 	if($form_data->name!='')
+                     {
+                       $tablename=$form_data->tablename;
+                       $data['get_id']=$form_data->id;
+                       $data['name']=$form_data->name;
+                       $data['account_type']=$form_data->account_type;
+                        $data['spilt_status']=$form_data->spilt_status;
+                       $data['balance']=$form_data->balance;
+                    
+                 	   $this->Main_model->update_commen($data,$tablename);
+                 	 }
+                     else
+                     {
+                         $array=array('error'=>'1');
+                         echo json_encode($array);
+                     }
+
+                 }
+
+                 if($form_data->action=='Delete')
+                 {
+                     $tablename=$form_data->tablename;
+                 	 $id=$form_data->id;
+                     $this->Main_model->deleteupdate($id,$tablename);
+
+                 }
+                
+                
+
+
+	}
+	public function fetch_data()
+	{
+
+
+                 	 $result= $this->Main_model->where_names('accountheads_sub_group','deleteid','0');
+                 	 $data=array();
+                 	$i=1;
+                 	 foreach ($result as  $value) {
+                 	     
+                 	     
+                 	     
+                 	         $results= $this->Main_model->where_names('accounttype','id',$value->account_type);
+                         	 foreach ($results as  $values) {
+                         	 	$name = $values->name;
+                         	 }
+                 	 
+                 	 		$data[] = array(
+                 	 		    
+                 	 		    
+                 	 		'no' => $i, 
+
+                 	 		'id' => $value->id, 
+                	 		'account_type' => $name,
+                 	 		'name' => $value->name, 
+                 	 		'balance'=>$value->balance,
+                 	 		'spilt_status'=>$value->spilt_status
+                 	 		
+
+                 	 	);
+                 	 	
+                 	 	$i++;
+                 	 }
+
+                    echo json_encode($data);
+
+	}
+	
+	
+	
+	
+
+    
+    public function fetch_single_data()
+    {
+                      
+                     $form_data = json_decode(file_get_contents("php://input"));
+                     $tablename=$form_data->tablename;
+                     $id=$form_data->id;
+    	             $result= $this->Main_model->where_names($tablename,'id',$id);
+                 	 foreach ($result as  $value) {
+                 	 	$output['name'] = $value->name;
+                 	 	$output['account_type'] = $value->account_type;
+                 	 	$output['spilt_status'] = $value->spilt_status;
+                 	 	 $output['balance']=$value->balance;
+                    
+	                 	
+                 	 }
+
+                    echo json_encode($output);
+
+
+    }
+	
+
+
+
+}	

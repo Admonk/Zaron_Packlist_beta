@@ -1,0 +1,147 @@
+.input-group {
+    margin-bottom: 10px;
+}
+
+
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.select-radio-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.ui-widget.ui-widget-content {
+    border: 1px solid #d3d3d3;
+    z-index: 999999;
+}
+
+.radio-segment {
+  display: inline-block;
+    background-color: #e0e0e0;
+    /* padding: 1px; */
+    border-radius: 1px;
+    width: 95%;
+    margin-left: 12px;
+    margin-bottom: 6px;
+    border-radius: 16px;
+}
+.radio-button {
+    display: inline-block;
+    padding: 3px 12px; /* Adjust padding to control button size */
+    font-size: 12px; /* Adjust font size */
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    user-select: none;
+    margin-top: 6px;
+    margin-right: 6px; /* Add some spacing between the buttons */
+}
+
+.radio:checked + .radio-button {
+    background-color: #4caf50; /* Change background color when selected */
+    color: white;
+    border-color: #4caf50;
+}
+
+.radio-label {
+    margin-top: 5px; /* Add spacing between select box and radio buttons */
+}
+.radio-segment {
+    /* display: inline-block; */
+      background-color: #e0e0e0;
+      border-radius: 1px;
+      /* width: 95%; */
+      /* margin-left: 12px; */
+      /* margin-bottom: 6px; */
+      border-radius: 16px;
+  }
+  .radio-button {
+      /* display: inline-block; */
+      padding: 3px 12px; 
+      font-size: 12px; 
+      background-color: #e0e0e0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+      user-select: none;
+      margin-top: 6px;
+      /* margin-right: 6px;  */
+  }
+  
+  .radio:checked + .radio-button {
+      background-color: #4caf50;
+      color: white;
+      border-color: #4caf50;
+  }
+.no-spinner {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+#dynamic-table tbody {
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+#dayOfWeek {
+    font-size: 20px;
+}
+
+#narration {
+    background-color: #F4F5F8;
+}
+
+.form-control {
+    background-color: #F4F5F8;
+}
+
+#dynamic-table {
+    position: relative;
+    min-height: 1px;
+    max-height: 400px;
+    width: 100%;
+    margin: 10px;
+}
+
+.dataTables_scrollBody {
+    max-height: 300px;
+}
+
+.dynamic-table-trs {
+    position: sticky;
+    top: 0;
+    background: #dfdfdf;
+}
+
+#vch_type {
+    border: 1px solid;
+    border-radius: 30px;
+    padding: 5px 10px;
+    max-width: 300px;
+    border-color: rgb(206, 212, 218);
+}
+
+#vch_no {
+    margin-top: -23px;
+    border: 1px solid;
+    border-radius: 30px;
+    padding: 5px 10px;
+    max-width: 300px;
+    border-color: rgb(206, 212, 218);
+}
+
+#vch_date {
+    max-width: 300px;
+    border-radius: 30px;
+}
+
+table .tbody {
+    max-height: 100% !important;
+    min-height: 100% !important;
+    overflow-y: auto !important;
+}
