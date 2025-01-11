@@ -6283,6 +6283,10 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                                             $datadd['return_recived_status']=1;
                                             $datadd['notes']=$purchase_notes_data[$i];
                                             $datadd['purchase_order_product_id']=$purchase_order_product_id[$i];
+
+// gg changes for driver return material return
+                                            $datadd['order_process_product_id']=$purchase_order_product_id[$i];
+
                                             $datadd['randam_id']=$randam_id;
     
     
