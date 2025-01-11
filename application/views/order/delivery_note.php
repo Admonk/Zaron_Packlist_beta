@@ -539,7 +539,7 @@ date_default_timezone_set("Asia/Kolkata");
 
 
 
-                              <th ng-if="namecate.labletype!=9 && namecate.labletype!=14">UOM<small>(Default)</small></th>
+                              <th ng-if="namecate.labletype!=9 && namecate.labletype!=14 && namecate.categories_id!=593">UOM<small>(Default)</small></th>
 
 
                               <th class="table-width-6" ng-if="namecate.labletype!=9" rowspan="2"
@@ -830,7 +830,7 @@ date_default_timezone_set("Asia/Kolkata");
                               </td>
 
 
-                              <td ng-if="namecate.labletype!=9 && namecate.labletype!=14">FEET</td>
+                              <td ng-if="namecate.labletype!=9 && namecate.labletype!=14 && namecate.categories_id!=593">FEET</td>
 
 
                         <!-- gg changes For driver whole return show return nos and return qty -->

@@ -683,7 +683,7 @@ td input[type="text"] {
                               <th class='sst' ng-if="namecate.labletype==1 && namecate.categories_id==30|| namecate.categories_id==3">
                                 {{namecate.lable2}} </th>
 
-                              <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==13">
+                              <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13">
                                 {{namecate.lable2}} </th>
 
                               <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">
@@ -714,14 +714,14 @@ td input[type="text"] {
                                 ng-if="namecate.labletype==6 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==15">
                                 {{namecate.lable2}} </th>
                               <th ng-if="namecate.labletype==1 && namecate.categories_id==30 || namecate.categories_id==3">{{namecate.lable2}} </th>
-                              <th  ng-if="namecate.labletype==7 && namecate.categories_id==13">{{namecate.lable2}} </th>
+                              <th  ng-if="namecate.labletype==7 && namecate.categories_id!=13">{{namecate.lable2}} </th>
                               <th  ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{namecate.lable2}} </th>
                               <th  ng-if="namecate.labletype==7 && namecate.categories_id==582">{{namecate.lable2}} </th>
 
 
 <!-- hide by cleat -->
 
-                              <th ng-if="namecate.labletype!=9 && namecate.labletype!=14">UOM<small>(Default)</small></th>
+                              <th ng-if="namecate.labletype!=9 && namecate.labletype!=14 && namecate.categories_id!=593">UOM<small>(Default)</small></th>
 
 
                               <th class="table-width-6" ng-if="namecate.labletype!=9" rowspan="2"
@@ -945,7 +945,7 @@ td input[type="text"] {
                               <td class='sst' ng-if="namecate.labletype==6">{{name.crimp_tab}}
                               </td>
 
-                              <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==13">{{name.crimp_tab}}</td>
+                              <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13">{{name.crimp_tab}}</td>
                               <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==582">{{name.crimp_tab}}</td>
 
                               <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{name.crimp_tab}}
@@ -1008,7 +1008,7 @@ td input[type="text"] {
                               <td ng-if="namecate.labletype==6">{{name.crimp_tab_convert}}</td>
 
 
-                              <td  ng-if="namecate.labletype==7 && namecate.categories_id==13">{{name.crimp_tab_convert}}</td>
+                              <td  ng-if="namecate.labletype==7 && namecate.categories_id!=13">{{name.crimp_tab_convert}}</td>
                               <td  ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{name.crimp_tab_convert}}</td>
                               <td  ng-if="namecate.labletype==7 && namecate.categories_id==582">{{name.crimp_tab_convert}}</td>
 
@@ -1018,7 +1018,7 @@ td input[type="text"] {
                               </td>
 
 
-                              <td ng-if="namecate.labletype!=9 && namecate.labletype!=14">FEET</td>
+                              <td ng-if="namecate.labletype!=9 && namecate.labletype!=14 && namecate.categories_id!=593">FEET</td>
 
 
 
@@ -2088,7 +2088,7 @@ td input[type="text"] {
 
 
 
-                                              <th class="table-width-2"  data-priority="3" ng-if="namecate.labletype!=9" rowspan="2" ng-click='sortColumn("nos_tab")' ng-class='sortClass("nos_tab")'><?php echo $readdriverset; ?>{{namecate.lablenos}}</th>
+                                              <th class="table-width-2"  data-priority="3" rowspan="2" ng-click='sortColumn("nos_tab")' ng-class='sortClass("nos_tab")'><?php echo $readdriverset; ?>{{namecate.lablenos}}</th>
 
                                              
                                             
@@ -2490,7 +2490,7 @@ td input[type="text"] {
                               <td ng-if="namecate.labletype!=9 && namecate.labletype!=14">FEET</td>
 
 
-                                             <td ng-if="namecate.labletype!=9" >
+                                             <td >
 
 
                                             <input type="text" value="{{name.nos_tab}}" data-nos="{{name.nos_tab}}" ng-keyup="inputsave_1(name.id,'nos',name.categories_id,name.type,name.profile_tab,name.crimp_tab,name.fact_tab,name.rate_tab,name.uom,name.weight)" id="nos_{{name.id}}" class="form-control order_nos" name="order_nos" >
