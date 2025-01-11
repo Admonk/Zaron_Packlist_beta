@@ -7075,6 +7075,8 @@ $dim_three_convert = round($dim_three_convert, 3);
                         {
                             
                                 $value->nos= $valueload->nos;
+                                // gg changes for driver return nos updated for nos category products
+                                $value->qty= $valueload->qty;
                                 $qty= $valueload->qty;
                                
                         }

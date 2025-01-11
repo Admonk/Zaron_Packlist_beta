@@ -6206,7 +6206,21 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                         $return_nos=$order_nos_data[$i];
                       // echo'<pre>'; print_r($return_nos);
                         if($return_nos > 0){
-    
+
+
+                        // // gg changes for driver nos products returns
+
+                        if($return_sale_data->nos == '' || $return_sale_data->nos == '0' || $return_sale_data->nos == null) {
+
+                                $return_sale_data->nos=$return_sale_data->qty;
+                        }
+
+                        if( $re_data->nos == '' || $re_data->nos == '0' || $re_data->nos == null) {
+
+                            $re_data->nos=$re_data->qty;
+                        }
+   
+
                                 // order theoretical qty diff calculation
                                 $single_theoretical_qty=$re_data->activel_qty / $re_data->nos;
                               // echo'<pre>'; print_r($single_theoretical_qty);

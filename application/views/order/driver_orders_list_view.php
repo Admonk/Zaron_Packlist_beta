@@ -683,7 +683,7 @@ td input[type="text"] {
                               <th class='sst' ng-if="namecate.labletype==1 && namecate.categories_id==30|| namecate.categories_id==3">
                                 {{namecate.lable2}} </th>
 
-                              <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13">
+                              <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">
                                 {{namecate.lable2}} </th>
 
                               <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">
@@ -714,7 +714,7 @@ td input[type="text"] {
                                 ng-if="namecate.labletype==6 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==15">
                                 {{namecate.lable2}} </th>
                               <th ng-if="namecate.labletype==1 && namecate.categories_id==30 || namecate.categories_id==3">{{namecate.lable2}} </th>
-                              <th  ng-if="namecate.labletype==7 && namecate.categories_id!=13">{{namecate.lable2}} </th>
+                              <th  ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">{{namecate.lable2}} </th>
                               <th  ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{namecate.lable2}} </th>
                               <th  ng-if="namecate.labletype==7 && namecate.categories_id==582">{{namecate.lable2}} </th>
 
@@ -945,7 +945,7 @@ td input[type="text"] {
                               <td class='sst' ng-if="namecate.labletype==6">{{name.crimp_tab}}
                               </td>
 
-                              <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13">{{name.crimp_tab}}</td>
+                              <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">{{name.crimp_tab}}</td>
                               <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==582">{{name.crimp_tab}}</td>
 
                               <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{name.crimp_tab}}
@@ -1008,7 +1008,7 @@ td input[type="text"] {
                               <td ng-if="namecate.labletype==6">{{name.crimp_tab_convert}}</td>
 
 
-                              <td  ng-if="namecate.labletype==7 && namecate.categories_id!=13">{{name.crimp_tab_convert}}</td>
+                              <td  ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">{{name.crimp_tab_convert}}</td>
                               <td  ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{name.crimp_tab_convert}}</td>
                               <td  ng-if="namecate.labletype==7 && namecate.categories_id==582">{{name.crimp_tab_convert}}</td>
 
@@ -4347,7 +4347,7 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type,profile,crimp,fac
                            {
                                
                                 
-                                  var nos= parseFloat($('#qty_'+id).val());
+                              //    var nos= parseFloat($('#qty_'+id).val());
                                   var sqt_qty=nos;
                                   var sqt_qty=sqt_qty.toFixed(3);
                                 
