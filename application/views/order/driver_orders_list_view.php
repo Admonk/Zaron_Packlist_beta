@@ -4835,12 +4835,33 @@ $(document).ready(function(){
        
      var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
      $('#fulltotal').val(amount_data);
-     
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
-       
+
+
+
+
+
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
+
        
        if (totbal < 0) {
     
@@ -4941,13 +4962,33 @@ $(document).ready(function(){
        
      var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
      $('#fulltotal').val(amount_data);
-     
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
-       
-       
+
+
+
+
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
+
+
        if (totbal < 0) {
     
             $('#accessshow').show();
@@ -5056,9 +5097,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
        if (totbal < 0) {
@@ -5168,9 +5227,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        if (totbal < 0) {
     
@@ -5279,9 +5356,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
         if (totbal < 0) {
@@ -5387,10 +5482,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
        
@@ -5497,9 +5609,27 @@ $(document).ready(function(){
      
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
        if (totbal < 0) {
@@ -5603,10 +5733,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        if (totbal < 0) {
     
@@ -5702,9 +5849,32 @@ $(document).ready(function(){
      
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
+
+
+
+
+      
        
        if(totbal < 0) {
     
