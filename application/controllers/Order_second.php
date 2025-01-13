@@ -11929,5 +11929,50 @@ $value->delivery_date_time=$value->delivery_date_time_last;
  } 
    
 
+ // check_picked_status_resale
+
+ public function check_picked_status_resale()
+ {
+     date_default_timezone_set("Asia/Kolkata"); 
+     $form_data = json_decode(file_get_contents("php://input"));
+     $id = $form_data->id;
+ 
+     $resultmainre = $this->db->query("SELECT * FROM `sales_return_products` WHERE c_id='" . $id . "' AND deleteid=0 ORDER BY id DESC");
+     $getdatare = $resultmainre->result();
+ 
+     $status = 0; // Default to allow resale (all picked_status = 0)
+ 
+     foreach ($getdatare as $vlre) {
+         $purchase_order_product_id = $vlre->purchase_order_product_id;
+ 
+         // Get order_id from order_product_list_process
+         $this->db->where('id', $purchase_order_product_id);
+         $this->db->where('deleteid', 0);
+         $order_ids = $this->db->get('order_product_list_process')->row();
+ 
+         if ($order_ids) {
+             $order_id = $order_ids->order_id;
+ 
+             // Check if any row has picked_status = 1
+             $this->db->where('order_id', $order_id);
+             $this->db->where('picked_status', 1);
+             $this->db->where('deleteid', 0);
+             $has_packed = $this->db->get('order_product_list_process');
+ 
+             if ($has_packed->num_rows() > 0) {
+                 $status = 1; // Found a packed item
+                 break; // No need to check further
+             }
+         }
+     }
+ 
+     $myData = [
+         "status" => $status,
+     ];
+ 
+     echo json_encode($myData);
+ }
+ 
+
     
 }

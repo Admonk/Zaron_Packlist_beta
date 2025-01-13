@@ -1908,7 +1908,7 @@ $scope.updateValueMd = function(name,id){
 
 
 
-
+/*
 $scope.submitForm_1 = function(){
       
       
@@ -1988,6 +1988,122 @@ $scope.submitForm_1 = function(){
       
     
   };
+*/
+
+
+// return process with items checked conditions
+
+  $scope.submitForm_1 = function () {
+
+var extrasheet = $('input[name="vehicle1"]:checked').val();
+var return_date_new = $('#return_date_new').val();
+var order_base = $('#order_base_val').val();
+
+// Check if items are packed... if packed means then don't allow to change return to resale
+if (order_base == 2) {
+    $http({
+        method: "POST",
+        url: "<?php echo base_url(); ?>index.php/order_second/check_picked_status_resale",
+        data: { 'id': $scope.hidden_id, 'order_base': order_base }
+    }).success(function (data) {
+
+        if (data.status == '1') {
+            alert('Product is packed, you can not change return to resale');
+            return; // Stop further execution
+        }
+
+        // Proceed with the next function only if the product is not packed
+        $http({
+            method: "POST",
+            url: "<?php echo base_url() ?>index.php/order_second/sales_return_data_remarks_update",
+            data: {
+                'remarks': $scope.remarks_2,
+                'id': $scope.hidden_id,
+                'return_date_new': return_date_new,
+                'extrasheet': extrasheet,
+                'order_base': order_base
+            }
+        }).success(function (data) {
+
+            if (data.error != '1') {
+                if (data.error == '3') {
+
+                    $scope.success = false;
+                    $scope.error = true;
+                    $scope.hidden_id = "";
+                    $scope.errorMessage = data.massage;
+
+                } else {
+
+                    $scope.remarks_2 = "";
+                    $scope.success = true;
+                    $scope.error = false;
+                    $('#exampleModalScrollable_2').modal('toggle');
+                    $scope.successMessage = data.massage;
+                    getData();
+                    $scope.getcount('order_sales_return_complaints');
+                    $scope.fetchDataaddress($scope.hidden_id);
+
+                    $(".alert-success").fadeTo(2000, 500).slideUp(500, function () {
+                        $(".alert-success").slideUp(500);
+                    });
+
+                    $(".alert-danger").fadeTo(2000, 500).slideUp(500, function () {
+                        $(".alert-danger").slideUp(500);
+                    });
+                }
+            }
+        });
+    });
+} else {
+    // Directly proceed with the second $http if order_base is not 2
+    $http({
+        method: "POST",
+        url: "<?php echo base_url() ?>index.php/order_second/sales_return_data_remarks_update",
+        data: {
+            'remarks': $scope.remarks_2,
+            'id': $scope.hidden_id,
+            'return_date_new': return_date_new,
+            'extrasheet': extrasheet,
+            'order_base': order_base
+        }
+    }).success(function (data) {
+
+        if (data.error != '1') {
+            if (data.error == '3') {
+
+                $scope.success = false;
+                $scope.error = true;
+                $scope.hidden_id = "";
+                $scope.errorMessage = data.massage;
+
+            } else {
+
+                $scope.remarks_2 = "";
+                $scope.success = true;
+                $scope.error = false;
+                $('#exampleModalScrollable_2').modal('toggle');
+                $scope.successMessage = data.massage;
+                getData();
+                $scope.getcount('order_sales_return_complaints');
+                $scope.fetchDataaddress($scope.hidden_id);
+
+                $(".alert-success").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert-success").slideUp(500);
+                });
+
+                $(".alert-danger").fadeTo(2000, 500).slideUp(500, function () {
+                    $(".alert-danger").slideUp(500);
+                });
+            }
+        }
+    });
+}
+};
+
+
+
+
 
 
 
