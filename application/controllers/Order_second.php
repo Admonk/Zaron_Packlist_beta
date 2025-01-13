@@ -8667,13 +8667,43 @@ public function return_items($dc_id) {
                                          'rate_tab' => round($rate,2), 
                                          'cul' => $value->cul,
                                           'qty_tab' => round($qty-$edit_qty,3), 
-                                          'amount_tab' => round($amount, 2));
+                                          'amount_tab' => round($amount, 2),
+                                          'picked_status' => $value->picked_status,
+                                        );
             $i++;
         }
         echo json_encode($array);
     }
     
-    
+    // update status gg changes 
+
+    public function update_status_material_return(){
+
+        date_default_timezone_set("Asia/Kolkata"); 
+        $date= date('Y-m-d');
+        $time= date('h:i A');
+        $form_data = json_decode(file_get_contents("php://input"));
+            $id=$form_data->id;
+            $status=$form_data->status;
+
+
+            if (isset($id) && $id > 0 && !is_nan($id) && $id != 0) {
+                // Value is valid, update the record
+
+                $this->db->query("UPDATE order_product_list_process_return_temp 
+                                SET picked_status='" . $form_data->status ."'
+                                WHERE id='" . $form_data->id . "'");
+
+            }
+
+
+             
+
+    }
+
+
+
+
     
    public function sales_return_data_temp()
     {
@@ -9067,8 +9097,30 @@ public function return_items($dc_id) {
         $result = $this->Main_model->where_names_two_order_by($tablename, 'order_id', $_GET['order_id'], 'deleteid', '0', 'id', 'DESC');
         foreach ($result as $value) {
             $rate=$value->rate+$value->commission;
-            $amounttotal+= $rate * $value->qty;
+            //$amounttotal+= $rate * $value->qty;
             
+       
+            if($value->picked_status==1 )
+            {
+
+                        $amount_things=$value->rate*$value->qty;
+                        $decimalPosition1 = strpos((string)$amount_things, '.');
+
+                        // Check if there's a decimal point and more than 2 digits after it
+                        if ($decimalPosition1 !== false && strlen(substr((string)$amount_things, $decimalPosition1 + 1)) > 2) {
+                            // Truncate to 2 decimal places without rounding
+                            $amount_things = floor($amount_things * 100) / 100;
+                        }
+                        $amounttotal+=$amount_things;
+
+
+          }
+
+
+
+
+
+
             $amounttotal_with_out_commission+= $value->rate * $value->qty;
             $Meter_to_Sqr_feet+= $value->Meter_to_Sqr_feet;
             $Sqr_feet_to_Meter+= $value->Sqr_feet_to_Meter;
@@ -9079,6 +9131,33 @@ public function return_items($dc_id) {
             $unit+= $value->unit;
             $fact+= $value->fact;
         }
+
+
+
+
+// gg canges 
+
+$picked_amount_sub=$amounttotal;
+$picked_amount_gst_picked= $picked_amount_sub * 0.18/2 ;
+
+if (strpos($picked_amount_gst_picked , '.') !== false && strlen(substr(strrchr($picked_amount_gst_picked , "."), 1)) > 2) {
+    // Only truncate if more than 2 digits after decimal
+    $picked_amount_gst_picked = floor($picked_amount_gst_picked * 100) / 100;
+}
+
+// $truncatedValue_gsts_picked = floor($picked_amount_gst_picked * 100) / 100;
+$picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
+
+
+
+
+
+
+
+
+
+
+
 
  $statusviewdata = $this->db->query("SELECT b.uom FROM $tablename as a JOIN product_list as b ON a.product_id=b.id WHERE a.order_id='".$_GET['order_id']."' AND  a.deleteid = '0' AND b.uom='Kg'");
  $statusviewdata = $statusviewdata->result();
@@ -9205,6 +9284,17 @@ public function return_items($dc_id) {
 
 
 
+                $amounttotalgst_roundoff=$discountfulltotal*0.18/2;
+                $truncatedValue_gsts = floor($amounttotalgst_roundoff * 100) / 100;
+                $amounttotalgst_roundoff_total = sprintf("%.2f", $truncatedValue_gsts);
+    
+ 
+    
+                $discountfulltotal=$roundoff + $amounttotalgst_roundoff_total + $amounttotalgst_roundoff_total;
+    
+
+
+
 
             $whole = floor($discountfulltotal); 
             $decimal1 = $discountfulltotal - $whole;
@@ -9230,8 +9320,21 @@ public function return_items($dc_id) {
                           
 
 
-                    }
-                    else
+                    }   elseif($totalval == 0.5)
+                    {
+ 
+ 
+                           $getplusevalue=$totalval;
+                           $discountfulltotal=$discountfulltotal+$getplusevalue;
+                          
+                           if($getplusevalue>0)
+                           {
+                             $roundoffstatusval_data=" (+) ".$getplusevalue;
+                           
+                           }
+ 
+ 
+                    } else
                     {
 
 
@@ -9294,13 +9397,19 @@ public function return_items($dc_id) {
 
 
 
+            if($tcs_status == 1){
+                $tcsamount_picked=round(($picked_amount_sub+$picked_amount_gst+$picked_amount_gst)*0.1/100);
+                $total_show_value=$picked_amount_sub+$picked_amount_gst+$picked_amount_gst+$tcsamount_picked+$minisroundoff;
+            }else {
+                $tcsamount_picked='0';
+                $total_show_value=$picked_amount_sub+$picked_amount_gst+$picked_amount_gst+$minisroundoff;
+            }
 
 
 
 
 
-
-        $array = array('order_no_id' => $order_no,'tcsamount' => $tcsamount,'statusview'=>$statusview,'order_base'=>$order_base,'reason'=>$reason, 'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'paricel_mode' => $paricel_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff,'roundoff_val' => $roundoff_val,'roundoffstatusval_data' => $roundoffstatusval_data,  'fulltotal' => round($discountfulltotal_base, 2), 'discountfulltotal' =>round($discountfulltotal,2),'org_fulltotal' =>round($org_fulltotal,2), 'totalitems' => count($result), 'gsttotal' => round($amounttotalgst,2), 'discount' => round($discount), 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2));
+        $array = array('order_no_id' => $order_no,'tcsamount' => $tcsamount,'statusview'=>$statusview,'order_base'=>$order_base,'reason'=>$reason, 'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'paricel_mode' => $paricel_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff,'roundoff_val' => $roundoff_val,'roundoffstatusval_data' => $roundoffstatusval_data,  'fulltotal' => round($picked_amount_sub,3), 'discountfulltotal' =>round($discountfulltotal,2),'org_fulltotal' =>round($org_fulltotal,2), 'totalitems' => count($result), 'gsttotal' =>$picked_amount_gst, 'discount' => round($discount),'tcs_status_amount'=>$tcsamount_picked,'tcs_status_picked'=>$tcs_status, 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2));
         echo json_encode($array);
     }
     
