@@ -5713,7 +5713,7 @@ if($tablename=='orders_process')
                               aria-hidden="true"></i></th>
 <!-- gg changes -->
                           <th class="table-width-8"
-                            ng-if="(namecate.labletype==11  || namecate.labletype==12 || namecate.labletype==1 || namecate.labletype==6 || namecate.labletype==15) && namecate.categories_id !=5 && namecate.categories_id !=611 && namecate.categories_id !=627"
+                            ng-if="(namecate.labletype==11 || namecate.labletype==7 || namecate.labletype==12 || namecate.labletype==1 || namecate.labletype==6 || namecate.labletype==15) && namecate.categories_id !=5 && namecate.categories_id !=611 && namecate.categories_id !=627 && namecate.categories_id !=13"
                             data-priority="1" style="padding-bottom:0px" ng-click='sortColumn("crimp_tab")'
                             ng-class='sortClass("crimp_tab")'>{{ namecate.lable2 }} <i class="fa fa-sort"
                               aria-hidden="true"></i></th>
@@ -6757,7 +6757,7 @@ if($tablename=='orders_process')
 
 
                           <td
-                            ng-if="(namecate.labletype==1 || namecate.labletype==6 || namecate.labletype==11 || namecate.labletype==12 ) && namecate.categories_id !=5 && namecate.categories_id != 611 && namecate.categories_id !=627 &&  namecate.categories_id !=628 &&  namecate.categories_id !=630"
+                            ng-if="(namecate.labletype==1 || namecate.labletype==6 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==7) && namecate.categories_id !=5 && namecate.categories_id != 611 && namecate.categories_id !=627 &&  namecate.categories_id !=628 &&  namecate.categories_id !=630 && namecate.categories_id !=13"
                             data-label="{{ namecate.lable2 }}">
                             <input type="hidden" value="{{ name.crimp_tab }}" id="o_crimp_{{ name.id }}">
                             <span class="editvalue" ng-if="name.crimp_edit>0">{{ name.crimp_edit }}</span>
@@ -21233,7 +21233,7 @@ $scope.imageuploadInproduct_gate = function(){
 
 $scope.inputsave_1 = function (id,inputname,categories_id,type) {
 
-              
+             
                     
   $("#versionUpdateBtn").removeClass('disabled');
   $scope.isButtonDisabled1 = 1;
@@ -22173,9 +22173,35 @@ var finalweight=parseFloat($('#weight_'+id).val());
                                                    }
                                                    else
                                                    {
-                                                          var sqt_qty=profile*fact*nos;
-                                                            var old_sqt_qty=profile*nos*old_fact;
-                                                          var sqt_qty=sqt_qty.toFixed(3);
+
+                                                          // var sqt_qty=profile*fact*nos;
+                                                          //   var old_sqt_qty=profile*nos*old_fact;
+                                                          // var sqt_qty=sqt_qty.toFixed(3);
+
+                                                         
+
+                                                          console.log("profile7 >"+profile);
+
+                                                          if(categories_id==613)
+                                                           {   
+                                                              let thicknessValue = $('#default_thickness_'+id).val(); 
+                                                              let numericValue = parseFloat(thicknessValue.replace(/[^0-9.]/g, ''));  
+                                                                console.log(numericValue);  
+
+                                                                var sqt_qty=profile*fact*nos*numericValue;
+                                                                var old_sqt_qty=profile*nos*old_fact;
+                                                                var sqt_qty=sqt_qty.toFixed(3);
+
+                                                           }else{
+
+                                                                  var sqt_qty=profile*fact*nos;
+                                                                    var old_sqt_qty=profile*nos*old_fact;
+                                                                  var sqt_qty=sqt_qty.toFixed(3);
+                                                           }
+
+
+
+
                                                    }
                                                    
                                                 

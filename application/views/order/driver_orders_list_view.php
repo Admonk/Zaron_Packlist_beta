@@ -683,7 +683,7 @@ td input[type="text"] {
                               <th class='sst' ng-if="namecate.labletype==1 && namecate.categories_id==30|| namecate.categories_id==3">
                                 {{namecate.lable2}} </th>
 
-                              <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==13">
+                              <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">
                                 {{namecate.lable2}} </th>
 
                               <th class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">
@@ -714,14 +714,14 @@ td input[type="text"] {
                                 ng-if="namecate.labletype==6 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==15">
                                 {{namecate.lable2}} </th>
                               <th ng-if="namecate.labletype==1 && namecate.categories_id==30 || namecate.categories_id==3">{{namecate.lable2}} </th>
-                              <th  ng-if="namecate.labletype==7 && namecate.categories_id==13">{{namecate.lable2}} </th>
+                              <th  ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">{{namecate.lable2}} </th>
                               <th  ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{namecate.lable2}} </th>
                               <th  ng-if="namecate.labletype==7 && namecate.categories_id==582">{{namecate.lable2}} </th>
 
 
 <!-- hide by cleat -->
 
-                              <th ng-if="namecate.labletype!=9 && namecate.labletype!=14">UOM<small>(Default)</small></th>
+                              <th ng-if="namecate.labletype!=9 && namecate.labletype!=14 && namecate.categories_id!=593">UOM<small>(Default)</small></th>
 
 
                               <th class="table-width-6" ng-if="namecate.labletype!=9" rowspan="2"
@@ -945,7 +945,7 @@ td input[type="text"] {
                               <td class='sst' ng-if="namecate.labletype==6">{{name.crimp_tab}}
                               </td>
 
-                              <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==13">{{name.crimp_tab}}</td>
+                              <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">{{name.crimp_tab}}</td>
                               <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==582">{{name.crimp_tab}}</td>
 
                               <td class='sst' ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{name.crimp_tab}}
@@ -1008,7 +1008,7 @@ td input[type="text"] {
                               <td ng-if="namecate.labletype==6">{{name.crimp_tab_convert}}</td>
 
 
-                              <td  ng-if="namecate.labletype==7 && namecate.categories_id==13">{{name.crimp_tab_convert}}</td>
+                              <td  ng-if="namecate.labletype==7 && namecate.categories_id!=13 && namecate.categories_id!=5">{{name.crimp_tab_convert}}</td>
                               <td  ng-if="namecate.labletype==7 && namecate.categories_id==40 || namecate.categories_id==608">{{name.crimp_tab_convert}}</td>
                               <td  ng-if="namecate.labletype==7 && namecate.categories_id==582">{{name.crimp_tab_convert}}</td>
 
@@ -1018,7 +1018,7 @@ td input[type="text"] {
                               </td>
 
 
-                              <td ng-if="namecate.labletype!=9 && namecate.labletype!=14">FEET</td>
+                              <td ng-if="namecate.labletype!=9 && namecate.labletype!=14 && namecate.categories_id!=593">FEET</td>
 
 
 
@@ -2088,7 +2088,7 @@ td input[type="text"] {
 
 
 
-                                              <th class="table-width-2"  data-priority="3" ng-if="namecate.labletype!=9" rowspan="2" ng-click='sortColumn("nos_tab")' ng-class='sortClass("nos_tab")'><?php echo $readdriverset; ?>{{namecate.lablenos}}</th>
+                                              <th class="table-width-2"  data-priority="3" rowspan="2" ng-click='sortColumn("nos_tab")' ng-class='sortClass("nos_tab")'><?php echo $readdriverset; ?>{{namecate.lablenos}}</th>
 
                                              
                                             
@@ -2490,7 +2490,7 @@ td input[type="text"] {
                               <td ng-if="namecate.labletype!=9 && namecate.labletype!=14">FEET</td>
 
 
-                                             <td ng-if="namecate.labletype!=9" >
+                                             <td >
 
 
                                             <input type="text" value="{{name.nos_tab}}" data-nos="{{name.nos_tab}}" ng-keyup="inputsave_1(name.id,'nos',name.categories_id,name.type,name.profile_tab,name.crimp_tab,name.fact_tab,name.rate_tab,name.uom,name.weight)" id="nos_{{name.id}}" class="form-control order_nos" name="order_nos" >
@@ -4347,7 +4347,7 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type,profile,crimp,fac
                            {
                                
                                 
-                                  var nos= parseFloat($('#qty_'+id).val());
+                              //    var nos= parseFloat($('#qty_'+id).val());
                                   var sqt_qty=nos;
                                   var sqt_qty=sqt_qty.toFixed(3);
                                 
@@ -4835,12 +4835,33 @@ $(document).ready(function(){
        
      var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
      $('#fulltotal').val(amount_data);
-     
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
-       
+
+
+
+
+
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
+
        
        if (totbal < 0) {
     
@@ -4941,13 +4962,33 @@ $(document).ready(function(){
        
      var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
      $('#fulltotal').val(amount_data);
-     
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
-       
-       
+
+
+
+
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
+
+
        if (totbal < 0) {
     
             $('#accessshow').show();
@@ -5056,9 +5097,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
        if (totbal < 0) {
@@ -5168,9 +5227,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        if (totbal < 0) {
     
@@ -5279,9 +5356,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
         if (totbal < 0) {
@@ -5387,10 +5482,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
        
@@ -5497,9 +5609,27 @@ $(document).ready(function(){
      
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        
        if (totbal < 0) {
@@ -5603,10 +5733,27 @@ $(document).ready(function(){
      $('#fulltotal').val(amount_data);
      
      
-     
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
        
        if (totbal < 0) {
     
@@ -5702,9 +5849,32 @@ $(document).ready(function(){
      
      
      
-      var allam= parseInt($('#fulltotal').data('value'));
-      var totbal=allam-amount_data
-      $('#bal').text(totbal);
+     var allam= parseInt($('#fulltotal').data('value'));
+        
+
+        // gg changes for return afftect to balence
+        var return_hidden_amount=$('#return_hidden_amount').val();
+      
+        // gg changes for return amount not included in amount to collect edit time
+        var is_collection_remarks =$('#is_collection_remarks').val();
+
+        if(is_collection_remarks == 1){
+          var return_hidden_amount = 0;
+        }
+
+        if(return_hidden_amount != 0 && return_hidden_amount != '') {
+          var allam=allam - return_hidden_amount;
+        }
+
+      
+        var totbal=allam-amount_data;
+
+        $('#bal').text(totbal);
+
+
+
+
+      
        
        if(totbal < 0) {
     

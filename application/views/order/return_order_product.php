@@ -1309,7 +1309,7 @@ input.inputtext {
                               <div class="table-rep-plugin" ng-repeat="namecate in namesDatacate" >
                                   
                                 
-                                 <h5 class="customTableHeading" > <input type="checkbox" class="allcheck_{{namecate.categories_id}}" ng-click="allCheck(namecate.categories_id)"> {{namecate.no}}. {{namecate.categories_name}}</h5>
+                                 <h5 class="customTableHeading" > <input type="checkbox" class="allcheck_{{namecate.categories_id}}" ng-click="loadProductAll(namecate.categories_id)"> {{namecate.no}}. {{namecate.categories_name}}</h5>
                                  
                                   <div class="table-responsive  customTableDesign mb-0" data-pattern="priority-columns" >
                                     <table id="datatable_{{namecate.categories_id}}" class="table table-bordered dt-responsive  nowrap w-100 salestable" >
@@ -1504,10 +1504,10 @@ input.inputtext {
                                            
                                              <td data-label="S No"><label for="nn_{{name.id}}" style="margin-bottom:0px;">
 
-                                                <input type="checkbox" name="checkinsert" ng-if="name.disabled==0" class="checkinsert fill_{{namecate.categories_id}}"  alt="{{name.product_id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  value="{{name.id}}" id="nn_{{name.id}}">
+                                                <input type="checkbox" name="checkinsert" ng-if="name.disabled==0" class="checkinsert fill_{{namecate.categories_id}}"  alt="{{name.product_id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  value="{{name.id}}" id="nn_{{name.id}}"  ng-checked="name.picked_status == 1">
 
 
-<input type="checkbox" name="checkinsert" ng-if="name.disabled==1" disabled  class="checkinsert fill_{{namecate.categories_id}}"  alt="{{name.product_id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  value="{{name.id}}" id="nn_{{name.id}}">
+<input type="checkbox" name="checkinsert"  ng-if="name.disabled==1" disabled  class="checkinsert fill_{{namecate.categories_id}}"  alt="{{name.product_id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  value="{{name.id}}" id="nn_{{name.id}}"  ng-checked="name.picked_status == 1">
 
 
 
@@ -1624,9 +1624,9 @@ input.inputtext {
                                            
                                               <td  data-label="Qty"    > 
                                                   <?php if($optionid ==  '2'){ ?>
-                                            <input type="text"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                            <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                             <?php }else{ ?>
-                                              <input type="text"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                              <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                              <?php } ?>
                                                  
                                               </td>
@@ -1821,10 +1821,10 @@ input.inputtext {
                                                   <label for="nn_{{name.id}}" style="margin-bottom:0px;">
 
 
-                                        <input type="checkbox" name="checkinsert" ng-if="name.disabled==0" class="checkinsert fill_{{namecate.categories_id}}" alt="{{name.product_id}}"     value="{{name.id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  id="nn_{{name.id}}">
+                                        <input type="checkbox" name="checkinsert"  ng-if="name.disabled==0" class="checkinsert fill_{{namecate.categories_id}}" alt="{{name.product_id}}"     value="{{name.id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  id="nn_{{name.id}}"  ng-checked="name.picked_status == 1">
                                         <input type="hidden" id="id_{{name.id}}" value="{{name.oid}}" class="oid">
 
-                                          <input type="checkbox" name="checkinsert" ng-if="name.disabled==1" disabled class="checkinsert fill_{{namecate.categories_id}}" alt="{{name.product_id}}"     value="{{name.id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  id="nn_{{name.id}}">
+                                          <input type="checkbox" name="checkinsert"  ng-if="name.disabled==1" disabled class="checkinsert fill_{{namecate.categories_id}}" alt="{{name.product_id}}"     value="{{name.id}}" ng-click="checkhidesortid(name.sorthide,name.id)"  id="nn_{{name.id}}"  ng-checked="name.picked_status == 1">
 
 
 
@@ -2142,7 +2142,7 @@ input.inputtext {
                                             
                                              <td data-label="Nos" ng-if="namecate.labletype!=9">
                                                  
-                                                  <input type="text"  ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)" class="nos_{{namecate.categories_id}}" id="nos_{{name.id}}" value="{{name.nos_tab}}"></td>
+                                                  <input type="text"    ng-disabled="name.disabled == 1"   data-val="{{name.org_nos}}" ng-blur="nos_on_change(name.id)"     ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)" class="nos_{{namecate.categories_id}}" id="nos_{{name.id}}" value="{{name.nos_tab}}"></td>
                                              <!--<td><input type="text"  ng-keyup="inputsave_1(name.id,'unit',namecate.categories_id)"  id="unit_{{name.id}}" value="{{name.unit_tab}}"></td>-->
                                             
                                               <td
@@ -2212,9 +2212,9 @@ input.inputtext {
                                            <td  data-label="Qty"    > 
                                             
                                             <?php if($optionid ==  '2'){ ?>
-                                             <input type="text"    ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                             <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                             <?php }else{ ?>
-                                               <input type="text"  ng-disabled="namecate.type != '9'"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                               <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-disabled="namecate.type != '9'"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                              <?php } ?>
                                            
                                             
@@ -2227,7 +2227,7 @@ input.inputtext {
                                              {
                                               ?>
 
-                                            <td data-label="Qty" ng-if="namecate.uom=='Kg' || namecate.categories_id==34 || namecate.categories_id==36 || namecate.categories_id==626">  <input type="text"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'activel_qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="activel_qty_{{name.id}}" value="{{name.activel_qty}}"></td>
+                                            <td data-label="Qty" ng-if="namecate.uom=='Kg' || namecate.categories_id==34 || namecate.categories_id==36 || namecate.categories_id==626">  <input type="text"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'activel_qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="activel_qty_{{name.id}}" value="{{name.activel_qty}}" data-val="{{name.activel_qty}}"></td>
                                             
                                             
                                                  <?php
@@ -2566,11 +2566,11 @@ input.inputtext {
                                                                               <h5  class="ng-binding font-size-11" ng-if="gst_check==1">CGST 9 % : Rs. {{gsttotal }}</h5>
                                                                               <h5  class="ng-binding font-size-11" ng-if="gst_check==1">SGST 9 % : Rs. {{gsttotal  }}</h5>
                                               </div>
-                                              <h5 class="ng-binding font-size-11" ng-if="roundoffstatusval_data>0"><span class="ng-binding font-size-11"
-                    >Round : Rs. ({{symble}}) {{ roundoffstatusval_data  | number : 2}}</span>
+                                              <h5 class="ng-binding font-size-11" ng-if="roundoffstatusval_data !==''"><span class="ng-binding font-size-11"
+                    >Round : Rs.  {{ roundoffstatusval_data }}</span>
                     </h5>
-                                    
-                                     <h5 class="ng-binding font-size-11" > TOTAL AMOUNT: {{discountfulltotal}} </h5>
+                                     <h5 class="ng-binding font-size-11" ng-if="minisroundoff>0 && roundoffstatus==1">Manual Round : Rs. (+) {{ minisroundoff  }}</h5>
+                                     <h5 class="ng-binding font-size-11" > TOTAL AMOUNT: Rs. {{discountfulltotal}} </h5>
                                      <input type="hidden" id="discountfulltotal" value="{{discountfulltotal}}">     
                                      
                                      </div>
@@ -8613,7 +8613,7 @@ app.controller('crudController', function($scope, $http){
   
   
    
-        
+  
 $scope.checkhidesortid=function(status,id)
 {
        
@@ -8637,13 +8637,54 @@ $scope.checkhidesortid=function(status,id)
         checkedValues.push(element.value);
     });
 
-    console.log(checkedValues);  
+    console.log(checkedValues); 
+    
+    $scope.update_status_material_return(id);    
+
+    
+
+// gg changes
+      var categories_id=$('#cateid_'+id).val();
+      var type=$('#cateidtype_'+id).val();
+     
+      $scope.inputsave_1(id,'profile',categories_id,type);
+      $scope.inputsave_1(id,'nos',categories_id,type);
+
+
 
     $scope.fetchSingleDatatotal(id);    
             
     
     
 }; 
+
+
+
+$scope.update_status_material_return=function(id)
+{
+     
+                        if ($('#nn_'+id).is(':checked'))
+                        {
+                          
+                              var status_value=1;
+                          }
+                          else
+                          {
+                              var status_value=0;
+                              
+                          }
+
+                          $http({
+                                method: "POST",
+                                url: "<?php echo base_url() ?>index.php/order_second/update_status_material_return",
+                                data: { 'id': id, 'status': status_value }
+                            }).success(function (data) {
+                                $scope.fetchSingleDatatotal();
+                                $scope.fetchData();
+                            });
+
+}
+
 
 
     
@@ -9449,7 +9490,17 @@ $scope.inputsaveqty_1 = function (id,inputname,categories_id,type) {
                           var fieds=inputname+'_'+id;
                            var values=$('#'+fieds).val();
                           
-                     
+                            var checkval = $('#' + fieds).data('val');
+                       
+                            if (checkval < values || values==0) {
+                                alert('input max value of order');
+                                $('#' + fieds).val(checkval);
+                                var values=$('#'+fieds).val();
+
+                            }
+                            
+
+
                        
                         
                           var rate= parseFloat($('#rate_'+id).val());
@@ -9690,25 +9741,33 @@ $scope.cancelData = function(id){
 };
 
 
+$scope.nos_on_change = function(id){
+
+              $('#nn_'+id).prop('checked',true);
+              $scope.update_status_material_return(id);    
+
+
+
+     };
+
+
 
 $scope.inputsave_1 = function (id,inputname,categories_id,type) {
+ 
 
-
-                     
-                        
-                        
-                       
-                     
-                     
                           var fieds=inputname+'_'+id;
                           var values=$('#'+fieds).val();
                           
+                          var checkval = $('#' + fieds).data('val');
+                       
+                          if (checkval < values) {
+                              alert('input max value of order');
+                              $('#' + fieds).val(checkval);
+                              var values=$('#'+fieds).val();
+
+                          }
                           
-                          
-                          
-                         
-                        
-                         
+                       
                           var cul=$('#cal_'+categories_id+type).val();
                           var uom=$('#uom_'+id).val();
                           var profile= parseFloat($('#profile_'+id).val());
@@ -10348,7 +10407,7 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type) {
 
                                                    var old_sqt_qty=profile*nos*old_fact;
 
-                                                   var sqt_qty = sqt_qty.toFixed(2);
+                                                   var sqt_qty = sqt_qty.toFixed(3);
                                                     
                                                     
                                                     
@@ -10358,21 +10417,24 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type) {
                                                 if(type==15)
                                                {
                                                    
-                                                    var profile= parseFloat($('#profile_'+id).val())*parseFloat($('#crimp_'+id).val());
-                                                    var subqty = parseFloat(profile);
-                                                    var sqt=subqty;
-                                                    if(uom==4)
-                                                    {
-                                                       var sqtcell= sqt/1000;    
-                                                       var sqt_qty=sqtcell*nos/1000;
-                                                   
-                                                    }
-                                                    else
-                                                    {
-                                                      var sqt_qty=sqt*nos;
-                                                    }
-                                                   
-                                                    var sqt_qty = sqt_qty.toFixed(2);
+                                                var profile = parseFloat($('#profile_' + id).val()) * parseFloat($('#crimp_' + id).val());
+                                                var subqty = parseFloat(profile);
+                                                var sqt = subqty;
+                                                if (uom == 4) {
+                                                    var sqtcell = sqt / 1000;
+                                                    var sqt_qty = (sqtcell * nos / 1000).toFixed(5);;
+
+                                                }
+                                                else {
+                                                    var sqt_qty = (sqt * nos).toFixed(5);;
+                                                }
+                                                // gg changes
+
+
+                                                // Check if the value has more than 3 decimal places
+                                                if (sqt_qty.toString().indexOf('.') !== -1 && sqt_qty.toString().split('.')[1].length > 3) {
+                                                    sqt_qty = Math.floor(sqt_qty * 1000) / 1000;  // Truncate to 3 decimal places
+                                                }
                                                  
                                                }
                                                
@@ -10486,11 +10548,26 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type) {
                                                if(type==0)
                                                {
                                                   
-                                                   var subqty = parseFloat(profile);
-                                                   var sqt=subqty*fact;
-                                                   var sqt_qty=sqt*nos;
-                                                   var old_sqt_qty=profile*nos*old_fact;
-                                                   var sqt_qty = sqt_qty.toFixed(3);
+                                                  //  var subqty = parseFloat(profile);
+                                                  //  var sqt=subqty*fact;
+                                                  //  var sqt_qty=sqt*nos;
+                                                  //  var old_sqt_qty=profile*nos*old_fact;
+                                                  //  var sqt_qty = sqt_qty.toFixed(3);
+
+                                                              // gg changes
+                                                  var subqty = parseFloat(profile);
+                                                  var fact = parseFloat(fact);
+                                                  var nos = parseFloat(nos);
+
+                                                  // Multiply the values
+                                                  var sqt = (subqty * fact).toFixed(5); // Use 5 decimal places to handle intermediate values
+                                                  var sqt_qty = (sqt * nos).toFixed(5); // Same for this step
+
+
+                                                  if (sqt_qty.toString().indexOf('.') !== -1 && sqt_qty.toString().split('.')[1].length > 3) {
+                                                      sqt_qty = Math.floor(sqt_qty * 1000) / 1000;  // Truncate to 3 decimal places
+                                                  }
+
                                                             
                                                }
                                                
@@ -10501,7 +10578,7 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type) {
                                                    var sqt=subqty*fact;
                                                    var sqt_qty=sqt*nos;
                                                    var old_sqt_qty=profile*nos*old_fact;
-                                                   var sqt_qty = sqt_qty.toFixed(2);
+                                                   var sqt_qty = sqt_qty.toFixed(3);
                                                             
                                                }
                                                
@@ -10519,7 +10596,7 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type) {
                                                    var old_sqt_qty=sqts*nos;
 
 
-                                                   var sqt_qty = sqt_qty.toFixed(2);
+                                                   var sqt_qty = sqt_qty.toFixed(3);
                                                             
                                                }
                                                
@@ -10547,7 +10624,7 @@ $scope.inputsave_1 = function (id,inputname,categories_id,type) {
                       }
                       else
                       {
-                           var total=Math.round(rate*sqt_qty);
+                          var total = rate * sqt_qty;
                       }
                       
                       
@@ -12498,7 +12575,15 @@ $scope.saveRoundoff = function (event) {
                 $('#fact2_' + id).hide();
             }
         }
-        $scope.allCheck(item.categories_id);
+
+        //$scope.allCheck(item.categories_id);
+
+        // gg changes for loadall check
+        
+       // $scope.loadProductAll(item.categories_id);
+
+
+
     });
 }
   
@@ -12917,6 +13002,8 @@ $scope.fetchSingleDatatotal = function(id){
         {
         $scope.minisroundoff = data.minisroundoff;
         }
+
+        $scope.roundoffstatus = data.roundoffstatus;
         $scope.roundoff_val=data.roundoff_val;
         $scope.Meter_to_Sqr_feet = data.Meter_to_Sqr_feet;
 
@@ -13375,7 +13462,7 @@ $scope.submitFormaddress = function(){
   
   
   
-  
+/*
   $scope.allCheck = function(cateid){
       
        if ($('.allcheck_'+cateid).is(':checked'))
@@ -13391,6 +13478,50 @@ $scope.submitFormaddress = function(){
       
   };
   
+*/
+
+
+
+
+
+
+$scope.loadProductAll = function (cate_id) {
+
+ 
+  if ($('.allcheck_'+ cate_id).is(':checked')) {
+
+                  $('.fill_'+ cate_id).each(function () {
+
+                    var id = $(this).val();
+                    $('.fill_'+ cate_id).prop('checked', true);
+                    $scope.update_status_material_return(id);  
+
+                  });
+
+      }else {
+
+        
+                  $('.fill_'+ cate_id).each(function () {
+
+                  var id = $(this).val();
+                  $('.fill_'+ cate_id).prop('checked', false);
+                  $scope.update_status_material_return(id);  
+
+                  });
+
+      }
+
+};
+
+
+
+
+
+
+
+
+
+
  $scope.submitPurchaserequest = function(){
       
       
