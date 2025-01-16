@@ -128,7 +128,7 @@ class Order_check extends CI_Controller
            {
                $where .= ' AND ds.delivery_date_status=0';
                $where .= ' AND ds.dispatch_status=0';
-               $where .= ' AND ds.deleteid=0';
+               $where .= ' AND ds.deleteid IN ("0","1002")';
            }
    
    

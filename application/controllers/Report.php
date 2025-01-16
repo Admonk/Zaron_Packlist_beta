@@ -5202,6 +5202,11 @@ $resultorder = $this->db->query("SELECT b.company_name  FROM orders_process as a
 
 
 
+ // $customer_id=$_GET['customer_id'];
+
+
+
+
                    $this->db->query("UPDATE orders_process SET  assign_status_3_date = assign_date WHERE assign_status_3_date IS NULL AND assign_status = 3");
 
                    $this->db->query("UPDATE order_delivery_order_status SET  assign_status_3_date = assign_date WHERE assign_status_3_date IS NULL AND assign_status = 3");
@@ -31692,7 +31697,8 @@ if(count($table_customize)>0)
 
                                                                       $resultsub_production=$this->db->query("SELECT 
                                    b.total_picked_amount AS totalvalue,
-                                   os.bill_total AS bill_total
+                                   os.bill_total AS bill_total,
+                                   b.current_packed_balence AS picked_status
                                    FROM 
                                         order_product_list_process AS a 
                                     JOIN order_delivery_order_status AS b ON a.order_id = b.order_id
@@ -31731,6 +31737,7 @@ if(count($table_customize)>0)
                                                                 
   
                                                                  $production=0;
+                                                                 $production_vass=0;
                                                                  foreach($resultsub_production as $val)
                                                                  { 
                                                                                
@@ -31744,6 +31751,8 @@ if(count($table_customize)>0)
                                                                         $totalvalue=$val->bill_total;
                                                                     }
                                                                     
+
+                                                                    $production_vass+=round($val->picked_status,2);
 
 
                                                                     $production+=round($totalvalue,2);
@@ -31823,9 +31832,13 @@ if(count($table_customize)>0)
                                                                   
                                                                  
                                                                      if($testMode){  
-                                                                 $resultsub_inproduction=$this->db->query("SELECT SUM(b.bill_total) as bill_total FROM  order_sales_return_complaints as b   WHERE b.deleteid=0 AND b.customer='".$value->id."'  AND b.order_base=2  AND date(b.create_date) <= '".$todate."'   AND b.driver_delivery_status=0 ORDER BY b.id DESC");
+                                                                 $resultsub_inproduction=$this->db->query(
+                                                                "SELECT 
+                                                                    SUM(c.qty*c.rate) as bill_total,SUM(c.return_qty_pick*c.rate) as return_picked_amount  FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'   ORDER BY b.id DESC");
                                                                }else{
-                                                                 $resultsub_inproduction=$this->db->query("SELECT SUM(b.bill_total) as bill_total FROM  order_sales_return_complaints as b   WHERE b.deleteid=0 AND b.customer='".$value->id."'  AND b.order_base=2  AND b.driver_delivery_status=0 ORDER BY b.id DESC");
+                                                                  $resultsub_inproduction=$this->db->query(
+                                                                "SELECT 
+                                                                    SUM(c.qty*c.rate) as bill_total,SUM(c.return_qty_pick*c.rate) as return_picked_amount  FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'   ORDER BY b.id DESC");
                                                                }
                                                                  $resultsub_inproduction=$resultsub_inproduction->result();
                                                                  $inproduction_total_return=0;
@@ -31839,7 +31852,33 @@ if(count($table_customize)>0)
                                                                  { 
                                                                    
                                                                   
-                                                                             $inproduction_total_return=round($vals->bill_total);
+                                                                           if($vals->return_picked_amount>0)
+                                                                        {
+
+                                                                            $return_amount_val=$vals->bill_total;
+                                                                            $gstreturn=$return_amount_val*18/100;
+                                                                            $inproduction_total_return=round($return_amount_val+$gstreturn);
+
+                                                                            $return_return_picked_amount=$vals->return_picked_amount;
+                                                                            $gstreturn_picked=$return_return_picked_amount*18/100;
+                                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
+
+                                                                            $inproduction_total_return=round($inproduction_total_return-$inproduction_total_return_picked);
+
+
+                                                                        }
+                                                                        else
+                                                                        {
+
+
+                                                                                $return_amount_val=$vals->bill_total;
+                                                                                $gstreturn=$return_amount_val*18/100;
+                                                                                $inproduction_total_return=round($return_amount_val+$gstreturn);
+
+                                                                        }
+
+
+
                                                      
                                                                  }
                                                                  
@@ -32018,8 +32057,24 @@ if(count($table_customize)>0)
                                             }
 
 
-                                               
-                                             
+                                             //  $productionvalue=$production;
+                                             // if($inproduction_total_return>0)
+                                             // {
+                                             //    if($production_vass>0)
+                                             //    {
+                                             //        $production=$production-$inproduction_total_return;
+                                             //    }
+                                             //    else
+                                             //    {
+                                             //        $productionvalue=$production;
+                                             //    }
+                                                
+                                             // }
+
+                                             // if($production<=0)
+                                             // {
+                                             //    $production=$productionvalue;
+                                             // }
 
 
                                              

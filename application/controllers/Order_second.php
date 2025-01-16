@@ -7569,9 +7569,9 @@ public function return_items($dc_id) {
              foreach ($statusviewdata as $row) {
                  // Check if 'nos' is not empty
                  if (!empty($row->nos)) {
-                     $nos_total += $row->nos;  // Sum 'nos' if it has a value
+                     $nos_total += intval($row->nos);  // Sum 'nos' if it has a value
                  } else {
-                     $qty_total += $row->qty;   // Sum 'qty' if 'nos' is empty
+                     $qty_total += intval($row->qty);   // Sum 'qty' if 'nos' is empty
                  }
              }
              

@@ -386,8 +386,18 @@ th {
                                                                 <?php } ?>
 
 
+                                                                <p ng-if="return_id>0">
+                                                                    <span>Return To Sale</span><span> Rs.
+                                                                      
+                                                                        {{ return_amount_return_to_sale | indianCurrency }}
+                                                                    </span>
+                                                                </p>
+
+                                                                <input type="hidden" value="{{return_amount_return_to_sale}}" id="return_pick_up_value">
+
+
                                                                <p ng-if="return_amount_return_to_resale>0">
-                                                                    <span>Return</span><span> Rs.
+                                                                    <span>Return To Re-Sale</span><span> Rs.
                                                                       
                                                                         {{ return_amount_return_to_resale | indianCurrency }}
                                                                     </span>
@@ -433,7 +443,7 @@ th {
 
 
 
-
+<input type="hidden"  id="packed_balance" value="{{loadtotalamount}}">  
  <input type="hidden" id="finalbalnce" value="{{finalbalnce}}">  
  <input type="hidden" id="return_id" value="{{return_id}}"> 
 
@@ -4574,6 +4584,11 @@ th {
                 $scope.loadProductAll = function () {
 
 
+
+var return_id=$('#return_id').val();
+
+
+
                     if ($('#checkall').is(':checked')) {
 
                         var status = 1;
@@ -4592,7 +4607,8 @@ th {
 
 
                     }
-                    else {
+                    else 
+                    {
                         var status = 0;
 
                         $('.loaditems').each(function () {
@@ -4613,6 +4629,15 @@ th {
                                 $scope.fetchData();
 
                             });
+
+
+                            
+                           $http({
+                            method: "POST",
+                            url: "<?php echo base_url() ?>index.php/order/insertandupdate?order_id=<?php echo $id; ?>&DC_id=<?php echo $DC_id; ?>",
+                            data: { 'return_id': return_id,  'qty': 0, 'nos': 0, 'id': id, 'action': 'return_pickup','status':0 }
+                           }).success(function (data) {});
+ 
 
 
 
@@ -4649,11 +4674,13 @@ th {
                     }
 
                     var nos = $('#nos_' + id).val();
+                    var return_id = $('#return_id').val();
                     var categories_id = $('#cateid_' + id).val();
                     var type = $('#cateidtype_' + id).val();
 
 
-                    if (status == 0) {
+                    if (status == 0) 
+                    {
 
                         $http({
                             method: "POST",
@@ -4663,6 +4690,20 @@ th {
                             $scope.fetchSingleDatatotaldel();
                             $scope.fetchData();
                         });
+
+
+
+
+                           $http({
+                            method: "POST",
+                            url: "<?php echo base_url() ?>index.php/order/insertandupdate?order_id=<?php echo $id; ?>&DC_id=<?php echo $DC_id; ?>",
+                            data: { 'return_id': return_id,  'qty': 0, 'nos': 0, 'id': id, 'action': 'return_pickup','status':0 }
+                           }).success(function (data) {});
+
+                            
+
+                           
+
 
                     }
                     else {
@@ -4699,8 +4740,18 @@ th {
 
                         }
                         else {
+                            
+                             // BABU UPDATE
 
-                          
+                           $http({
+                                method: "POST",
+                                url: "<?php echo base_url() ?>index.php/order/insertandupdate",
+                                data: { 'id': id, 'status': status, 'nos': nos, 'type': type, 'driver_pickip': '<?php echo $driver_pickip; ?>', 'action': 'pickedstatus' }
+                            }).success(function (data) {
+                               
+                            });
+
+                            // END
 
                             $scope.inputsave_1(id, 'nos', categories_id, type);
                             $scope.fetchSingleDatatotaldel();
@@ -4811,6 +4862,8 @@ th {
 
 var finalbalnce = $('#finalbalnce').val();
 var return_id = $('#return_id').val();
+var packed_balance = $('#packed_balance').val();
+var return_pick_up_value = $('#return_pick_up_value').val();
 
                         var delivery_status = $('input[name="formRadios"]:checked').val();
                         var order_id = '<?php echo $id; ?>';
@@ -4822,7 +4875,7 @@ var return_id = $('#return_id').val();
                         var cash_bill_status = $('input[name="cash_bill_status"]:checked').val();
                         var site_status = $('input[name="site_status"]:checked').val();
                         var tax_status = $('input[name="tax_status"]:checked').val();
-
+//alert(update_id);
 
 
                         if (delivery_status && delivery_charge && payment_mode) {
@@ -4837,7 +4890,9 @@ var return_id = $('#return_id').val();
                                     utr_status: utr_status,
                                     sample_load_status: sample_load_status,
                                     finalbalnce:finalbalnce,
+                                    packed_balance:packed_balance,
                                     return_id:return_id,
+                                    return_pick_up_value:return_pick_up_value,
                                     cash_bill_status: cash_bill_status,
                                     site_status: site_status,
                                     tax_status: tax_status,
@@ -5091,6 +5146,9 @@ var return_id = $('#return_id').val();
                 $scope.inputsave_1 = function (id, inputname, categories_id, type) {
 
                
+
+                    var return_id=$('#return_id').val();
+
                     var convertion_check='<?php echo $_GET['convertion']; ?>';
 
                     var fieds = inputname + '_' + id;
@@ -6267,12 +6325,18 @@ var sqt_qty=r_mt_val*kg_rmtr_weight;
 
 
 
-                    if (moveforwrd == 1) {
+                 
+
+                    if (moveforwrd == 1) 
+                    {
+
+
+
 
                         $http({
                             method: "POST",
                             url: "<?php echo base_url() ?>index.php/order/insertandupdate?order_id=<?php echo $id; ?>&DC_id=<?php echo $DC_id; ?>",
-                            data: { 'totalammt': totalammt, 'categories_id': categories_id,'rate': rate, 'qty': sqt_qty, 'nos': values, 'id': id, 'action': 'Loadinsertproductdata_pack' }
+                            data: { 'totalammt': totalammt,'return_id': return_id, 'categories_id': categories_id,'rate': rate, 'qty': sqt_qty, 'nos': values, 'id': id, 'action': 'Loadinsertproductdata_pack' }
                            }).success(function (data) {
 
                             if (data.error != '1') 
@@ -6285,6 +6349,18 @@ var sqt_qty=r_mt_val*kg_rmtr_weight;
                              }
 
                         });
+
+
+                           $http({
+                            method: "POST",
+                            url: "<?php echo base_url() ?>index.php/order/insertandupdate?order_id=<?php echo $id; ?>&DC_id=<?php echo $DC_id; ?>",
+                            data: {'return_id': return_id, 'qty': sqt_qty, 'nos': values, 'id': id, 'action': 'return_pickup','status':1 }
+                           }).success(function (data) {
+
+                            
+
+                           });
+
 
                     }
 
@@ -6505,6 +6581,7 @@ $scope.fetchSingleDatatotaldel = function(){
 
                     $scope.gate_login_view_status = data.gate_login_view_status;
                     $scope.convertion = data.convertion;
+                    $scope.return_amount_return_to_sale = data.return_amount_return_to_sale;
 
 
                     

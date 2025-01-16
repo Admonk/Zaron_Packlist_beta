@@ -5203,7 +5203,7 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                $resultsub_production=$this->db->query("SELECT 
 
 
-                                        b.id as base_ids,os.bill_total,b.total_picked_amount,b.total_picked_amount_confirmed,b.order_id as id,b.order_no   FROM 
+                                        b.id as base_ids,os.bill_total,b.current_packed_balence,b.total_picked_amount,b.total_picked_amount_confirmed,b.order_id as id,b.order_no   FROM 
                                         order_product_list_process AS a 
                                     
                                         JOIN order_delivery_order_status AS b ON a.order_id = b.order_id
@@ -5238,9 +5238,33 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                        }
 
                          $resultsub_production=$resultsub_production->result();
+
+
+
+                         $resultsub_inproduction_return=$this->db->query("SELECT SUM(b.bill_total) as bill_total FROM  order_sales_return_complaints as b   WHERE b.deleteid=0 AND b.customer='".$customer_id."'  AND b.order_base=2  AND date(b.create_date) <= '".$todate."'   AND b.driver_delivery_status=0 ORDER BY b.id DESC");
+                         $resultsub_inproduction_return=$resultsub_inproduction_return->result();
                          // print_r($resultsub_production);
                          // exit;
-                         
+
+
+                            $inproduction_total_return_val=0;
+
+                            if(count($resultsub_inproduction_return)>0)
+                            {
+
+                                 foreach($resultsub_inproduction_return as $vals)
+                                { 
+                                                                       
+                                                                      
+                                                                                 $inproduction_total_return_val=round($vals->bill_total);
+                                                         
+                                }
+
+
+                            }
+                           
+                         // echo $inproduction_total_return_val;
+                         // exit;
                          $in_production=0;
                          foreach($resultsub_production as $val)
                          {
@@ -5248,21 +5272,37 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                                                                                      
                             $order_ids[]=$val->id;
                             $order_nos[]=$val->order_no;
-                         
-
-                            $basearray[]=array(
-
-                              'bill_total'=>$val->bill_total,
-                              'total_picked_amount'=>$val->total_picked_amount,
-                              'order_id'=>$val->id
 
 
-                            );
+                                $current_packed_balence=$val->current_packed_balence;
+
+
+                                if($current_packed_balence==0)
+                                {
+                                     $inproduction_total_return_val=0;
+                                }
+
+                               //$total_picked_amount=$val->total_picked_amount-$inproduction_total_return_val;
+
+
+                                $basearray[]=array(
+
+                                  'bill_total'=>$val->bill_total,
+                                  'total_picked_amount'=>$val->total_picked_amount,
+                                  'total_picked_amount_return'=>$inproduction_total_return_val,
+                                  'current_packed_balence'=>$current_packed_balence,
+                                  'order_id'=>$val->id
+
+
+                                );
                             
 
                                                                                         
                          }
 
+
+// echo "<pre>";print_r($basearray);
+// exit;
 
                          $ids=implode("','", $order_ids);
                          $order_noss=implode("','", $order_nos);
@@ -5339,6 +5379,8 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
 
                               'bill_total'=>$val->bill_total,
                               'total_picked_amount'=>$totalvalue,
+                              'total_picked_amount_return'=>0,
+                              'current_packed_balence'=>0,
                               'order_id'=>$val->id
 
 
@@ -5425,6 +5467,8 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
 
                               'bill_total'=>$val->bill_total,
                               'total_picked_amount'=>$totalvalue,
+                              'total_picked_amount_return'=>0,
+                              'current_packed_balence'=>0,
                               'order_id'=>$val->id
 
 
@@ -5681,8 +5725,15 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                       if($value->order_id==$order_id)
                                       {
 
-                                      $total_picked_amount+=$basearray[$kj]['total_picked_amount'];
-                                      $bill_total+=$basearray[$kj]['bill_total'];
+
+                                        $total_picked_amount_return=$basearray[$kj]['total_picked_amount_return'];
+
+                                      
+                                        $total_picked_amount+=$basearray[$kj]['total_picked_amount']-$total_picked_amount_return;
+                                        $bill_total+=$basearray[$kj]['bill_total']-$total_picked_amount_return;
+
+                                      
+                                      
 
 
                                            $credits=0;
@@ -5999,18 +6050,20 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                       if($value->order_id==$order_id)
                                       {
 
-                                        $total_picked_amount+=$basearray[$kj]['total_picked_amount'];
-                                        $bill_total+=$basearray[$kj]['bill_total'];
 
-                                           $value->credits=0;
-                                           if($total_picked_amount>0)
-                                           {
-                                              $value->debits=$total_picked_amount;
-                                           }
-                                           else
-                                           {
-                                              $value->debits=$bill_total;
-                                           }
+                                            $total_picked_amount_return=$basearray[$kj]['total_picked_amount_return'];
+                                            $total_picked_amount+=$basearray[$kj]['total_picked_amount']-$total_picked_amount_return;
+                                            $bill_total+=$basearray[$kj]['bill_total']-$total_picked_amount_return;
+
+                                               $value->credits=0;
+                                               if($total_picked_amount>0)
+                                               {
+                                                  $value->debits=$total_picked_amount;
+                                               }
+                                               else
+                                               {
+                                                  $value->debits=$bill_total;
+                                               }
                                            
                                       }
 

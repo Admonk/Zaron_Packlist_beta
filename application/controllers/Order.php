@@ -3918,36 +3918,7 @@ $formdate=date('Y-m-d');
                           $totalqty+=$valuess->qty;
                           $totalamount += round($valuess->qty*$valuess->rate,2);
                           $totalbase= round($valuess->qty*$valuess->rate,2);
-                          if($order_no=='NOV/1651')
-                          {
-                                        $totalamountGST += round($totalbase* 1.18);
-                          }
-                          else
-                          {
-                                       if($update_date>'2024-12-06')
-                                       {
-
-
-                                         $people = array("RE-DEC/45", "RE-DEC/53", "RE-DEC/63", "RE-NOV/131");
-                                          if(in_array($value->re_order_no, $people))
-                                          {
-                                             $totalamountGST += round($totalbase* 1.18);
-                                          }
-                                          else
-                                          {
-                                             $totalamountGST += round($totalbase* 1.18);
-                                          }
-
-
-
-                                          
-                                       }
-                                       else
-                                       {
-                                           $totalamountGST += round($totalbase* 1.18);
-                                       }
-                                        
-                          }
+                          $totalamountGST += round($totalbase* 1.18,2);
                           
                     
                        
@@ -3963,7 +3934,82 @@ $formdate=date('Y-m-d');
                   $tcsamount=round($totalamountGST*0.1/100); 
               }
 
-              $totalamountGST_ROUND=$totalamountGST+$tcsamount+$roundoff_val;
+
+
+
+              $totalamountGST_ROUND=$totalamountGST;
+
+
+      
+                                                                         $whole = floor($totalamountGST_ROUND); 
+                                                                         $decimal1 = $totalamountGST_ROUND - $whole;
+                                                                         $totalval= round($decimal1,3);
+ 
+                                                                         // gg changes
+ 
+                                                                         $roundoffstatusval_data="";
+                                                                         $getdataminis=0;
+ 
+                                                                         if($totalval!=0)
+                                                                                 {
+ 
+ 
+                                                                                         if($totalval>0.5)
+                                                                                         {
+                                                                                                 
+ 
+                                                                                                 $getplusevalue=1-$totalval;
+                                                                                                 $totalamountGST_ROUND=$totalamountGST_ROUND+$getplusevalue;
+                                                                                                 
+                                                                                                 if($getplusevalue>0)
+                                                                                                 {
+                                                                                                     $roundoffstatusval_data=" (+) ".$getplusevalue;
+                                                                                                     $autoRoundStat = 'plus';
+                                                                                                     $autoRound = $getplusevalue;
+                                                                                                 }
+ 
+                                                                                         }
+                                                                                         elseif($totalval == 0.5)
+                                                                                         {
+ 
+ 
+                                                                                                 $getplusevalue=$totalval;
+                                                                                                 $totalamountGST_ROUND=$totalamountGST_ROUND+$getplusevalue;
+                                                                                                 
+                                                                                                 if($getplusevalue>0)
+                                                                                                 {
+                                                                                                     $roundoffstatusval_data=" (+) ".$getplusevalue;
+                                                                                                     $autoRoundStat = 'plus';
+                                                                                                     $autoRound = $getplusevalue;
+                                                                                                 }
+ 
+                                                                                         }
+                                                                                         else
+                                                                                         {
+ 
+                                                                                                 $totalamountGST_ROUND=round($totalamountGST_ROUND-$totalval);
+                                                                                                 if($totalval>0)
+                                                                                                 {
+                                                                                                     $roundoffstatusval_data=" (-) ".$totalval;
+                                                                                                     $autoRoundStat = 'minus';
+                                                                                                     $autoRound = $totalval;
+                                                                                                 }
+                                                                                                 
+                                                                                         }
+ 
+                                          
+                                                                                 }
+
+
+                                                                                
+                           if($autoRoundStat=='plus')  
+                           {
+                                  $totalamountGST_ROUND=$totalamountGST+$autoRound;
+                           }
+                           else
+                           {
+                                 $totalamountGST_ROUND=$totalamountGST-$autoRound;   
+                           }                                                 
 
               if($createDate > '2024-05-31')
               {
@@ -6145,7 +6191,8 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
     
     // no checking
     $insert_id=$this->Main_model->insert_commen($data,$tablename);
-                                
+    $this->db->query("UPDATE sales_return_products SET return_picked='0',return_no_pick='0',return_qty_pick='0',return_picked_deliverd='0'  WHERE c_id='".$insert_id."'");        
+
                          
                                          $purchase_order_product_id=explode('|', $form_data->purchase_order_product_id);
                                          $purchase_notes_data=explode('|', $form_data->purchase_notes_data);
@@ -6403,9 +6450,10 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                               $dil_status['order_id'] = $order_id;
                               $dil_status['order_no'] = $order_no;
                               $dil_status['finance_status'] = 2;
+                              $dil_status['deleteid'] = 1002;
 
                               // gg changes to comment for return values
-                              //$dil_status['return_id'] = $insert_id;
+                              $dil_status['return_id'] = $insert_id;
                              
                               $dil_status['collection_remarks_2'] = $totalamount;
                              // $dil_status['return_amount'] = $totalamount;
@@ -6494,7 +6542,7 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                                             {
 
 
-$this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_id='".$insert_id."',reason='Driver Partial Return1',deleteid=0 WHERE  finance_status=2 AND deleteid='0' AND order_id='".$order_id."'"); 
+$this->db->query("UPDATE order_delivery_order_status SET collection_remarks_2='".$totalamount."',return_status=2,return_id='".$insert_id."',reason='Driver Partial Return1',deleteid=0 WHERE  finance_status=2 AND deleteid='0' AND order_id='".$order_id."'"); 
 
 
            
@@ -6567,7 +6615,7 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                                             {
 
 
-$this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_id='".$insert_id."',reason='Driver Partial Return',deleteid=0 WHERE  finance_status=2 AND deleteid='0' AND order_id='".$order_id."'"); 
+$this->db->query("UPDATE order_delivery_order_status SET collection_remarks_2='".$totalamount."',return_status=2,return_id='".$insert_id."',reason='Driver Partial Return',deleteid=0 WHERE  finance_status=2 AND deleteid='0' AND order_id='".$order_id."'"); 
 
 
            
@@ -7664,6 +7712,9 @@ $formdate=date('Y-m-d');
             $data['sales_team'] = $this->Main_model->where_names_two_order_by('admin_users', 'access', '12', 'deleteid', '0', 'id', 'ASC');
             $neworder_id = 1;
 
+
+ //$this->db->query("DELETE FROM order_delivery_order_status  WHERE deleteid='1001' AND finance_status=2");
+
  $poin_to_member = $this->db->query("SELECT id,order_no,deleteid,collection_remarks,collection_remarks_2,reason,count(order_id) as countorder_id FROM `order_delivery_order_status` WHERE finance_status=2 AND deleteid=0 GROUP BY order_id HAVING countorder_id>1
 ");
  $poin_to_member = $poin_to_member->result();
@@ -7677,6 +7728,19 @@ $formdate=date('Y-m-d');
              }
  }
 
+
+ $poin_to_member = $this->db->query("SELECT id,order_no,deleteid,collection_remarks,collection_remarks_2,reason,count(order_id) as countorder_id FROM `order_delivery_order_status` WHERE finance_status=2 AND deleteid=1002 GROUP BY order_id HAVING countorder_id>1 ORDER BY id DESC
+");
+ $poin_to_member = $poin_to_member->result();
+ $deleteid_id=0;
+ foreach($poin_to_member as $tcs)
+ {
+             $deleteid_id=$tcs->id;
+             if($deleteid_id>0)
+             {
+                $this->db->query("DELETE FROM order_delivery_order_status  WHERE id='" . $deleteid_id . "'");
+             }
+ }
    
             
             $order_last_count = $this->Main_model->order_last_count('orders_process');
@@ -17878,6 +17942,8 @@ Please share the OTP ' .
                    // At initial set 0 for enable_load_pending column value to 0
                    $this->db->query("UPDATE order_product_list_process SET enable_load_pending='0' WHERE order_id='".$id."'");  
 
+$this->db->query("UPDATE order_delivery_order_status SET deleteid='1002',finance_status=2 WHERE order_id='".$id."' AND finance_status=1001 AND deleteid=1001");
+
 
              // gg changes Return removal update
 
@@ -18455,9 +18521,10 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                                                                                     $dil_status['finance_status'] = 2;
                                                                                     $dil_status['reason'] = 'Return Partial Dispatched Yet to confirm';
                                                                                     $dil_status['delivery_mode'] = 'Partial';
-                                                                                    $dil_status['collection_remarks_2'] = $collection_remarks_2_set;
-                              $dil_status['total_picked_amount'] = $collection_remarks_2_set;
-                              $dil_status['assign_status_0_date'] = date('Y-m-d');
+                                                                                    $dil_status['collection_remarks_2'] = 0.2;
+                                                                                    $dil_status['return_id']=$return_id;
+                                                                                    $dil_status['total_picked_amount'] =  0.2;
+                                                                                    $dil_status['assign_status_0_date'] = date('Y-m-d');
                                                                                     
                                                                                     $dil_status['create_date'] = $date;
                                                                                     $dil_status['payment_mode'] = $payment_mode_data;
@@ -18467,7 +18534,7 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                                                                                     $dil_status['customer_id'] =$customer_id;
                                         
                                         
-                                                                                   $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $form_data->order_id . "' AND randam_id IS NULL  ");
+                                                                                   $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $form_data->order_id . "' AND randam_id IS NULL  AND finance_status=2 ");
                                                                                    $allcheck = $allcheck->result();
                                                                                    if(count($allcheck)==0)
                                                                                    {
@@ -18475,7 +18542,7 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
 
 
                             // comment by gg changes
-                            // $this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
+                            //$this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
                                         
                                         
                                         
@@ -18483,7 +18550,7 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                                         
                                         
                                         
-                $this->db->query("UPDATE order_delivery_order_status SET reason='Return Partial Dispatched Yet to confirm',deleteid='0' WHERE order_id='".$form_data->order_id."' AND deleteid='88'");
+                $this->db->query("UPDATE order_delivery_order_status SET reason='Return Partial Dispatched Yet to confirm',deleteid='0' WHERE order_id='".$form_data->order_id."' AND deleteid='88' AND finance_status=2");
 
                                         $this->db->query("UPDATE order_delivery_order_status SET delivery_mode='Partial' WHERE randam_id='".$DC_id."' AND deleteid=0");
                                         $this->db->query("UPDATE sales_load_products SET randam_id=NULL,pickedstatus=0,dispatch_load=0 WHERE order_id='".$form_data->order_id."' AND loadstatus=0 AND pickedstatus=1");
@@ -18549,7 +18616,7 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                                       $datass_appprox['trip_end_date'] = $date;
                                       $datass_appprox['trip_end_time'] = $time;
 
-        $this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1',order_base=2,inward_status=13,remarks='Client Scope Return Completed' WHERE id='" . $return_id ."'"); 
+        $this->db->query("UPDATE order_sales_return_complaints SET order_base=2,inward_status=13,remarks='Client Scope Return Completed' WHERE id='" . $return_id ."'"); 
 
 
 
@@ -18974,7 +19041,38 @@ $this->db->query("UPDATE sales_load_products SET pickedstatus='1',dispatch_load=
                         
         }
         
-        
+          if($form_data->action == "return_pickup")
+         {
+
+
+             $order_product_id = $form_data->id;
+             $nos = $form_data->nos;
+             $qty = $form_data->qty;
+             $return_id = $form_data->return_id;
+             $status = $form_data->status;
+
+
+
+             if($status==1)
+             {
+
+                
+
+
+        $this->db->query("UPDATE sales_return_products SET return_picked='1',return_no_pick='".$nos."',return_qty_pick='".$qty."'  WHERE c_id='".$return_id."' AND purchase_order_product_id='".$order_product_id."'");
+
+
+
+             }
+             else
+             {
+
+                 $this->db->query("UPDATE sales_return_products SET return_picked='0',return_no_pick='0',return_qty_pick='0',return_picked_deliverd='0'  WHERE c_id='".$return_id."' AND purchase_order_product_id='".$order_product_id."'");
+
+             }
+
+
+         }
 
        // gg changes
        if($form_data->action == "Loadinsertproductdata_pack")
@@ -19012,6 +19110,11 @@ $this->db->query("UPDATE sales_load_products SET pickedstatus='1',dispatch_load=
             
              $load['rate'] = $form_data->rate;
              $order_id=$_GET['order_id'];
+
+
+
+
+
              
                 
             // Assuming $load['qty'] might contain a NaN value or other invalid data
@@ -19201,7 +19304,7 @@ $poin_to_member = $this->db->query("SELECT * FROM order_delivery_order_status  W
 if($return_id>0)
 {
 
-    $this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1' WHERE id='".$return_id."'");
+    //$this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1' WHERE id='".$return_id."'");
 
 }
  
@@ -19234,9 +19337,7 @@ if($return_id>0)
          if($form_data->action == 'pickedstatus') 
          {
  
- 
- 
-           
+
                          $id = $form_data->id;
  
                    
@@ -19282,7 +19383,7 @@ if($return_id>0)
                                  
                          }
                          
-                         
+        $this->db->query("UPDATE  sales_return_products  SET return_picked='".$status."' WHERE purchase_order_product_id='" . $form_data->id . "'");
                        //  $resultcheck =$this->Main_model->where_names('sales_load_products', 'order_product_id', $id);
  
          $resultcheck = $this->Main_model->where_names_two_order_by('sales_load_products', 'order_id', $order_id, 'order_product_id', $id, 'id', 'ASC');  
@@ -19293,6 +19394,9 @@ if($return_id>0)
                                $this->db->query("DELETE FROM sales_load_products  WHERE order_product_id='" . $form_data->id . "' AND delivered_products=0 AND order_id='".$order_id."'");
                                $load['order_product_id'] = $form_data->id;
                                
+
+        
+
                                $resultmainss = $this->db->query("SELECT * FROM order_product_list_process  WHERE id='" . $form_data->id . "' ORDER BY id DESC");
                                $resultcss = $resultmainss->result();
                                foreach($resultcss as $vl)
@@ -31273,7 +31377,8 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
 
         }else {
 
-            $query_scope = $this->db->query("SELECT *  FROM order_delivery_order_status  WHERE  order_id='" . $_GET['order_id'] . "' AND dispatch_status=0 AND dispatch_load_status=0 AND deleteid=0 AND randam_id IS NULL ORDER BY id DESC LIMIT 1");
+            $query_scope = $this->db->query("SELECT *  FROM order_delivery_order_status  WHERE  order_id='" . $_GET['order_id'] . "' AND dispatch_status=0 AND dispatch_load_status=0 
+                AND deleteid IN ('0','1002') AND randam_id IS NULL ORDER BY id DESC LIMIT 1");
             $scope_changes = $query_scope->row(); 
             
             $delivery_status = $scope_changes->delivery_status;
@@ -31293,10 +31398,9 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
 
 $return_amount_return_to_resale=0;
 $resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base=5");
-                                                       $resultcss = $resultmainss->result();
-
-                                                       if(count($resultcss)>0)
-                                                       {
+$resultcss = $resultmainss->result();
+if(count($resultcss)>0)
+{
 
 
                                                                foreach($resultcss as $vl)
@@ -31309,7 +31413,29 @@ $resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  W
                                                                }
 
 
-                                                       }
+}
+
+
+
+$return_amount_return_to_sale=0;
+$resultmainss_ss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base=2 AND remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')");
+$resultcss_gg = $resultmainss_ss->result();
+if(count($resultcss_gg)>0)
+{
+
+
+                                                               foreach($resultcss_gg as $vlvd)
+                                                               {
+                                                                   
+                                                                  $return_amount_return_to_sale= $vlvd->bill_total;
+                                                                 
+                                              
+                                                                  
+                                                               }
+
+
+}
+
 
 
 
@@ -32171,6 +32297,80 @@ if(isset($_GET['DC_id']))
 }
 
 
+
+if($return_amount_return_to_sale>0)
+{
+
+$resultsub_inproduction_all=$this->db->query(
+                                                                "SELECT 
+                                                                   
+                                                                     SUM(ss.qty*c.rate) as totaldelivery_amount,
+                                                                     b.id
+                                                                      FROM  
+                                                                      order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id
+                                                                      JOIN sales_load_products as ss  ON ss.order_product_id=c.purchase_order_product_id
+
+                                                                        WHERE b.deleteid=0 AND ss.order_id='" . $return_id . "' AND  b.order_base=2 AND ss.delivered_products=1 GROUP BY b.id   ORDER BY b.id DESC");
+$resultsub_inproduction_all=$resultsub_inproduction_all->result();
+
+$totaldelivery_amount_val_all=0;
+if(count($resultsub_inproduction_all)>0)
+{
+     foreach($resultsub_inproduction_all as $rrrrv)
+     {
+
+     
+        $totaldelivery_amount_all=$rrrrv->totaldelivery_amount;
+        $gstreturn_de_all=$totaldelivery_amount_all*18/100;
+        $totaldelivery_amount_val_all=round($totaldelivery_amount_all+$gstreturn_de_all);
+       
+     }
+
+}
+
+
+
+
+
+
+$total_return_pickup=0;
+$resultmainss_ss = $this->db->query("SELECT SUM(b.qty*b.rate) as return_picked_amount  FROM order_product_list_process as a JOIN sales_load_products as b ON a.id=b.order_product_id  WHERE a.order_id='" . $order_id . "' AND a.deleteid=0 AND a.return_status=1 AND a.randam_id IS NULL AND b.randam_id IS NULL AND a.picked_status=1");
+$resultcss_gg = $resultmainss_ss->result();
+if(count($resultcss_gg)>0)
+{
+
+
+                                                               foreach($resultcss_gg as $vlvd)
+                                                               {
+                                                                   
+                                                                   
+                                                            $return_picked_amount=$vlvd->return_picked_amount;
+                                                            $gstreturn=$return_picked_amount*18/100;
+                                                            $inproduction_total_return=round($return_picked_amount+$gstreturn);
+                                                            $total_return_pickup= $inproduction_total_return;
+                                                                 
+                                              
+                                                                  
+                                                               }
+
+
+}
+
+
+$return_amount_return_to_sale=round($return_amount_return_to_sale-$total_return_pickup);
+if($totaldelivery_amount_val_all>0)
+{
+     $return_amount_return_to_sale=round($return_amount_return_to_sale-$totaldelivery_amount_val_all);
+}
+
+if($return_amount_return_to_sale<0)
+{
+      $return_amount_return_to_sale=0;
+}
+
+}
+
+
           
 
          $array = array(
@@ -32178,6 +32378,7 @@ if(isset($_GET['DC_id']))
            'order_no_id' => $order_no,
            'picked_amount_random_id' => $picked_amount_random_id,
            'tcs_status_amount'=>$tcsamount_picked,
+           'return_amount_return_to_sale'=>$return_amount_return_to_sale,
            'tcs_status_picked'=>$tcs_status,
             'trip_id' => $trip_id,
             'vehicle_name'=>$vehicle_name,
@@ -32239,6 +32440,10 @@ public function update_scope_details() {
     $site_status = $form_data->site_status;
     $tax_status = $form_data->tax_status;
     $cash_bill_status = $form_data->cash_bill_status;
+    $packed_balance = $form_data->packed_balance;
+    $return_id=$form_data->return_id;
+    $return_pick_up_value=$form_data->return_pick_up_value;
+
 
     
     // Perform the update query
@@ -32246,13 +32451,15 @@ public function update_scope_details() {
                       SET delivery_charge='" . $delivery_charge . "', 
                           delivery_status='" . $delivery_status . "' ,
                           payment_mode='" . $payment_mode . "',
+                          deleteid='0',
                           utr_status='" . $utr_status . "' ,
                           sample_load_status='" . $sample_load_status . "',
                           cash_bill_status='" . $cash_bill_status . "' ,
                           site_status='" . $site_status . "',
-                          tax_status='" . $tax_status . "'
+                          tax_status='" . $tax_status . "',
+                          collection_remarks_2='" . $packed_balance . "'
                           WHERE order_id='".$order_id."' 
-                          AND id='".$update_id."' AND deleteid=0");
+                          AND id='".$update_id."' AND deleteid IN ('0','1002')");
 
                           $this->db->query("UPDATE orders_process 
                           SET delivery_status='" . $delivery_status . "',
@@ -32276,7 +32483,7 @@ foreach ($results as $orders) {
 
      
 $collection_remarks_2_set=$form_data->finalbalnce;
-$return_id=$form_data->return_id;
+
 
 
 
@@ -32287,9 +32494,14 @@ $return_id=$form_data->return_id;
               $resultcss = $resultmainss->result();
                                                  
 $this->db->query("DELETE FROM order_delivery_order_status WHERE order_id='".$order_id."' AND deleteid='88' AND finance_status=2");
-                                 
+$this->db->query("DELETE FROM order_delivery_order_status WHERE order_id='".$order_id."' AND deleteid='1001' AND finance_status=1001");
+                                
                 $firsttotal=round($checkcount[0]->totalqty);
                 $secondtotal=round($resultcss[0]->totalqty);
+
+
+
+
                  if($firsttotal!=$secondtotal)
                  {
 
@@ -32301,22 +32513,82 @@ $this->db->query("DELETE FROM order_delivery_order_status WHERE order_id='".$ord
                               $dil_status_first['order_id'] = $order_id;
                               $dil_status_first['order_no'] = $order_no;
                               $dil_status_first['customer_id'] = $customer_id;
-                              $dil_status_first['finance_status'] = 2;
+                             
                               $dil_status_first['reason'] = 'Partial Pick Pending';
                               $dil_status_first['delivery_mode'] = 'Partial';
                               $dil_status_first['create_date'] = $date;
                               $dil_status_first['create_time'] = $time;
                               $dil_status_first['delivery_date'] =$date;
                               $dil_status_first['delivery_time'] =$time;
-                              $dil_status_first['collection_remarks_2'] = $collection_remarks_2_set;
-                              $dil_status_first['total_picked_amount'] = $collection_remarks_2_set;
+                              
                               $dil_status_first['assign_status_0_date'] = date('Y-m-d');
-                              $dil_status_first['deleteid'] = 88;
-                              $dil_status_first['return_id'] = $return_id;
+                              
+ $returncheck_by = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $order_id. "'  AND return_id>0 AND deleteid='0'");
+ $returncheck_by = $returncheck_by->result();
+                          if(count($returncheck_by)>0)
+                          {
+                             
+
+                             
+                              // $returncheck_by_baseee = $this->db->query("SELECT total_picked_amount FROM order_delivery_order_status  WHERE order_id='" . $order_id. "' AND finance_status='11' AND deleteid='0'");
+                              // $returncheck_by_baseee = $returncheck_by_baseee->result();
+                              // if(count($returncheck_by_baseee)>0)
+                              // {
+                              //   foreach($returncheck_by_baseee as $ddd)
+                              //   {
+                              //       $total_picked_amount=$ddd->total_picked_amount;
+                              //   }
+
+                              // }
+                              
+
+                               if($return_pick_up_value==0)
+                               {
+                                  $dil_status_first['deleteid'] = 88;
+                                  $dil_status_first['finance_status'] = 2;
+                               }
+                               else
+                               {
+                                  $dil_status_first['deleteid'] = 88;
+                                  $dil_status_first['finance_status'] = 2;
+
+                                  $collection_remarks_2_set=abs($collection_remarks_2_set-$return_pick_up_value);
+                               }
+
+                              
+                               $dil_status_first['return_id'] = $return_id;
+                               $dil_status_first['collection_remarks_2'] = $collection_remarks_2_set;
+                               $dil_status_first['total_picked_amount'] = $collection_remarks_2_set;
+
+
+
+
+                          }
+                          else
+                          {
+
+
+                               $dil_status_first['deleteid'] = 88;
+                               $dil_status_first['finance_status'] = 2;
+                               $dil_status_first['return_id'] = $return_id;
+                               $dil_status_first['collection_remarks_2'] = $collection_remarks_2_set;
+                               $dil_status_first['total_picked_amount'] = $collection_remarks_2_set;
+
+
+
+                          }
+
+
+                              //$dil_status_first['deleteid'] = 88;
+                              //$dil_status_first['return_id'] = $return_id;
+
 
 
                           $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $form_data->order_id . "' AND finance_status=2 AND deleteid='88'");
                                             $allcheck = $allcheck->result();
+
+
+
                           if(count($allcheck)==0)
                           {
                                  
@@ -38304,7 +38576,7 @@ $lengeth=round($lengeth,2);
           $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
           //$where .= ' AND ds.dispatch_status=0';
           $where .= ' AND ds.assign_status=0';
-          $where .= ' AND ds.finance_status IN ("11","2")';
+          $where .= ' AND ds.finance_status IN ("2")';
           $where .= ' AND ds.delivery_date_status=1';
           //$where .= ' AND ds.randam_id IS NULL';
 
@@ -38550,7 +38822,10 @@ $lengeth=round($lengeth,2);
                 $value_rescheduling_date = $value->return_id ? $v->rescheduling_date : $value->rescheduling_date;
                 // $value_id = $value->return_id ? $v->order_id : $value->id;
                 //$v->remarks='Return Order';
-                $value_reason = $value->return_id ? $v->remarks : $value->reason_last;
+                //$value_reason = $value->return_id ? $v->remarks : $value->reason_last;
+
+                $value_reason = $value->reason_last;
+
                 $value_delivery_date_time = $value->return_id ? $v->assign_date : $value->delivery_date_time;
                 $value_create_date = $value->return_id ? $v->create_date : $value->create_date;
 
@@ -49318,14 +49593,14 @@ $this->db->query("UPDATE all_ledgers SET credits='".round($collectamount,2)."',d
                            {
 
 
- $this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1',remarks='Client Scope Reconciliation Order' WHERE id='" . $return_id ."'"); 
+ $this->db->query("UPDATE order_sales_return_complaints SET remarks='Client Scope Reconciliation Order' WHERE id='" . $return_id ."'"); 
 
                            }
                            else
                            {
 
 
- $this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1',remarks='Own Scope Reconciliation Order' WHERE id='" . $return_id ."'"); 
+ $this->db->query("UPDATE order_sales_return_complaints SET remarks='Own Scope Reconciliation Order' WHERE id='" . $return_id ."'"); 
                       
 
                            }
@@ -50324,7 +50599,7 @@ $this->db->query("UPDATE all_ledgers SET credits='".$val->driver_recived_payment
                                   $point['assign_status_3_date'] = date('Y-m-d');
                                                       
                                                       $point['reason'] = 'Group Payment Pending';
- $this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1',remarks='Client Scope Order ' WHERE id='" . $return_id ."'"); 
+ $this->db->query("UPDATE order_sales_return_complaints SET remarks='Client Scope Order ' WHERE id='" . $return_id ."'"); 
 
 
                                                 
@@ -50596,7 +50871,7 @@ $this->db->query("UPDATE all_ledgers SET credits='".$val->driver_recived_payment
 
 
 
-                     $this->db->query("UPDATE sales_load_products SET delivered_products='1' WHERE order_product_id='" . $vlset->order_product_id . "' AND randam_id='".$randam_id."'");  
+    $this->db->query("UPDATE sales_load_products SET delivered_products='1' WHERE order_product_id='" . $vlset->order_product_id . "' AND randam_id='".$randam_id."'");  
                         $this->db->query("UPDATE order_product_list_process SET delivery_status='1' WHERE id='" . $vlset->order_product_id . "'"); 
 
 
@@ -50660,6 +50935,8 @@ $this->db->query("UPDATE all_ledgers SET credits='".$val->driver_recived_payment
                     $customer_id = $cv->customer_id;
                     $return_id = $cv->return_id;
 
+
+     
                        $payment_mode_order = $cv->payment_mode;
                        $loading_status = $cv->loading_status;
                        $full_delivery = $cv->full_delivery;
@@ -51119,7 +51396,30 @@ Your order number  ' .
                  if($return_id>0)
                  {
 
-            $this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1',remarks='Driver Delivered The Order' WHERE id='" . $return_id ."' AND order_base NOT IN ('5')");  
+            //$this->db->query("UPDATE order_sales_return_complaints SET remarks='Driver Delivered The Order' WHERE id='" . $return_id ."' AND order_base NOT IN ('5')");  
+
+  $checkcount = $this->db->query("SELECT SUM(qty) as totalqty,SUM(return_qty_pick) as total_return_qty_pick FROM sales_return_products  WHERE c_id='" . $return_id . "'");
+               $checkcount = $checkcount->result();
+
+               if(count($checkcount)>0)
+               {
+                  foreach($checkcount as $vb)
+                  {
+                    
+                    if($vb->totalqty<=$vb->total_return_qty_pick)
+                    {
+
+                $this->db->query("UPDATE order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id SET a.remarks='Driver Delivered The Order'  WHERE a.id='".$return_id."' AND b.return_picked=1 AND a.order_base NOT IN ('5')");
+
+
+                    }
+
+
+                  }
+               }
+
+
+
             //$this->customer_balance_report_pass($customer_id);          
                      
                  }
@@ -51327,7 +51627,7 @@ Your order number  ' .
                     WHERE order_id='".$order_id."' AND randam_id='".$randam_id."' AND deleteid=0 AND dispatch_status=1");               
                     $this->Main_model->update_commen($point, 'orders_process');
 
-                
+                $this->db->query("UPDATE sales_return_products SET return_picked='0',return_no_pick='0',return_qty_pick='0',return_picked_deliverd='0'  WHERE c_id='".$return_id."'");  
                
                 
                 
@@ -55313,13 +55613,35 @@ $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
                             }
         
         
-        
+
+
+//$this->db->query("UPDATE order_delivery_order_status SET deleteid='88' WHERE order_id='".$orderid_data[$i]."' AND finance_status=2 AND deleteid=1001"); 
+
         $randam_id=uniqid();
         $this->db->query("UPDATE order_product_list_process SET randam_id='".$randam_id."' WHERE order_id='".$orderid_data[$i]."' AND picked_status=1 AND dispatch_status=0");
         $this->db->query("UPDATE order_delivery_order_status SET randam_id='".$randam_id."' WHERE order_id='".$orderid_data[$i]."' AND dispatch_status=0 AND return_base=0 AND deleteid=0 AND randam_id IS NULL");     
         $this->db->query("UPDATE sales_load_products SET randam_id='" . $randam_id . "' WHERE   order_id='".$orderid_data[$i]."' AND randam_id IS NULL");
         
         
+
+        $poin_to_member = $this->db->query("SELECT * FROM order_delivery_order_status  WHERE order_id='".$orderid_data[$i]."' AND dispatch_status=0 AND deleteid=0 AND return_id>0 AND  return_status IN ('2','0')");
+                                 $poin_to_member = $poin_to_member->result();
+                                 $return_id=0;
+                                 foreach($poin_to_member as $tcs)
+                                 {
+                                        $return_id=$tcs->return_id;
+                                 }
+
+        if($return_id>0)
+        {
+
+            //$this->db->query("UPDATE order_sales_return_complaints SET driver_delivery_status='1' WHERE id='".$return_id."'");
+
+        }
+         
+
+
+ 
         
         // gg changes
         
@@ -55604,11 +55926,42 @@ $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
                                 else
                                 {
         
+
+
+
+
+
                                         $datarr['reason']='Driver Return Trip Assigned';
                                         $datarr['finance_status'] = '3';
                                         $this->Main_model->update_commen($datarr, 'orders_process');
-                                        $this->db->query("UPDATE order_sales_return_complaints SET start_reading='0',km_reading_end='0',driver_id='".$datass['driver_id']."',vehicle_id='".$datass['vehicle_id']."',trip_id='".$datass['trip_id']."',remarks='Driver Return Trip Assigned',order_base='2',driver_delivery_status='1'  WHERE id='".$return_id."'"
-                                        );
+
+               $checkcount = $this->db->query("SELECT SUM(qty) as totalqty,SUM(return_qty_pick) as total_return_qty_pick FROM sales_return_products  WHERE c_id='" . $return_id . "'");
+               $checkcount = $checkcount->result();
+
+               if(count($checkcount)>0)
+               {
+                  foreach($checkcount as $vb)
+                  {
+                    
+                    if($vb->totalqty<=$vb->total_return_qty_pick)
+                    {
+
+                $this->db->query("UPDATE order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id SET a.start_reading='0',a.km_reading_end='0',a.driver_id='".$datass['driver_id']."',a.vehicle_id='".$datass['vehicle_id']."',a.trip_id='".$datass['trip_id']."',a.remarks='Driver Return Trip Assigned',a.order_base='2'  WHERE a.id='".$return_id."' AND b.return_picked=1");
+
+                    }
+
+
+                  }
+               }
+
+       
+
+                
+                                        
+
+
+
+
         
                                 }
         
@@ -55660,8 +56013,8 @@ $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
                                                      
                            $randam_id=$vl->randam_id;
                            $product_order_id=$vl->id;
-                           $total_nos+=$vl->nos;
-                           $total_qty+=$vl->qty;
+                           $total_nos+=intval($vl->nos);
+                           $total_qty+=intval($vl->qty);
                            $this->db->query("UPDATE order_product_list_process SET dispatch_status='1' WHERE id='".$product_order_id."' AND picked_status=1 AND randam_id='".$randam_id."'");
         
               }
