@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Color extends CI_Controller {
 
-    function __construct() {
+    function __construct() { 
              error_reporting(0);
              parent::__construct();
              $this->load->model('Admin/Auth');
