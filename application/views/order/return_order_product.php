@@ -1309,7 +1309,7 @@ input.inputtext {
                               <div class="table-rep-plugin" ng-repeat="namecate in namesDatacate" >
                                   
                                 
-                                 <h5 class="customTableHeading" > <input type="checkbox" class="allcheck_{{namecate.categories_id}}" ng-click="allCheck(namecate.categories_id)"> {{namecate.no}}. {{namecate.categories_name}}</h5>
+                                 <h5 class="customTableHeading" > <input type="checkbox" class="allcheck_{{namecate.categories_id}}" ng-click="loadProductAll(namecate.categories_id)"> {{namecate.no}}. {{namecate.categories_name}}</h5>
                                  
                                   <div class="table-responsive  customTableDesign mb-0" data-pattern="priority-columns" >
                                     <table id="datatable_{{namecate.categories_id}}" class="table table-bordered dt-responsive  nowrap w-100 salestable" >
@@ -1624,9 +1624,9 @@ input.inputtext {
                                            
                                               <td  data-label="Qty"    > 
                                                   <?php if($optionid ==  '2'){ ?>
-                                            <input type="text"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                            <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                             <?php }else{ ?>
-                                              <input type="text"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                              <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                              <?php } ?>
                                                  
                                               </td>
@@ -2142,7 +2142,7 @@ input.inputtext {
                                             
                                              <td data-label="Nos" ng-if="namecate.labletype!=9">
                                                  
-                                                  <input type="text"     data-val="{{name.nos_tab}}" ng-blur="nos_on_change(name.id)"     ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)" class="nos_{{namecate.categories_id}}" id="nos_{{name.id}}" value="{{name.nos_tab}}"></td>
+                                                  <input type="text"    ng-disabled="name.disabled == 1"   data-val="{{name.org_nos}}" ng-blur="nos_on_change(name.id)"     ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)" class="nos_{{namecate.categories_id}}" id="nos_{{name.id}}" value="{{name.nos_tab}}"></td>
                                              <!--<td><input type="text"  ng-keyup="inputsave_1(name.id,'unit',namecate.categories_id)"  id="unit_{{name.id}}" value="{{name.unit_tab}}"></td>-->
                                             
                                               <td
@@ -2212,9 +2212,9 @@ input.inputtext {
                                            <td  data-label="Qty"    > 
                                             
                                             <?php if($optionid ==  '2'){ ?>
-                                             <input type="text"    ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                             <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                             <?php }else{ ?>
-                                               <input type="text"  ng-disabled="namecate.type != '9'"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}">
+                                               <input type="text"  ng-disabled="name.disabled == 1"  ng-blur="nos_on_change(name.id)"  ng-disabled="namecate.type != '9'"  ng-keyup="inputsaveqty_1(name.id,'qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="qty_{{name.id}}" value="{{name.qty_tab}}" data-val="{{name.org_qty}}">
                                              <?php } ?>
                                            
                                             
@@ -2227,7 +2227,7 @@ input.inputtext {
                                              {
                                               ?>
 
-                                            <td data-label="Qty" ng-if="namecate.uom=='Kg' || namecate.categories_id==34 || namecate.categories_id==36 || namecate.categories_id==626">  <input type="text"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'activel_qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="activel_qty_{{name.id}}" value="{{name.activel_qty}}"></td>
+                                            <td data-label="Qty" ng-if="namecate.uom=='Kg' || namecate.categories_id==34 || namecate.categories_id==36 || namecate.categories_id==626">  <input type="text"  ng-disabled="namecate.uom !='Kg' && name.billing_options !='2'" ng-keyup="inputsaveqty_1(name.id,'activel_qty',namecate.categories_id,namecate.type)"  class="qtyfind_{{namecate.categories_id}}"  id="activel_qty_{{name.id}}" value="{{name.activel_qty}}" data-val="{{name.activel_qty}}"></td>
                                             
                                             
                                                  <?php
@@ -2569,7 +2569,7 @@ input.inputtext {
                                               <h5 class="ng-binding font-size-11" ng-if="roundoffstatusval_data !==''"><span class="ng-binding font-size-11"
                     >Round : Rs.  {{ roundoffstatusval_data }}</span>
                     </h5>
-                                    
+                                     <h5 class="ng-binding font-size-11" ng-if="minisroundoff>0 && roundoffstatus==1">Manual Round : Rs. (+) {{ minisroundoff  }}</h5>
                                      <h5 class="ng-binding font-size-11" > TOTAL AMOUNT: Rs. {{discountfulltotal}} </h5>
                                      <input type="hidden" id="discountfulltotal" value="{{discountfulltotal}}">     
                                      
@@ -8663,7 +8663,7 @@ $scope.checkhidesortid=function(status,id)
 $scope.update_status_material_return=function(id)
 {
      
-                      if ($('#nn_'+id).is(':checked'))
+                        if ($('#nn_'+id).is(':checked'))
                         {
                           
                               var status_value=1;
@@ -8684,7 +8684,6 @@ $scope.update_status_material_return=function(id)
                             });
 
 }
-
 
 
 
@@ -9491,7 +9490,17 @@ $scope.inputsaveqty_1 = function (id,inputname,categories_id,type) {
                           var fieds=inputname+'_'+id;
                            var values=$('#'+fieds).val();
                           
-                     
+                            var checkval = $('#' + fieds).data('val');
+                       
+                            if (checkval < values || values==0) {
+                                alert('input max value of order');
+                                $('#' + fieds).val(checkval);
+                                var values=$('#'+fieds).val();
+
+                            }
+                            
+
+
                        
                         
                           var rate= parseFloat($('#rate_'+id).val());
@@ -9740,6 +9749,7 @@ $scope.nos_on_change = function(id){
 
 
      };
+
 
 
 $scope.inputsave_1 = function (id,inputname,categories_id,type) {
@@ -12565,7 +12575,15 @@ $scope.saveRoundoff = function (event) {
                 $('#fact2_' + id).hide();
             }
         }
-        $scope.allCheck(item.categories_id);
+
+        //$scope.allCheck(item.categories_id);
+
+        // gg changes for loadall check
+        
+       // $scope.loadProductAll(item.categories_id);
+
+
+
     });
 }
   
@@ -12984,6 +13002,8 @@ $scope.fetchSingleDatatotal = function(id){
         {
         $scope.minisroundoff = data.minisroundoff;
         }
+
+        $scope.roundoffstatus = data.roundoffstatus;
         $scope.roundoff_val=data.roundoff_val;
         $scope.Meter_to_Sqr_feet = data.Meter_to_Sqr_feet;
 
@@ -13459,6 +13479,48 @@ $scope.submitFormaddress = function(){
   };
   
 */
+
+
+
+
+
+
+$scope.loadProductAll = function (cate_id) {
+
+ 
+  if ($('.allcheck_'+ cate_id).is(':checked')) {
+
+                  $('.fill_'+ cate_id).each(function () {
+
+                    var id = $(this).val();
+                    $('.fill_'+ cate_id).prop('checked', true);
+                    $scope.update_status_material_return(id);  
+
+                  });
+
+      }else {
+
+        
+                  $('.fill_'+ cate_id).each(function () {
+
+                  var id = $(this).val();
+                  $('.fill_'+ cate_id).prop('checked', false);
+                  $scope.update_status_material_return(id);  
+
+                  });
+
+      }
+
+};
+
+
+
+
+
+
+
+
+
 
  $scope.submitPurchaserequest = function(){
       

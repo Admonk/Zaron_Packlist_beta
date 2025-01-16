@@ -8669,6 +8669,9 @@ public function return_items($dc_id) {
                                           'qty_tab' => round($qty-$edit_qty,3), 
                                           'amount_tab' => round($amount, 2),
                                           'picked_status' => $value->picked_status,
+                                          'org_qty' => round($value->org_qty), 
+                                          'org_nos' => round($value->org_nos), 
+
                                         );
             $i++;
         }
@@ -9205,7 +9208,7 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
         $roundoff = $amounttotal;
         if($roundoffstatus == 1)
         {
-              $discountfulltotal = $roundoff - $discount + $minisroundoff;
+              $discountfulltotal = $roundoff - $discount;
               $discountfulltotal_base = $roundoff - $discount;
               $roundoff_val='+'; 
 
@@ -9213,7 +9216,7 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
         } 
         else 
         {
-              $discountfulltotal = $roundoff - $discount - $minisroundoff;
+              $discountfulltotal = $roundoff - $discount ;
               $discountfulltotal_base = $roundoff - $discount;
               $roundoff_val='-';
 
@@ -9399,17 +9402,64 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
 
             if($tcs_status == 1){
                 $tcsamount_picked=round(($picked_amount_sub+$picked_amount_gst+$picked_amount_gst)*0.1/100);
-                $total_show_value=$picked_amount_sub+$picked_amount_gst+$picked_amount_gst+$tcsamount_picked+$minisroundoff;
+                //$total_show_value=$picked_amount_sub+$picked_amount_gst+$picked_amount_gst+$tcsamount_picked+$minisroundoff;
             }else {
                 $tcsamount_picked='0';
-                $total_show_value=$picked_amount_sub+$picked_amount_gst+$picked_amount_gst+$minisroundoff;
+                //$total_show_value=$picked_amount_sub+$picked_amount_gst+$picked_amount_gst+$minisroundoff;
+            }
+
+
+            // gg changes check manual roundoff
+
+                       // Fetch results based on order_id and deleteid
+                                
+            $result = $this->Main_model->where_names_two_order_by($tablename, 'order_id', $_GET['order_id'], 'deleteid', '0', 'id', 'DESC');
+
+            $full_return_status = 1; // Assume full return status as 1 initially
+            $roundoffstatus = 0;
+            $minisroundoff = 0;
+
+            // Loop through results and check condition
+            foreach ($result as $value_full) {
+                
+                        $this->db->select('*');
+                        $this->db->from('order_product_list_process');
+                        $this->db->where('id', $value_full->order_process_product_id);
+                        $check_full = $this->db->get();
+                        $check_full_nos = $check_full->row();
+
+                        if ($value_full->org_nos != $check_full_nos->nos) {
+
+                            // Set full return status to 0 and break the loop on first mismatch
+                            $full_return_status = 0;
+                            break;
+
+
+                        }
+
+            }
+
+            // Additional logic for roundoff if full_return_status is still 1
+            if ($full_return_status == 1) {
+
+                        $this->db->select('*');
+                        $this->db->from('orders_process_return_temp');
+                        $this->db->where('id', $_GET['order_id']);
+                        $query3456 = $this->db->get();
+                        $manual_roundoff = $query3456->row();
+
+                        if ($manual_roundoff && $manual_roundoff->roundoffstatus == 1 && $manual_roundoff->roundoff > 0) {
+                            $roundoffstatus = $manual_roundoff->roundoffstatus;
+                            $minisroundoff = $manual_roundoff->roundoff;
+                            $discountfulltotal = $discountfulltotal + $minisroundoff;
+                        }
+                        
             }
 
 
 
 
-
-        $array = array('order_no_id' => $order_no,'tcsamount' => $tcsamount,'statusview'=>$statusview,'order_base'=>$order_base,'reason'=>$reason, 'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'paricel_mode' => $paricel_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff,'roundoff_val' => $roundoff_val,'roundoffstatusval_data' => $roundoffstatusval_data,  'fulltotal' => round($picked_amount_sub,3), 'discountfulltotal' =>round($discountfulltotal,2),'org_fulltotal' =>round($org_fulltotal,2), 'totalitems' => count($result), 'gsttotal' =>$picked_amount_gst, 'discount' => round($discount),'tcs_status_amount'=>$tcsamount_picked,'tcs_status_picked'=>$tcs_status, 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2));
+        $array = array('order_no_id' => $order_no,'tcsamount' => $tcsamount,'statusview'=>$statusview,'order_base'=>$order_base,'reason'=>$reason, 'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'paricel_mode' => $paricel_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff,'roundoff_val' => $roundoff_val,'roundoffstatusval_data' => $roundoffstatusval_data,'roundoffstatus' => $roundoffstatus,  'fulltotal' => round($picked_amount_sub,3), 'discountfulltotal' =>round($discountfulltotal,2),'org_fulltotal' =>round($org_fulltotal,2), 'totalitems' => count($result), 'gsttotal' =>$picked_amount_gst, 'discount' => round($discount),'tcs_status_amount'=>$tcsamount_picked,'tcs_status_picked'=>$tcs_status, 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2));
         echo json_encode($array);
     }
     
