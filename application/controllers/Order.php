@@ -32475,7 +32475,8 @@ public function update_scope_details() {
                           cash_bill_status='" . $cash_bill_status . "' ,
                           site_status='" . $site_status . "',
                           tax_status='" . $tax_status . "',
-                          collection_remarks_2='" . $packed_balance . "'
+                          collection_remarks_2='" . $packed_balance . "',
+                          total_picked_amount='" . $packed_balance . "'
                           WHERE order_id='".$order_id."' 
                           AND id='".$update_id."' AND deleteid IN ('0','1002')");
 
