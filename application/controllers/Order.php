@@ -22194,7 +22194,7 @@ $intransit_delivered12 = $this->db->query("
         AND slp.dispatch_load = 1 
         AND slp.loadstatus = 1 
         AND slp.order_id = '" . $value->order_id . "'
-        AND oplp.return_status = 0
+       
 ");
 
 
