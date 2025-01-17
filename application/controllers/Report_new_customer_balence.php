@@ -25979,7 +25979,7 @@ $this->db->query("UPDATE order_delivery_order_status SET  assign_status_12_date=
                                                                       order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id
                                                                       JOIN sales_load_products as ss  ON ss.order_product_id=c.purchase_order_product_id
 
-                                                                        WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."' AND ss.delivered_products=1 GROUP BY b.id   ORDER BY b.id DESC");
+                                                                        WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."' AND ss.delivered_products=1 AND ss.return_status=1 GROUP BY b.id   ORDER BY b.id DESC");
 $resultsub_inproduction_all=$resultsub_inproduction_all->result();
 
 $totaldelivery_amount_val_all=0;
@@ -25995,7 +25995,7 @@ if(count($resultsub_inproduction_all)>0)
         if($totaldelivery_amount_all>0)
         {
 
-  $this->db->query("UPDATE order_sales_return_complaints SET return_delivered_amount='".$totaldelivery_amount_val_all."' WHERE id='".$rrrrv->id."'");
+          $this->db->query("UPDATE order_sales_return_complaints SET return_delivered_amount='".$totaldelivery_amount_val_all."' WHERE id='".$rrrrv->id."'");
 
         }
 

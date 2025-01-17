@@ -18552,15 +18552,15 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                                                                                     $dil_status['customer_id'] =$customer_id;
                                         
                                         
-                                                                                   $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $form_data->order_id . "' AND randam_id IS NULL  AND finance_status=2 ");
+                                                                                   $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $form_data->order_id . "' AND randam_id IS NULL  AND finance_status=2");
                                                                                    $allcheck = $allcheck->result();
                                                                                    if(count($allcheck)==0)
                                                                                    {
                                         
 
 
-                            // comment by gg changes
-                            //$this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
+                            //comment by gg changes
+                            $this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
                                         
                                         
                                         
@@ -19280,7 +19280,7 @@ $this->db->query("UPDATE sales_load_products SET pickedstatus='1',dispatch_load=
                                $resultcss = $resultmainss->result();
                                foreach($resultcss as $vl)
                                {
-                                         $total_qty+=$vl->qty;        
+                                         $total_qty+=intval($vl->qty);        
                                          $product_order_id=$vl->order_product_id;
                                          //$this->db->query("UPDATE order_product_list_process SET randam_id='".$randam_id."' WHERE id='".$product_order_id."' AND picked_status=1 AND dispatch_status=0");
  
@@ -19372,6 +19372,7 @@ if($return_id>0)
                                  {
  
                                      $qty = $form_datavv->qty;
+                                     $return_status = $form_datavv->return_status;
                                      if($form_datavv->modify_qty>0)
                                      {
  
@@ -19383,7 +19384,7 @@ if($return_id>0)
                                      
                                  }
                          
-                         
+                       
                          if($driver_pickip==0)
                          {
                                 
@@ -19455,6 +19456,9 @@ if($return_id>0)
                                        $load['pickedstatus'] = $status;
                                        $load['commission'] = $vl->commission;
                                        $load['order_id'] = $vl->order_id;
+                                       $load['return_status'] = $return_status;
+
+                                       
                                        $load['amount'] = round($rate*$vl->qty,3);
                                }
                               
@@ -19510,13 +19514,13 @@ if($return_id>0)
  {
  
  
- $this->db->query("UPDATE sales_load_products SET nos='" . $load['nos'] . "',rate='" . $rate . "',amount='" . $amount . "',qty='" . $load['qty'] . "',order_id='" . $order_id . "',pickedstatus='" . $status . "' WHERE order_product_id='" . $id . "' AND delivered_products=0 AND order_id='".$order_id."' AND randam_id IS NULL");
+ $this->db->query("UPDATE sales_load_products SET return_status='" . $return_status . "',nos='" . $load['nos'] . "',rate='" . $rate . "',amount='" . $amount . "',qty='" . $load['qty'] . "',order_id='" . $order_id . "',pickedstatus='" . $status . "' WHERE order_product_id='" . $id . "' AND delivered_products=0 AND order_id='".$order_id."' AND randam_id IS NULL");
  
  
  }
  else
  {
-   $this->db->query("UPDATE sales_load_products SET nos='0',rate='" . $rate . "',amount='" . $amount . "',qty='" . $load['qty'] . "',order_id='" . $order_id . "',pickedstatus='" . $status . "' WHERE order_product_id='" . $id . "' AND delivered_products=0 AND order_id='".$order_id."' AND randam_id IS NULL");
+   $this->db->query("UPDATE sales_load_products SET return_status='" . $return_status . "',nos='0',rate='" . $rate . "',amount='" . $amount . "',qty='" . $load['qty'] . "',order_id='" . $order_id . "',pickedstatus='" . $status . "' WHERE order_product_id='" . $id . "' AND delivered_products=0 AND order_id='".$order_id."' AND randam_id IS NULL");
   $this->db->query("UPDATE order_product_list_process SET modify_qty='0',modify_nos='0' WHERE id='" . $id . "' AND loadstatus=0 AND randam_id IS NULL");
    
  }
@@ -32326,7 +32330,7 @@ $resultsub_inproduction_all=$this->db->query(
                                                                       order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id
                                                                       JOIN sales_load_products as ss  ON ss.order_product_id=c.purchase_order_product_id
 
-                                                                        WHERE b.deleteid=0 AND ss.order_id='" . $return_id . "' AND  b.order_base=2 AND ss.delivered_products=1 GROUP BY b.id   ORDER BY b.id DESC");
+                                                                        WHERE b.deleteid=0 AND ss.order_id='" . $return_id . "' AND  b.order_base=2 AND ss.delivered_products=1 AND ss.return_status=1 GROUP BY b.id   ORDER BY b.id DESC");
 $resultsub_inproduction_all=$resultsub_inproduction_all->result();
 
 $totaldelivery_amount_val_all=0;
@@ -51644,7 +51648,10 @@ Your order number  ' .
                     WHERE order_id='".$order_id."' AND randam_id='".$randam_id."' AND deleteid=0 AND dispatch_status=1");               
                     $this->Main_model->update_commen($point, 'orders_process');
 
-                $this->db->query("UPDATE sales_return_products SET return_picked='0',return_no_pick='0',return_qty_pick='0',return_picked_deliverd='0'  WHERE c_id='".$return_id."'");  
+
+
+       $this->db->query("UPDATE sales_return_products SET return_picked_deliverd=return_picked,return_delivered_nos=return_no_pick,return_delivered_qty=return_qty_pick  WHERE c_id='".$return_id."'");  
+        $this->db->query("UPDATE sales_return_products SET return_picked='0',return_no_pick='0',return_qty_pick='0'  WHERE c_id='".$return_id."'");  
                
                 
                 
