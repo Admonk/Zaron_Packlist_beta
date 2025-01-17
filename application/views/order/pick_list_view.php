@@ -2514,7 +2514,7 @@ th {
 
 
 
-                                                                                                        <td ng-if="(namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==1 ||  namecate.labletype==0 || namecate.labletype==6 || namecate.labletype==15) && namecate.categories_id !=5 && namecate.categories_id !=611 && namecate.categories_id !=627"
+                                                                                                        <td ng-if="(namecate.labletype==11 || namecate.labletype==7 || namecate.labletype==12 || namecate.labletype==1 ||  namecate.labletype==0 || namecate.labletype==6 || namecate.labletype==15 ) && namecate.categories_id !=5 && namecate.categories_id !=611 && namecate.categories_id !=627 && namecate.categories_id != 13"
                                                                                                             data-label="{{namecate.lable2}}">
 
                                                                                                             <!-- width hide by gg changes -->
