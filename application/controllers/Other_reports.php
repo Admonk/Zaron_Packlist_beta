@@ -9307,40 +9307,60 @@ usort($resultArray, function($a, $b) {
         $sql = '';
 
         if ($customer_id != '' && $customer_id != 'All') {
-            $sql .=  ' AND op.customer_id LIKE "%' . $customer_id . '%" ';
+            $sql .=  ' AND op.customer_id="' . $customer_id . '"';
         }
 
+
         $arrayFinal = [];
-        $query = $this->db->query("SELECT
+        $query = $this->db->query(
+       "SELECT                                                       
                                 op.create_date,
                                 op.create_time,
-                                osrc.create_date as return_date,
-                                c.company_name,
+                                b.create_date as return_date,
+                                cc.company_name,
                                 op.order_no,
-                                osrc.re_order_no,
-                                op.bill_total as bill_actual,
-                                osrc.bill_total as return_amount,
-                                osrc.qty as return_qty,
+                                b.re_order_no,
                                 op.payment_mode,
-                                osrc.remarks as reason
-                            FROM
-                                order_sales_return_complaints osrc
-                            LEFT JOIN
-                                orders_process op ON osrc.order_no = op.order_no
-                            LEFT JOIN
-                                customers c ON c.id = op.customer_id
-                            WHERE
-                                osrc.order_base = 2
-                                AND op.deleteid = 0
-                                AND osrc.deleteid = 0
-                                AND osrc.bill_total > 0
-                                AND (osrc.driver_delivery_status = 0 OR osrc.driver_delivery_status != 1 )
-                                $sql
-                            ORDER BY
-                                op.create_date ASC")->result();
+                                op.bill_total as bill_actual,
+                                b.remarks as reason,
+                                SUM(c.qty*c.rate) as return_amount,
+                                SUM(c.return_qty_pick*c.rate) as return_picked_amount,
+                                SUM(c.return_qty_pick) as return_picked_qty,
+                                SUM(c.return_delivered_qty) as return_delivered_qty,
+                                SUM(c.qty) as return_qty,b.return_delivered_amount as return_delivered_amount
+
+                                                                      FROM  order_sales_return_complaints as b 
+                                                                      LEFT JOIN orders_process op ON b.order_no = op.order_no
+                                                                      LEFT JOIN customers cc ON cc.id = op.customer_id
+                                                                      JOIN sales_return_products as c ON b.id=c.c_id  
+
+                                                                      WHERE b.deleteid=0  AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'  AND b.remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order') $sql GROUP BY b.id  ORDER BY b.id DESC")->result();
 
         $totals = 0;
         foreach ($query as  &$row) {
+
+
+
+                                                            $return_delivered_amount=$row->return_delivered_amount;
+                                                            $return_amount_val=$row->return_amount;
+                                                            $gstreturn=$return_amount_val*18/100;
+                                                            $inproduction_total_return=round($return_amount_val+$gstreturn);
+                                                            $return_return_picked_amount=$row->return_picked_amount;
+                                                            $gstreturn_picked=$return_return_picked_amount*18/100;
+                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
+                            
+
+
+                            $inproduction_total_return=round($inproduction_total_return-$return_delivered_amount-$inproduction_total_return_picked);
+
+
+                                                                     if($inproduction_total_return<=2)
+                                                                     {
+                                                                        $inproduction_total_return=0;
+                                                                     }
+
+            $row->return_amount =$inproduction_total_return;
+            $row->return_qty =$row->return_qty-$row->return_picked_qty;
             $row->order_no = $row->order_no . ' (' . $row->re_order_no . ')';
             $row->create_date = date('d-m-Y h:i:s A', strtotime($row->create_date . ' ' . $row->create_time));
             $row->return_date = date('d-m-Y h:i:s A', strtotime($row->return_date));

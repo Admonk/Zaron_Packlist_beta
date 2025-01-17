@@ -31697,20 +31697,20 @@ if(count($table_customize)>0)
 
                                                                       $resultsub_production=$this->db->query("SELECT 
                                    b.total_picked_amount AS totalvalue,
+                                   a.rate*a.qty AS amount,
                                    os.bill_total AS bill_total,
+                                   a.picked_status,a.return_status,
                                    b.current_packed_balence AS picked_status
-                                   FROM 
-                                        order_product_list_process AS a 
-                                    JOIN order_delivery_order_status AS b ON a.order_id = b.order_id
-                                    JOIN orders_process AS os ON a.order_id = os.id
-                                         
-                                        JOIN all_ledgers al ON al.order_id = b.order_id
-                                    WHERE 
+                                   FROM order_product_list_process AS a
+                                   JOIN order_delivery_order_status AS b ON a.order_id = b.order_id
+                                   JOIN orders_process AS os ON a.order_id = os.id
+                                   JOIN all_ledgers al ON al.order_id = b.order_id
+                                   
+                                   WHERE 
                                         a.deleteid = 0 
-                                        AND b.customer_id = '".$value->id."'    AND b.order_base>0
+                                        AND b.customer_id = '".$value->id."'  AND b.order_base>0
                                         AND b.reason != 'Return To Re-sale'
-                                        AND b.deleteid IN ('0','88')  AND b.return_status IN ('0','2')
-                                        AND al.party_type = '1'
+                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2') 
                                         AND (
                                             CASE
                                                 WHEN b.assign_status_0_date <= '$todate'  AND (b.assign_status_12_date > '$todate' OR b.assign_status_12_date IS NULL)  AND (b.assign_status_11_date > '$todate' OR b.assign_status_11_date IS NULL)  AND (b.assign_status_3_date > '$todate' OR b.assign_status_3_date IS NULL)  THEN 1
@@ -31738,24 +31738,48 @@ if(count($table_customize)>0)
   
                                                                  $production=0;
                                                                  $production_vass=0;
+                                                                 $return_amount=0;
+                                                                 $return_amount_not_packed=0;
+                                                                 $return_amount_packed=0;
+                                                                 $return_amount_not_packed_base=0;
+                                                                 $return_amount_packed_base=0;
                                                                  foreach($resultsub_production as $val)
                                                                  { 
                                                                                
-                                                                               if($val->totalvalue>0)
-                                                                    {
-                                                                       $totalvalue=$val->totalvalue;
-                                                                       //$totalvalue=$val->bill_total;
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        $totalvalue=$val->bill_total;
-                                                                    }
+                                                                              
+                                                                        $return_amount=$val->return_amount;
+                                                                        $gst=$return_amount*18/100;
+                                                                        $return_amount+=round($return_amount+$gst,2);
+
+
+                                                                        if($val->totalvalue>0)
+                                                                        {
+                                                                           $totalvalue=$val->totalvalue;
+                                                                           //$totalvalue=$val->bill_total;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            $totalvalue=$val->bill_total;
+                                                                        }
                                                                     
+                                                                        
+                                                                        $production_vass+=round($val->picked_status,2);
 
-                                                                    $production_vass+=round($val->picked_status,2);
+
+                                                                        // if($val->picked_status==0 && $val->return_status==1)
+                                                                        // {
+
+                                                                        //     $return_amount_not_packed=$val->amount;
+                                                                        //     $gstres=$return_amount_not_packed*18/100;
+                                                                        //     $return_amount_not_packed_base=round($return_amount_not_packed+$gstres,2);
+                                                                        //     $return_amount_not_packed+=round($return_amount_not_packed+$gstres,2);
+                                                                                  
+                                                                        // }
 
 
-                                                                    $production+=round($totalvalue,2);
+                                                                        //$production+=round($totalvalue-$return_amount_not_packed_base);
+                                                                      
+                                                                        $production+=round($totalvalue);
                                                      
                                                                  }
                                                                  
@@ -31832,9 +31856,20 @@ if(count($table_customize)>0)
                                                                   
                                                                  
                                                                      if($testMode){  
+
+                                                                        
                                                                  $resultsub_inproduction=$this->db->query(
                                                                 "SELECT 
-                                                                    SUM(c.qty*c.rate) as bill_total,SUM(c.return_qty_pick*c.rate) as return_picked_amount  FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'   ORDER BY b.id DESC");
+                                                                    SUM(c.qty*c.rate) as bill_total,
+                                                                    SUM(c.return_qty_pick*c.rate) as return_picked_amount,
+                                                                     SUM(c.return_qty_pick) as return_picked_qty,
+                                                                     SUM(c.return_delivered_qty) as return_delivered_qty,
+                                                                     SUM(c.qty) as bill_qty,b.return_delivered_amount as return_delivered_amount
+
+                                                                      FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'  AND b.remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')  ORDER BY b.id DESC");
+
+
+
                                                                }else{
                                                                   $resultsub_inproduction=$this->db->query(
                                                                 "SELECT 
@@ -31852,30 +31887,25 @@ if(count($table_customize)>0)
                                                                  { 
                                                                    
                                                                   
-                                                                           if($vals->return_picked_amount>0)
-                                                                        {
-
-                                                                            $return_amount_val=$vals->bill_total;
-                                                                            $gstreturn=$return_amount_val*18/100;
-                                                                            $inproduction_total_return=round($return_amount_val+$gstreturn);
-
-                                                                            $return_return_picked_amount=$vals->return_picked_amount;
-                                                                            $gstreturn_picked=$return_return_picked_amount*18/100;
-                                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
-
-                                                                            $inproduction_total_return=round($inproduction_total_return-$inproduction_total_return_picked);
+                                                                       
+                                                            $return_delivered_amount=$vals->return_delivered_amount;
+                                                            $return_amount_val=$vals->bill_total;
+                                                            $gstreturn=$return_amount_val*18/100;
+                                                            $inproduction_total_return=round($return_amount_val+$gstreturn);
+                                                            $return_return_picked_amount=$vals->return_picked_amount;
+                                                            $gstreturn_picked=$return_return_picked_amount*18/100;
+                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
+                            
 
 
-                                                                        }
-                                                                        else
-                                                                        {
+                            $inproduction_total_return=round($inproduction_total_return-$return_delivered_amount-$inproduction_total_return_picked);
 
 
-                                                                                $return_amount_val=$vals->bill_total;
-                                                                                $gstreturn=$return_amount_val*18/100;
-                                                                                $inproduction_total_return=round($return_amount_val+$gstreturn);
-
-                                                                        }
+                                                                     if($inproduction_total_return<=2)
+                                                                     {
+                                                                        $inproduction_total_return=0;
+                                                                     }
+                                                                       
 
 
 

@@ -74,7 +74,7 @@ class Customer extends CI_Controller {
         
                                   
 
- if(isset($this->session->userdata['logged_in']))
+                      if(isset($this->session->userdata['logged_in']))
                       {
 
 
@@ -5200,20 +5200,35 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                         if($_GET['test'] && $_GET['test'] == 'true'){
                             // $resultsub_production=$this->db->query("SELECT SUM(a.amount) AS totalvalue, b.tcsamount, b.roundoff, b.roundoffstatus, b.discount FROM order_product_list_process AS a JOIN orders_process AS b ON a.order_id = b.id WHERE a.deleteid = 0 AND b.customer_id = '9002' AND DATE(b.assign_status_0_date) <= '2024-03-11' AND a.return_status = 0 AND b.order_base > 0 AND a.delivery_status = 0 AND b.reason != 'Return To Re-sale' AND b.deleteid = 0 AND( b.assign_status_1_date IS NULL OR b.assign_status_1_date > '2024-03-11' ) AND( b.assign_status_2_date IS NULL OR b.assign_status_2_date > '2024-03-11' ) GROUP BY b.id ORDER BY a.id DESC");
 
+
+
+
                                $resultsub_production=$this->db->query("SELECT 
 
 
-                                        b.id as base_ids,os.bill_total,b.current_packed_balence,b.total_picked_amount,b.total_picked_amount_confirmed,b.order_id as id,b.order_no   FROM 
-                                        order_product_list_process AS a 
-                                    
-                                        JOIN order_delivery_order_status AS b ON a.order_id = b.order_id
-                                        JOIN orders_process AS os ON a.order_id = os.id
+                                        b.id as base_ids,
+                                        b.current_packed_balence,
+                                        b.total_picked_amount,
+                                        b.total_picked_amount_confirmed,
+                                        b.total_picked_amount AS totalvalue,
+                                        a.rate*a.qty AS amount,
+                                        os.bill_total AS bill_total,
+                                        a.picked_status,a.return_status,
+                                        b.current_packed_balence AS picked_status,
+                                        b.order_id as id,
+                                        b.order_no   
+
+
+                                    FROM order_product_list_process AS a
+                                   JOIN order_delivery_order_status AS b ON a.order_id = b.order_id
+                                   JOIN orders_process AS os ON a.order_id = os.id
+                                   JOIN all_ledgers al ON al.order_id = b.order_id
 
                                     WHERE 
                                         a.deleteid = 0 
-                                        AND b.customer_id = '".$customer_id."'   AND b.order_base>0
-                                        AND b.reason != 'Return To Re-sale' 
-                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2')
+                                        AND b.customer_id = '".$customer_id."'  AND b.order_base>0
+                                        AND b.reason != 'Return To Re-sale'
+                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2') 
                                         AND (
                                             CASE
                                                 WHEN b.assign_status_0_date <= '$todate'  AND (b.assign_status_12_date > '$todate' OR b.assign_status_12_date IS NULL)  AND (b.assign_status_11_date > '$todate' OR b.assign_status_11_date IS NULL)  AND (b.assign_status_3_date > '$todate' OR b.assign_status_3_date IS NULL)  THEN 1
@@ -5241,27 +5256,9 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
 
 
 
-                         $resultsub_inproduction_return=$this->db->query("SELECT SUM(b.bill_total) as bill_total FROM  order_sales_return_complaints as b   WHERE b.deleteid=0 AND b.customer='".$customer_id."'  AND b.order_base=2  AND date(b.create_date) <= '".$todate."'   AND b.driver_delivery_status=0 ORDER BY b.id DESC");
-                         $resultsub_inproduction_return=$resultsub_inproduction_return->result();
-                         // print_r($resultsub_production);
-                         // exit;
+                       
 
-
-                            $inproduction_total_return_val=0;
-
-                            if(count($resultsub_inproduction_return)>0)
-                            {
-
-                                 foreach($resultsub_inproduction_return as $vals)
-                                { 
-                                                                       
-                                                                      
-                                                                                 $inproduction_total_return_val=round($vals->bill_total);
-                                                         
-                                }
-
-
-                            }
+                            
                            
                          // echo $inproduction_total_return_val;
                          // exit;
@@ -5269,25 +5266,40 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                          foreach($resultsub_production as $val)
                          {
 
+
+                                                                       $return_amount=$val->return_amount;
+                                                                        $gst=$return_amount*18/100;
+                                                                        $return_amount=round($return_amount+$gst,2);
+
+
+                                                                        if($val->totalvalue>0)
+                                                                        {
+                                                                           $totalvalue=$val->totalvalue;
+                                                                           //$totalvalue=$val->bill_total;
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            $totalvalue=$val->bill_total;
+                                                                        }
+                                                                    
+                                                                        
+                                                                        $production=round($totalvalue);
+
+
                                                                                                      
                             $order_ids[]=$val->id;
                             $order_nos[]=$val->order_no;
 
 
-                                $current_packed_balence=$val->current_packed_balence;
-
-
-                                if($current_packed_balence==0)
-                                {
-                                     $inproduction_total_return_val=0;
-                                }
-
-                               //$total_picked_amount=$val->total_picked_amount-$inproduction_total_return_val;
+                                $current_packed_balence=0;
+                                $inproduction_total_return_val=0;
+                               
+                                //$total_picked_amount=$val->total_picked_amount-$inproduction_total_return_val;
 
 
                                 $basearray[]=array(
 
-                                  'bill_total'=>$val->bill_total,
+                                  'bill_total'=>$production,
                                   'total_picked_amount'=>$val->total_picked_amount,
                                   'total_picked_amount_return'=>$inproduction_total_return_val,
                                   'current_packed_balence'=>$current_packed_balence,
