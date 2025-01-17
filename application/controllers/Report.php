@@ -13190,6 +13190,9 @@ $result = $result->result();
                 $resultcc=$this->db->query("SELECT a.id  FROM orders_process as a JOIN order_product_list_process as b ON a.id=b.order_id  WHERE   a.deleteid=0 AND a.order_base='1'   AND a.finance_status NOT IN ('10','4','5','6','14') AND a.return_status=0 $stat $userslog  GROUP BY b.order_id  ORDER BY a.id DESC");
                 $resultcc=$resultcc->result(); 
    
+
+
+
                 $result=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
@@ -13197,8 +13200,8 @@ $result = $result->result();
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-            WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY a.id DESC ");
-                $result=$result->result();
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.id ASC");
+                    $result=$result->result();
                    //AND ds.order_no='JAN/29'
                 $i=1;
                 $array=array();
@@ -13342,17 +13345,17 @@ $result = $result->result();
 
         }            
      
-if($value->picked_status==0)
-{
-    $value->reason='Partial Pick Pending';
-}
+                                                if($value->picked_status==0)
+                                                {
+                                                    $value->reason='Partial Pick Pending';
+                                                }
                                                
-                                               if($type==9)
-                                               {  
+                                                if($type==9)
+                                                {  
                                                    $value->nos=$value->qty;
 
                                                    
-                                               }
+                                                }
                                                
                                                $status="";
                                                if($value->assign_status==0)
@@ -13362,18 +13365,41 @@ if($value->picked_status==0)
                                                
                                                if($value->assign_status==11)
                                                {
-                                                   $status='Sheet in Factory';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
+
+                                                   
                                                }
                                                
                                                if($value->assign_status==12)
                                                {
-                                                   $status='Sheet in Factory';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
                                                }
                                                
                                                
                                                if($value->assign_status==1)
                                                {
-                                                   $status='Sheet in Factory';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
                                                }
                                                   if($value->month=='')
                                                  {
@@ -13446,7 +13472,7 @@ if($value->picked_status==0)
 
 
    
-                $resultreturn=$this->db->query("SELECT a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
+                $resultreturn=$this->db->query("SELECT b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
                 $resultreturn=$resultreturn->result();
 
 
@@ -13542,8 +13568,8 @@ if($value->picked_status==0)
                                                    
                                                }
                                                
-                                               $status="";
-                                               $status='In Production Return ';
+                                                 $status="";
+                                                 $status='In Production Return ';
                                                
                                                
                                               
@@ -13556,6 +13582,15 @@ if($value->picked_status==0)
                                                  if($value->reason=='Driver Return to Sales')
                                                  {
                                                     $value->reason='Driver Return to Sales / Second Pick';
+                                                 }
+
+                                                 if($value->return_picked==0)
+                                                 {
+                                                     $value->reason='Return Pick Pending';
+                                                 }
+                                                 if($value->return_picked==1)
+                                                 {
+                                                     $value->reason='Return Picked';
                                                  }
                                                
                                                 $arrayreturn[] = array(
@@ -13739,16 +13774,15 @@ if($value->picked_status==0)
                 $resultcc=$resultcc->result(); 
    
               
-                $result=$this->db->query("SELECT ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,ps.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,ps.qty,ps.amount as total ,ps.qty*b.rate as total_val FROM
+                $result=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
                           order_delivery_order_status as ds JOIN
-                          packed_details as ps ON ds.randam_id=ps.randam_id JOIN
-                          order_product_list_process as b ON b.id=ps.order_product_id JOIN
-                          orders_process as a ON a.id=ps.order_id 
+                          order_product_list_process as b ON b.order_id=ds.order_id JOIN
+                          orders_process as a ON a.id=ds.order_id 
 
-            WHERE   b.deleteid=0 AND a.deleteid=0 AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14')   AND ds.return_status=0 $statds $userslog GROUP BY ps.order_product_id HAVING total_val > 0  ORDER BY a.id DESC ");
-                $result=$result->result();
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.id ASC");
+                    $result=$result->result();
                 
                    
                 $i=1;
@@ -13757,7 +13791,11 @@ if($value->picked_status==0)
                 foreach ($result as  $value) {
                        
                        
-                                                 $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
+                                                 
+                                   
+
+
+                            $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
                                                  foreach ($poin_to_member as $point) {
                                                     $company_name = $point->company_name;
                                                  }
@@ -13839,45 +13877,133 @@ if($value->picked_status==0)
                                                $product_name=str_replace($thickness,'', $value->product_name);
                                                $product_name=str_replace($colors,'', $product_name);
                                                $product_name=str_replace($brand,'', $product_name);
+
+
+
+
+     $vvs=$this->db->query("SELECT * FROM packed_details WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
+     $vvs=$vvs->result();
+
+        if(count($vvs)>0)
+        {
+
+                  foreach ($vvs as  $ssvs)
+                  {
+
+
+                                $value->qty=$ssvs->qty;
+                                $value->total=$ssvs->amount;
+                                $value->nos=$ssvs->nos;
+
+
+
+                 }
+
+
+
+        } 
+        else
+        {
+
+
+             $vvs=$this->db->query("SELECT * FROM packed_details WHERE order_product_id='".$value->order_product_id."'");
+             $vvs=$vvs->result();
+
+                if(count($vvs)>0)
+                {
+
+                          foreach ($vvs as  $ssvs)
+                          {
+
+
+                                        $value->qty=round($value->qty-$ssvs->qty,2);
+                                        $value->total=round($value->total-$ssvs->amount,2);
+                                        $value->nos=round($value->nos-$ssvs->nos,2);
+
+
+
+                         }
+
+
+
+                } 
+
+
+        }            
+     
+                                                if($value->picked_status==0)
+                                                {
+                                                    $value->reason='Partial Pick Pending';
+                                                }
                                                
-                                               if($type==9)
-                                               {  
+                                                if($type==9)
+                                                {  
                                                    $value->nos=$value->qty;
 
                                                    
-                                               }
+                                                }
                                                
                                                $status="";
                                                if($value->assign_status==0)
                                                {
-                                                   $status='Sheet in Factory';
+                                                   $status='In Production';
                                                }
                                                
                                                if($value->assign_status==11)
                                                {
-                                                   $status='Sheet in Factory';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
+
+                                                   
                                                }
                                                
                                                if($value->assign_status==12)
                                                {
-                                                   $status='Sheet in Factory';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
                                                }
                                                
                                                
                                                if($value->assign_status==1)
                                                {
-                                                   $status='Sheet in Factory';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
                                                }
                                                   if($value->month=='')
                                                  {
                                                      $value->month=date('M',strtotime($value->create_date));
                                                  }
 
-                                                  if($value->create_date > '2024-05-31'){
+
+                                                 
+                                                 if($value->create_date > '2024-05-31'){
                                                     $roundAmount = round($value->total * 1.18);
                                                 }else{
                                                    $roundAmount =  round($value->total);
                                                 }
+
+                                                if($value->total>0)
+                                                {
+
+                                                
                                                
                                                 $array[] = array(
                                                     
@@ -13898,16 +14024,17 @@ if($value->picked_status==0)
                                                     'profile' => $value->profile,
                                                     'brand' => $brand,
                                                     'colors' => $colors,
-                                                    'price' =>  round($value->rate * $value->qty,2),
                                                     'thickness'=>$thickness,
                                                     'crimp' => $value->crimp,
                                                     'remarks' => $value->reason,
                                                     'nos' =>  $value->nos,
+                                                    'price' =>  round($value->rate * $value->qty,2),
                                                     'Sqr_feet_to_Meter' => $value->Sqr_feet_to_Meter,
                                                     'qty' =>  $value->qty,
                                                     'create_date' =>date('d-m-Y',strtotime($value->create_date)),
                                                     'count'=>count($resultcc)+count($resultccreturn),
-                                                    'total' => round($roundAmount)
+                                                    'total' => round($value->total,2),
+                                                    "amount" => $roundAmount,
                                                     
                                                     
                         
@@ -13916,7 +14043,10 @@ if($value->picked_status==0)
                                    
 
 
-                        $i++;
+                                                $i++;
+
+
+                                                }
 
                      }
 
@@ -13928,7 +14058,7 @@ if($value->picked_status==0)
 
 
    
-                $resultreturn=$this->db->query("SELECT a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status=0 AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
+            $resultreturn=$this->db->query("SELECT b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
                 $resultreturn=$resultreturn->result();
 
 
@@ -13937,11 +14067,13 @@ if($value->picked_status==0)
               foreach ($resultreturn as  $value) {
                        
                        
-                                                 $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
-                                                 foreach ($poin_to_member as $point) {
-                                                    $company_name = $point->company_name;
-                                                    $sales_group = $point->sales_group;
-                                                    $sales_team_id = $point->sales_team_id;
+                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
+                                                 foreach ($poin_to_member as $point)
+                                                  {
+                                                     $company_name = $point->company_name;
+                                                     $sales_group = $point->sales_group;
+                                                     $sales_team_id = $point->sales_team_id;
+                                                    
                                                  }
                                                  
                                                  $sales_person= $this->Main_model->where_names('admin_users','id',$sales_team_id);
@@ -14022,8 +14154,8 @@ if($value->picked_status==0)
                                                    
                                                }
                                                
-                                               $status="";
-                                               $status='In Production Return ';
+                                                 $status="";
+                                                 $status='In Production Return ';
                                                
                                                
                                               
@@ -14031,6 +14163,20 @@ if($value->picked_status==0)
                                                   if($value->month=='')
                                                  {
                                                      $value->month=date('M',strtotime($value->update_date));
+                                                 }
+
+                                                 if($value->reason=='Driver Return to Sales')
+                                                 {
+                                                    $value->reason='Driver Return to Sales / Second Pick';
+                                                 }
+
+                                                 if($value->return_picked==0)
+                                                 {
+                                                     $value->reason='Return Pick Pending';
+                                                 }
+                                                 if($value->return_picked==1)
+                                                 {
+                                                     $value->reason='Return Picked';
                                                  }
                                                
                                                 $arrayreturn[] = array(
@@ -14047,9 +14193,9 @@ if($value->picked_status==0)
                                                     'uom' => $uom,
                                                     'salesperson' => $salesperson,
                                                     'sales_group' => $sales_group,
-                                                    'price' =>  round($value->rate * $value->qty,2),
                                                      'status' => $status,
                                                     'rate' => $value->rate,
+                                                    'price' =>  round($value->rate * $value->qty,2),
                                                     'profile' => $value->profile,
                                                     'brand' => $brand,
                                                     'colors' => $colors,
@@ -14061,7 +14207,7 @@ if($value->picked_status==0)
                                                     'qty' =>  $value->qty,
                                                     'create_date' =>date('d-m-Y',strtotime($value->update_date)),
                                                     'count'=>count($resultcc)+count($resultccreturn),
-                                                    'total' => round($value->total,2)
+                                                    'amount' => round($value->total)
                                                     
                                                     
                         
