@@ -13763,7 +13763,7 @@ $result = $result->result();
                $fullarray=array_merge($array,$arrayreturn);
                usort($fullarray, function($a, $b) 
                {
-                    return strcmp($a['order_no'], $b['order_no']); // String comparison for order_no
+                    return strcmp($a['order_id'], $b['order_id']); // String comparison for order_no
                });
                echo json_encode($fullarray);
 
@@ -14474,7 +14474,7 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
 
 
             usort($fullarray, function($a, $b) {
-                    return strcmp($a['order_no'], $b['order_no']); // String comparison for order_no
+                    return strcmp($a['order_id'], $b['order_id']); // String comparison for order_no
                });
                      
                      
