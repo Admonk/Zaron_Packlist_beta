@@ -139,7 +139,10 @@ table#datatable {
                           <th>THK</th>
                           <th>LENGTH</th>
                           <th>CRIMP</th>
+                          <th>BILL NOS</th>
                           <th>NOS</th>
+                          <th>PEDING NOS</th>
+
                           <!--<th>RN MTR</th>-->
                           <th>QTY</th>
                           <th>UOM</th>
@@ -171,7 +174,10 @@ table#datatable {
                           
                               <td>{{names.profile}}</td>
                                <td>{{names.crimp}}</td>
+
+                               <td>{{names.bill_nos}}</td>
                                 <td>{{names.nos}}</td>
+                                <td>{{names.pening_nos}}</td>
                                  <!--<td>{{names.Sqr_feet_to_Meter}}</td>-->
                                   <td>{{names.qty}}</td>
                                  <td>{{names.uom}}</td>

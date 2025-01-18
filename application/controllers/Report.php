@@ -13214,6 +13214,9 @@ $result = $result->result();
 
 
                    $reasonfirst=$value->reason;
+
+                   $bill_nos=$value->nos;
+                   $bill_qty=$value->qty;
                        
                        
                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
@@ -13498,13 +13501,18 @@ $result = $result->result();
                                                 {
 
                                                 
-                                               
+                                                $pending_qty=round($bill_qty-$value->qty,3);
+                                                $pending_nos=$bill_nos-$value->nos;
                                                 $array[] = array(
                                                     
                                                     
                                                     'no' => $i, 
                                                     'id' => $value->id, 
                                                     'order_id' => $value->order_id,
+                                                    'bill_nos' => $bill_nos,
+                                                    'bill_qty' => $bill_qty,
+                                                    'pending_nos' => $pending_nos,
+                                                    'pending_qty' => $pending_qty,
                                                     'month' => strtoupper($value->month), 
                                                     'order_no' => $value->order_no, 
                                                     'product_name' => $product_name,
@@ -13513,7 +13521,7 @@ $result = $result->result();
                                                     'uom' => $uom,
                                                     'salesperson' => $salesperson,
                                                     'sales_group' => $sales_group,
-                                                     'status' => $status,
+                                                    'status' => $status,
                                                     'rate' => $value->rate,
                                                     'profile' => $value->profile,
                                                     'brand' => $brand,
@@ -13752,10 +13760,12 @@ $result = $result->result();
                      }
 
 
-                $fullarray=array_merge($array,$arrayreturn);
-
-
-              echo json_encode($fullarray);
+               $fullarray=array_merge($array,$arrayreturn);
+               usort($fullarray, function($a, $b) 
+               {
+                    return strcmp($a['order_no'], $b['order_no']); // String comparison for order_no
+               });
+               echo json_encode($fullarray);
 
     }
     
@@ -13911,6 +13921,8 @@ $result = $result->result();
                                                  
                                    
  $reasonfirst=$value->reason;
+  $bill_nos=$value->nos;
+                   $bill_qty=$value->qty;
                        
                        
                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
@@ -14196,7 +14208,8 @@ $result = $result->result();
                                                 if($value->total>0)
                                                 {
 
-                                                
+                                                 $pending_qty=round($bill_qty-$value->qty,3);
+                                                 $pending_nos=$bill_nos-$value->nos;
                                                
                                                 $array[] = array(
                                                     
@@ -14204,6 +14217,10 @@ $result = $result->result();
                                                     'no' => $i, 
                                                     'id' => $value->id, 
                                                     'order_id' => $value->order_id,
+                                                    'bill_nos' => $bill_nos,
+                                                    'bill_qty' => $bill_qty,
+                                                    'pending_nos' => $pending_nos,
+                                                    'pending_qty' => $pending_qty,
                                                     'month' => strtoupper($value->month), 
                                                     'order_no' => $value->order_no, 
                                                     'product_name' => $product_name,
@@ -14456,7 +14473,9 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                 $fullarray=array_merge($array,$arrayreturn);
 
 
-           
+            usort($fullarray, function($a, $b) {
+                    return strcmp($a['order_no'], $b['order_no']); // String comparison for order_no
+               });
                      
                      
                      
@@ -14475,7 +14494,7 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                   <table id="datatable" class="table table-bordered dt-responsive  nowrap w-100" border="1"   style="border: #d1d1d1 solid 1px;border-collapse: collapse;width: 100%;line-height: 1.5;" >
                       <thead>
                           
-                        <tr><th colspan="18">DELIVERY PENDING REPORT <?php echo $formdate; ?> Total Order : <?php echo $count; ?></th></tr> 
+                        <tr><th colspan="22">DELIVERY PENDING REPORT <?php echo $formdate; ?> Total Order : <?php echo $count; ?></th></tr> 
                         <tr>
 
 
@@ -14485,24 +14504,28 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                           <th>ORDER NO</th>
                           <th>CUSTOMER NAME</th>
                           <th>ITEMS</th>
-<th>CATEGORY</th>
+                          <th>CATEGORY</th>
 
 
-                            <th>COLOR</th>
+                          <th>COLOR</th>
                           <th>BRAND</th>
-                             <th>THK</th>
+                          <th>THK</th>
                           <th>LENGTH</th>
                           <th>CRIMP</th>
+                          <th>BILL NOS</th>
+                          
+                          <th>PENDING NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
+                          <th>BILL QTY</th>
+                          <th>PENDING QTY</th>
                           <th>QTY</th> 
                           <th>TOTAL AMOUNT</th> 
                           <th>AMOUNT W/O GST</th>
-<th>UOM</th>
+                          <th>UOM</th>
                           <th>SALES PERSON</th>
                           <th>GROUP</th>
-                         
-                         <th>STATUS</th>
+                          <th>STATUS</th>
                           <th>REMARKS</th>
             
                         </tr>
@@ -14510,14 +14533,14 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                         <tbody   >
                             
                             <?php
-                            
+                            $f=1;
                             foreach($fullarray as $names)
                             {
                                 ?>
                          
                         <tr >
                           
-                         <td><?php echo $names['no']; ?></td>
+                         <td><?php echo $f; ?></td>
                            <td><?php echo $names['create_date']; ?></td>
                            <td><?php echo $names['month']; ?></td>
                            <td>"<?php echo $names['order_no']; ?>"</td>
@@ -14529,8 +14552,12 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                             <td><?php echo $names['thickness']; ?></td>
                            <td><?php echo $names['profile']; ?></td>
                            <td><?php echo $names['crimp']; ?></td>
+                           <td><?php echo $names['bill_nos']; ?></td>
+                           <td><?php echo $names['pending_nos']; ?></td>
                            <td><?php echo $names['nos']; ?></td>
                            <!--<td><?php echo $names['Sqr_feet_to_Meter']; ?></td>-->
+                           <td><?php echo $names['bill_qty']; ?></td>
+                           <td><?php echo $names['pending_qty']; ?></td>
                            <td><?php echo $names['qty']; ?></td>
                             <td><?php echo $names['total']; ?></td>
                            <td><?php echo $names['price']; ?></td>
@@ -14545,6 +14572,7 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                         </tr>
                                
                                 <?php
+                                $f++;
                             }
                             
                             ?>
