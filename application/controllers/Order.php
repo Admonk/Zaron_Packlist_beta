@@ -32110,8 +32110,8 @@ $current_packed_balence = ($current_packed_balence > 0) ? $current_packed_balenc
 
            
 
-$total_show_value=0.2;
-$this->db->query("UPDATE order_delivery_order_status SET total_picked_amount='".$total_show_value."',collection_remarks_2='".$total_show_value."' WHERE order_id='".$_GET['order_id']."'  AND dispatch_status=0 AND deleteid=0 AND finance_status=2 AND total_picked_amount!='0.2' AND collection_remarks_2!='0.2'");
+//$total_show_value=0.2;
+//$this->db->query("UPDATE order_delivery_order_status SET total_picked_amount='".$total_show_value."',collection_remarks_2='".$total_show_value."' WHERE order_id='".$_GET['order_id']."'  AND dispatch_status=0 AND deleteid=0 AND finance_status=2 AND total_picked_amount!='0.2' AND collection_remarks_2!='0.2'");
 
           
 

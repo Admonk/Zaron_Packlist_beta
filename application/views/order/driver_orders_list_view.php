@@ -4739,7 +4739,15 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+         if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
   
        if (totbal < 0) {
     
@@ -4867,8 +4875,18 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+       
 
-        $('#bal').text(totbal);
+        if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
 
        
        if (totbal < 0) {
@@ -4994,7 +5012,16 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+          if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
 
 
        if (totbal < 0) {
@@ -5125,7 +5152,16 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+          if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
        
        
        if (totbal < 0) {
@@ -5255,7 +5291,16 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+          if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
        
        if (totbal < 0) {
     
@@ -5384,7 +5429,16 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+          if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
        
        
         if (totbal < 0) {
@@ -5510,7 +5564,16 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+          if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
        
        
        
@@ -5637,7 +5700,17 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+         if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+
+        }
+        
        
        
        if (totbal < 0) {
@@ -5761,7 +5834,16 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
+          if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
+        
        
        if (totbal < 0) {
     
@@ -5877,9 +5959,15 @@ $(document).ready(function(){
       
         var totbal=allam-amount_data;
 
-        $('#bal').text(totbal);
-
-
+       if(totbal>1)
+        {
+            $('#bal').text(totbal);
+        }
+        else
+        {
+            $('#bal').text(0);
+            var totbal=0;
+        }
 
 
       

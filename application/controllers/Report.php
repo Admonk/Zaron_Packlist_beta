@@ -13193,6 +13193,9 @@ $result = $result->result();
 
 
 
+
+
+
                 $result=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
@@ -13200,13 +13203,17 @@ $result = $result->result();
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY a.id DESC");
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.order_id DESC, b.id ASC");
                     $result=$result->result();
                    //AND ds.order_no='JAN/29'
                 $i=1;
                 $array=array();
                       
                 foreach ($result as  $value) {
+
+
+
+                   $reasonfirst=$value->reason;
                        
                        
                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
@@ -13294,61 +13301,8 @@ $result = $result->result();
 
 
 
-
-     $vvs=$this->db->query("SELECT * FROM packed_details WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
-     $vvs=$vvs->result();
-
-        if(count($vvs)>0)
-        {
-
-                  foreach ($vvs as  $ssvs)
-                  {
-
-
-                                $value->qty=$ssvs->qty;
-                                $value->total=$ssvs->amount;
-                                $value->nos=$ssvs->nos;
-
-
-
-                 }
-
-
-
-        } 
-        else
-        {
-
-
-             $vvs=$this->db->query("SELECT * FROM packed_details WHERE order_product_id='".$value->order_product_id."'");
-             $vvs=$vvs->result();
-
-                if(count($vvs)>0)
-                {
-
-                          foreach ($vvs as  $ssvs)
-                          {
-
-
-                                        $value->qty=round($value->qty-$ssvs->qty,2);
-                                        $value->total=round($value->total-$ssvs->amount,2);
-                                        $value->nos=round($value->nos-$ssvs->nos,2);
-
-
-
-                         }
-
-
-
-                } 
-
-
-        }            
      
-                                                if($value->picked_status==0)
-                                                {
-                                                    //$value->reason='Partial Pick Pending';
-                                                }
+                                                
                                                
                                                 if($type==9)
                                                 {  
@@ -13360,7 +13314,14 @@ $result = $result->result();
                                                $status="";
                                                if($value->assign_status==0)
                                                {
-                                                   $status='In Production';
+
+                                                    $status='In Production';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
+
                                                }
                                                
                                                if($value->assign_status==11)
@@ -13373,25 +13334,39 @@ $result = $result->result();
                                                     {
                                                         $status='Sheet in Factory';
                                                     }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
 
                                                    
                                                }
                                                
                                                if($value->assign_status==12)
                                                {
-                                                    if($value->picked_status==0)
-                                                    {
-                                                        $status='In Production';
-                                                    }
-                                                    else
-                                                    {
-                                                        $status='Sheet in Factory';
-                                                    }
+
+                                                       
+                                                                if($value->picked_status==0)
+                                                                {
+                                                                    $status='In Production';
+                                                                }
+                                                                else
+                                                                {
+                                                                    $status='Sheet in Factory';
+                                                                }
+                                                                if($value->picked_status==0)
+                                                                {
+                                                                    $value->reason='Pick Pending';
+                                                                }
+
+                                                      
+                                                   
                                                }
                                                
                                                
                                                if($value->assign_status==1)
                                                {
+
                                                     if($value->picked_status==0)
                                                     {
                                                         $status='In Production';
@@ -13400,11 +13375,116 @@ $result = $result->result();
                                                     {
                                                         $status='Sheet in Factory';
                                                     }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
                                                }
                                                   if($value->month=='')
                                                  {
                                                      $value->month=date('M',strtotime($value->create_date));
                                                  }
+
+
+
+
+
+
+
+
+     $base_check=0;
+     $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
+     $vvs=$vvs->result();
+
+        if(count($vvs)>0)
+        {
+
+                  foreach ($vvs as  $ssvs)
+                  {
+
+
+
+                                
+
+
+                                $value->qty=$ssvs->qty;
+                                $value->total=$ssvs->amount;
+                                $value->nos=$ssvs->nos;
+
+                                  
+
+                                  $loadstatus=$ssvs->loadstatus;
+                                  if($loadstatus==1)
+                                  {
+                                           
+                                    $status='Sheet in Factory';
+                                    $value->reason=$reasonfirst;
+
+                                  }
+
+
+
+
+                 }
+
+
+
+        } 
+        else
+        {
+
+
+             $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NULL ");
+             $vvs=$vvs->result();
+
+                if(count($vvs)>0)
+                {
+
+                          foreach ($vvs as  $ssvs)
+                          {
+
+
+                                        $value->qty=round($ssvs->qty,2);
+                                        $value->total=round($ssvs->amount,2);
+                                        $value->nos=round($ssvs->nos,2);
+
+
+
+                         }
+
+
+
+                } 
+                else
+                {
+
+                         
+                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NOT NULL ");
+                          $vvs=$vvs->result();
+                          foreach ($vvs as  $ssvs)
+                          {
+
+
+                                        $value->qty=round($value->qty-$ssvs->qty,2);
+                                        $value->total=round($value->total-$ssvs->amount,2);
+                                        $value->nos=round($value->nos-$ssvs->nos,2);
+
+
+
+                         }
+
+                }
+
+
+        }   
+
+
+
+
+
+
+
 
 
                                                  
@@ -13830,9 +13910,10 @@ $result = $result->result();
                        
                                                  
                                    
-
-
-                            $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
+ $reasonfirst=$value->reason;
+                       
+                       
+                                                 $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
                                                  foreach ($poin_to_member as $point) {
                                                     $company_name = $point->company_name;
                                                  }
@@ -13917,61 +13998,8 @@ $result = $result->result();
 
 
 
-
-     $vvs=$this->db->query("SELECT * FROM packed_details WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
-     $vvs=$vvs->result();
-
-        if(count($vvs)>0)
-        {
-
-                  foreach ($vvs as  $ssvs)
-                  {
-
-
-                                $value->qty=$ssvs->qty;
-                                $value->total=$ssvs->amount;
-                                $value->nos=$ssvs->nos;
-
-
-
-                 }
-
-
-
-        } 
-        else
-        {
-
-
-             $vvs=$this->db->query("SELECT * FROM packed_details WHERE order_product_id='".$value->order_product_id."'");
-             $vvs=$vvs->result();
-
-                if(count($vvs)>0)
-                {
-
-                          foreach ($vvs as  $ssvs)
-                          {
-
-
-                                        $value->qty=round($value->qty-$ssvs->qty,2);
-                                        $value->total=round($value->total-$ssvs->amount,2);
-                                        $value->nos=round($value->nos-$ssvs->nos,2);
-
-
-
-                         }
-
-
-
-                } 
-
-
-        }            
      
-                                                if($value->picked_status==0)
-                                                {
-                                                    //$value->reason='Partial Pick Pending';
-                                                }
+                                                
                                                
                                                 if($type==9)
                                                 {  
@@ -13983,7 +14011,14 @@ $result = $result->result();
                                                $status="";
                                                if($value->assign_status==0)
                                                {
-                                                   $status='In Production';
+
+                                                    $status='In Production';
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
+
                                                }
                                                
                                                if($value->assign_status==11)
@@ -13996,25 +14031,39 @@ $result = $result->result();
                                                     {
                                                         $status='Sheet in Factory';
                                                     }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
 
                                                    
                                                }
                                                
                                                if($value->assign_status==12)
                                                {
-                                                    if($value->picked_status==0)
-                                                    {
-                                                        $status='In Production';
-                                                    }
-                                                    else
-                                                    {
-                                                        $status='Sheet in Factory';
-                                                    }
+
+                                                       
+                                                                if($value->picked_status==0)
+                                                                {
+                                                                    $status='In Production';
+                                                                }
+                                                                else
+                                                                {
+                                                                    $status='Sheet in Factory';
+                                                                }
+                                                                if($value->picked_status==0)
+                                                                {
+                                                                    $value->reason='Pick Pending';
+                                                                }
+
+                                                      
+                                                   
                                                }
                                                
                                                
                                                if($value->assign_status==1)
                                                {
+
                                                     if($value->picked_status==0)
                                                     {
                                                         $status='In Production';
@@ -14023,11 +14072,116 @@ $result = $result->result();
                                                     {
                                                         $status='Sheet in Factory';
                                                     }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
                                                }
                                                   if($value->month=='')
                                                  {
                                                      $value->month=date('M',strtotime($value->create_date));
                                                  }
+
+
+
+
+
+
+
+
+     $base_check=0;
+     $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
+     $vvs=$vvs->result();
+
+        if(count($vvs)>0)
+        {
+
+                  foreach ($vvs as  $ssvs)
+                  {
+
+
+
+                                
+
+
+                                $value->qty=$ssvs->qty;
+                                $value->total=$ssvs->amount;
+                                $value->nos=$ssvs->nos;
+
+                                  
+
+                                  $loadstatus=$ssvs->loadstatus;
+                                  if($loadstatus==1)
+                                  {
+                                           
+                                    $status='Sheet in Factory';
+                                    $value->reason=$reasonfirst;
+
+                                  }
+
+
+
+
+                 }
+
+
+
+        } 
+        else
+        {
+
+
+             $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NULL ");
+             $vvs=$vvs->result();
+
+                if(count($vvs)>0)
+                {
+
+                          foreach ($vvs as  $ssvs)
+                          {
+
+
+                                        $value->qty=round($ssvs->qty,2);
+                                        $value->total=round($ssvs->amount,2);
+                                        $value->nos=round($ssvs->nos,2);
+
+
+
+                         }
+
+
+
+                } 
+                else
+                {
+
+                         
+                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NOT NULL ");
+                          $vvs=$vvs->result();
+                          foreach ($vvs as  $ssvs)
+                          {
+
+
+                                        $value->qty=round($value->qty-$ssvs->qty,2);
+                                        $value->total=round($value->total-$ssvs->amount,2);
+                                        $value->nos=round($value->nos-$ssvs->nos,2);
+
+
+
+                         }
+
+                }
+
+
+        }   
+
+
+
+
+
+
+
 
 
                                                  
@@ -14036,6 +14190,8 @@ $result = $result->result();
                                                 }else{
                                                    $roundAmount =  round($value->total);
                                                 }
+
+                            
 
                                                 if($value->total>0)
                                                 {
