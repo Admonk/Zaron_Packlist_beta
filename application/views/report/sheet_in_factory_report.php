@@ -141,8 +141,14 @@ table#datatable {
                           <th>THK</th>
                           <th>LENGTH</th>
                           <th>CRIMP</th>
+                          <th>BILL NOS</th>
+                          
+                          <th>PENDING NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
+                          <th>BILL QTY</th>
+                          
+                          <th>PENDING QTY</th>
                           <th>QTY</th>
                           <th>TOTAL AMOUNT</th>
                           <th>AMOUNT W/O GST</th>
@@ -153,7 +159,7 @@ table#datatable {
                           <th>STATUS</th>
                           <th>REMARKS</th>
                         
-            
+                                    
                         </tr>
                       </thead>
                         <tbody  ng-repeat="names in namesDataledgergroup | filter:query" >
@@ -161,7 +167,7 @@ table#datatable {
                             
                         <tr  class="trpoint" >
                           
-                           <td>{{names.no}}</td>
+                           <td>{{$index+1}}</td>
                            <td>{{names.create_date}} </td>
                            <td>{{names.month}}</td>
                            <td>{{names.order_no}}</td>
@@ -175,8 +181,24 @@ table#datatable {
                           
                               <td>{{names.profile}}</td>
                                <td>{{names.crimp}}</td>
-                                <td>{{names.nos}}</td>
+                               <td>{{names.bill_nos}}</td>
+                               
+                                <td>
+                                    <span ng-if="names.pending_nos>0" style="color:red;">{{names.pending_nos}}</span>
+                                
+
+                                </td>
+                                 <td>{{names.nos}}</td>
                                  <!--<td>{{names.Sqr_feet_to_Meter}}</td>-->
+                                 <td>{{names.bill_qty}}</td>
+
+                                 <td>
+                                    <span ng-if="names.pending_qty>0" style="color:red;">{{names.pending_qty}}</span>
+                                
+
+                                </td>
+                                  
+                                 
                                   <td>{{names.qty}}</td>
                                 <td style="text-align: right;">{{names.amount}}</td>
 
