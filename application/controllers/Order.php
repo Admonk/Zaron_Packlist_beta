@@ -47071,28 +47071,37 @@ if($unbilledloadamount>0)
 
 
        }
-              
-       
+
+
+
+
        $deliveredamount=0;
-       
-      /* $resultloads_data = $this->Main_model->where_names('order_delivery_order_status', 'order_id', $_GET['order_id']);
-       foreach ($resultloads_data as $valueloads_data)
-       {
-                    $deliveredamount+= $valueloads_data->driver_recived_payment;
-       }*/
 
 
-           // $resultloads_data = $this->Main_model->where_names('order_delivery_order_status', 'order_id', $_GET['order_id']);
-           $resultloads_data = $this->Main_model->where_names_two_order_by('order_delivery_order_status', 'order_id',$_GET['order_id'], 'finance_status','4', 'id', 'DESC');
 
-           foreach ($resultloads_data as $valueloads_data)
-           {
-                      //  $deliveredamount+= $valueloads_data->driver_recived_payment;
-                        $deliveredamount+= $valueloads_data->total_picked_amount_confirmed;
-           }
-       
-       
-       
+       // $resultloads_data = $this->Main_model->where_names('order_delivery_order_status', 'order_id', $_GET['order_id']);
+      $resultloads_data = $this->Main_model->where_names_two_order_by('order_delivery_order_status', 'order_id',$_GET['order_id'], 'finance_status >=','4', 'id', 'DESC');
+ 
+        foreach ($resultloads_data as $valueloads_data)
+        {
+                   //  $deliveredamount+= $valueloads_data->driver_recived_payment;
+ 
+                             if($valueloads_data->return_amount>0)
+                             {
+ 
+ $deliveredamount+= $valueloads_data->total_picked_amount_confirmed-$valueloads_data->return_amount;
+ 
+                             }
+                             else
+                             {
+                                      
+     $deliveredamount+= $valueloads_data->total_picked_amount_confirmed;
+                                 
+                             }
+                     
+        }
+ 
+
 // For one rupee issue
 
 
