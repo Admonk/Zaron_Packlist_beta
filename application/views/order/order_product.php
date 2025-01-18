@@ -6519,7 +6519,7 @@ if($tablename=='orders_process')
                                   ng-change="inputsave_1(name.id,'billing_options',namecate.categories_id,namecate.type)"
                                   id="billing_options_{{ name.id }}" ng-model="billing_options">
                               <!-- <option value="">select</option> -->
-                              <option value="1" ng-selected="{{ name.billing_options == 1 }}"  ng-if="namecate.categories_id==611 || namecate.categories_id != 627 && namecate.categories_id != 628">Running MTR</option>
+                              <option value="1" ng-selected="{{ name.billing_options == 1 }}"  ng-if="namecate.categories_id!=611 && namecate.categories_id != 627 && namecate.categories_id != 628">Running MTR</option>
                                 <option value="4" ng-selected="{{ name.billing_options == 4 }}" ng-if="namecate.categories_id==611 || namecate.categories_id==627 || namecate.categories_id==628">Running Ft</option>
                               <option value="2" ng-selected="{{ name.billing_options == 2 }}">KG</option>
                                <option value="3" ng-selected="name.billing_options == 3" ng-if="namecate.categories_id==34 ||  name.categories_id == 626">SQM MTR</option>
