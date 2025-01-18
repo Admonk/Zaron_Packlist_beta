@@ -155,11 +155,11 @@ table#datatable {
                           <th>UOM</th>
                           <th>SALES PERSON</th>
                           <th>GROUP</th>
-                         
+                                      
                           <th>STATUS</th>
                           <th>REMARKS</th>
                         
-                                    
+                                       
                         </tr>
                       </thead>
                         <tbody  ng-repeat="names in namesDataledgergroup | filter:query" >
@@ -193,7 +193,7 @@ table#datatable {
                                  <td>{{names.bill_qty}}</td>
 
                                  <td>
-                                    <span ng-if="names.pending_qty>0" style="color:red;">{{names.pending_qty}}</span>
+                                    <span ng-if="names.pending_qty>0.1" style="color:red;">{{names.pending_qty}}</span>
                                 
 
                                 </td>

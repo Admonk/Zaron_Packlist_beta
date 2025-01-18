@@ -13489,7 +13489,7 @@ $result = $result->result();
 
                           $dis_qty=0;
                           $dis_nos=0;
-                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='3' AND randam_id IS NOT NULL ");
+                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NOT NULL ");
                           $vvs=$vvs->result();
                           foreach ($vvs as  $ssvsss)
                           {
