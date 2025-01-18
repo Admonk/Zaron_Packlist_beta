@@ -13200,7 +13200,7 @@ $result = $result->result();
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.id ASC");
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY a.id DESC");
                     $result=$result->result();
                    //AND ds.order_no='JAN/29'
                 $i=1;
@@ -13818,7 +13818,7 @@ $result = $result->result();
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.id ASC");
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY a.id DESC");
                     $result=$result->result();
                 
                    

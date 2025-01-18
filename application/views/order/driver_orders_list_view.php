@@ -1544,7 +1544,7 @@ td input[type="text"] {
                                                                    
                                                                  
                                                                   <p ng-if="return_amount_show>0"><span>Return</span><span> Rs. {{return_amount_show}}</span></p>
-<p ng-if="return_amount>0 && is_collection_remarks==0"><span>Balance </span><span> Rs. {{collection_remarks-return_amount | indianCurrency}}</span></p>
+<p ng-if="return_amount>0 && is_collection_remarks==0"><span>Balance </span><span> Rs. {{ roundOff(collection_remarks - return_amount) }}</span></p>
                                                                   
                                                                 <!--   <p ng-if="collection_remarks"><span>Collect Amount</span><span> Rs. {{discountfulltotal-collection_remarks}}</span></p> -->
                                                                </div>
@@ -2887,7 +2887,15 @@ $scope.statusChange = function(id){
     }
 };
 
-
+$scope.roundOff = function(value) {
+    if (!value) return ''; // Handle empty or undefined values
+    // Remove commas if they exist and parse the number
+    let cleanNumber = parseFloat(value.toString().replace(/,/g, ''));
+    // Round the number to the nearest integer
+    let roundedNumber = Math.round(cleanNumber);
+    // Format the number with commas
+    return roundedNumber.toLocaleString();
+};
 
 
 

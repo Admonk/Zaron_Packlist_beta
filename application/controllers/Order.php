@@ -32418,31 +32418,31 @@ if($totaldelivery_amount_val_all<=0)
 }
 
 $return_amount_return_to_sale=$inproduction_total_return_all;
-$total_return_pickup=0;
-$resultmainss_ss = $this->db->query("SELECT SUM(b.qty*b.rate) as return_picked_amount  FROM order_product_list_process as a JOIN sales_load_products as b ON a.id=b.order_product_id  WHERE a.order_id='" . $order_id . "' AND a.deleteid=0  AND a.randam_id IS NULL AND b.randam_id IS NULL AND a.picked_status=1");
-$resultcss_gg = $resultmainss_ss->result();
-if(count($resultcss_gg)>0)
-{
+// $total_return_pickup=0;
+// $resultmainss_ss = $this->db->query("SELECT SUM(b.qty*b.rate) as return_picked_amount  FROM order_product_list_process as a JOIN sales_load_products as b ON a.id=b.order_product_id  WHERE a.order_id='" . $order_id . "' AND a.deleteid=0 AND a.return_status=1 AND a.randam_id IS NULL AND b.randam_id IS NULL AND a.picked_status=1");
+// $resultcss_gg = $resultmainss_ss->result();
+// if(count($resultcss_gg)>0)
+// {
 
 
-                                                               foreach($resultcss_gg as $vlvd)
-                                                               {
+//                                                                foreach($resultcss_gg as $vlvd)
+//                                                                {
                                                                    
                                                                    
-                                                            $return_picked_amount=$vlvd->return_picked_amount;
-                                                            $gstreturn=$return_picked_amount*18/100;
-                                                            $inproduction_total_return=round($return_picked_amount+$gstreturn,2);
-                                                            $total_return_pickup= $inproduction_total_return;
+//                                                             $return_picked_amount=$vlvd->return_picked_amount;
+//                                                             $gstreturn=$return_picked_amount*18/100;
+//                                                             $inproduction_total_return=round($return_picked_amount+$gstreturn,2);
+//                                                             $total_return_pickup= $inproduction_total_return;
                                                                  
                                               
                                                                   
-                                                               }
+//                                                                }
 
 
-}
+// }
 
 
-$return_amount_return_to_sale=round($return_amount_return_to_sale-$total_return_pickup,2);
+$return_amount_return_to_sale=round($return_amount_return_to_sale,2);
 
 // if($totaldelivery_amount_val_all>0)
 // {
@@ -51486,7 +51486,7 @@ Your order number  ' .
 
             //$this->db->query("UPDATE order_sales_return_complaints SET remarks='Driver Delivered The Order' WHERE id='" . $return_id ."' AND order_base NOT IN ('5')");  
 
-  $checkcount = $this->db->query("SELECT SUM(qty) as totalqty,SUM(return_qty_pick) as total_return_qty_pick FROM sales_return_products  WHERE c_id='" . $return_id . "'");
+  $checkcount = $this->db->query("SELECT SUM(qty) as totalqty,SUM(return_qty_pick+return_delivered_qty) as total_return_qty_pick FROM sales_return_products  WHERE c_id='" . $return_id . "'");
                $checkcount = $checkcount->result();
 
                if(count($checkcount)>0)
@@ -56026,7 +56026,7 @@ $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
                                         $datarr['finance_status'] = '3';
                                         $this->Main_model->update_commen($datarr, 'orders_process');
 
-               $checkcount = $this->db->query("SELECT SUM(qty) as totalqty,SUM(return_qty_pick) as total_return_qty_pick FROM sales_return_products  WHERE c_id='" . $return_id . "'");
+               $checkcount = $this->db->query("SELECT SUM(qty) as totalqty,SUM(return_qty_pick+return_delivered_qty) as total_return_qty_pick FROM sales_return_products  WHERE c_id='" . $return_id . "'");
                $checkcount = $checkcount->result();
 
                if(count($checkcount)>0)
