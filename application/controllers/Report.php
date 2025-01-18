@@ -13200,7 +13200,7 @@ $result = $result->result();
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.id ASC");
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY a.id DESC");
                     $result=$result->result();
                    //AND ds.order_no='JAN/29'
                 $i=1;
@@ -13347,7 +13347,7 @@ $result = $result->result();
      
                                                 if($value->picked_status==0)
                                                 {
-                                                    $value->reason='Partial Pick Pending';
+                                                    //$value->reason='Partial Pick Pending';
                                                 }
                                                
                                                 if($type==9)
@@ -13472,7 +13472,7 @@ $result = $result->result();
 
 
    
-                $resultreturn=$this->db->query("SELECT b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
+                $resultreturn=$this->db->query("SELECT b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
                 $resultreturn=$resultreturn->result();
 
 
@@ -13490,12 +13490,24 @@ $result = $result->result();
 
                                //if($return_qty_pick!=$value->org_qty)
                                //{
+                                         
 
+                                         if($value->return_delivered_qty>0)
+                                         {
+
+                                             $value->nos=$value->nos-$value->return_delivered_nos;
+                                             $value->qty=round($value->qty-$value->return_delivered_qty,3);
+
+                                         }
+                                         else
+                                         {
+                                             $value->nos=$value->nos-$return_no_pick;
+                                             $value->qty=round($value->qty-$return_qty_pick,3);
+
+                                         }
                                
 
-                                         $value->nos=$value->nos-$return_no_pick;
-                                         $value->qty=round($value->qty-$return_qty_pick,3);
-
+                                        
 
                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
                                                  foreach ($poin_to_member as $point)
@@ -13608,7 +13620,7 @@ $result = $result->result();
                                                  {
                                                      if($return_qty_pick!=$value->org_qty)
                                                      {
-                                                        $value->reason='Return Picked Partial';
+                                                        $value->reason='Return Picked Partial Pending';
                                                      }
                                                      else
                                                      {
@@ -13806,7 +13818,7 @@ $result = $result->result();
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY b.id ASC");
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY b.id HAVING total_val > 0  ORDER BY a.id DESC");
                     $result=$result->result();
                 
                    
@@ -13958,7 +13970,7 @@ $result = $result->result();
      
                                                 if($value->picked_status==0)
                                                 {
-                                                    $value->reason='Partial Pick Pending';
+                                                    //$value->reason='Partial Pick Pending';
                                                 }
                                                
                                                 if($type==9)
@@ -14083,7 +14095,8 @@ $result = $result->result();
 
 
    
-             $resultreturn=$this->db->query("SELECT b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
+             $resultreturn=$this->db->query("SELECT sheet_in_factory_report_data(
+b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
                 $resultreturn=$resultreturn->result();
 
 
@@ -14104,8 +14117,19 @@ $result = $result->result();
 
                                
 
-                                         $value->nos=$value->nos-$return_no_pick;
-                                         $value->qty=round($value->qty-$return_qty_pick,3);
+                                         if($value->return_delivered_qty>0)
+                                         {
+
+                                             $value->nos=$value->nos-$value->return_delivered_nos;
+                                             $value->qty=round($value->qty-$value->return_delivered_qty,3);
+
+                                         }
+                                         else
+                                         {
+                                             $value->nos=$value->nos-$return_no_pick;
+                                             $value->qty=round($value->qty-$return_qty_pick,3);
+
+                                         }
 
 
                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
@@ -14219,7 +14243,7 @@ $result = $result->result();
                                                  {
                                                      if($return_qty_pick!=$value->org_qty)
                                                      {
-                                                        $value->reason='Return Picked Partial';
+                                                        $value->reason='Return Picked Partial Pending';
                                                      }
                                                      else
                                                      {
@@ -32062,6 +32086,7 @@ if(count($table_customize)>0)
                                                                     SUM(c.return_qty_pick*c.rate) as return_picked_amount,
                                                                      SUM(c.return_qty_pick) as return_picked_qty,
                                                                      SUM(c.return_delivered_qty) as return_delivered_qty,
+                                                                     SUM(c.return_delivered_qty*c.rate) as return_delivered_amount_fix,
                                                                      SUM(c.qty) as bill_qty,b.return_delivered_amount as return_delivered_amount
 
                                                                       FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'  AND b.remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')  ORDER BY b.id DESC");
@@ -32093,6 +32118,19 @@ if(count($table_customize)>0)
                                                             $return_return_picked_amount=$vals->return_picked_amount;
                                                             $gstreturn_picked=$return_return_picked_amount*18/100;
                                                             $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
+
+
+                                                            if($return_delivered_amount<=0)
+                                                            {
+                                                                $return_delivered_amount_fix=$vals->return_delivered_amount_fix;
+                                                                if($return_delivered_amount_fix>0)
+                                                                {
+                                                                       $gstreturn_next=$return_delivered_amount_fix*18/100;
+                                                                       $return_delivered_amount=round($return_delivered_amount_fix+$gstreturn_next);
+
+                                                                }
+
+                                                            }
                             
 
 

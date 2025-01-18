@@ -9327,6 +9327,7 @@ usort($resultArray, function($a, $b) {
                                 SUM(c.return_qty_pick*c.rate) as return_picked_amount,
                                 SUM(c.return_qty_pick) as return_picked_qty,
                                 SUM(c.return_delivered_qty) as return_delivered_qty,
+                                SUM(c.return_delivered_qty*c.rate) as return_delivered_amount_fix,
                                 SUM(c.qty) as return_qty,b.return_delivered_amount as return_delivered_amount
 
                                                                       FROM  order_sales_return_complaints as b 
@@ -9348,6 +9349,18 @@ usort($resultArray, function($a, $b) {
                                                             $return_return_picked_amount=$row->return_picked_amount;
                                                             $gstreturn_picked=$return_return_picked_amount*18/100;
                                                             $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
+                                                            
+                                                            if($return_delivered_amount<=0)
+                                                            {
+                                                                $return_delivered_amount_fix=$row->return_delivered_amount_fix;
+                                                                if($return_delivered_amount_fix>0)
+                                                                {
+                                                                       $gstreturn_next=$return_delivered_amount_fix*18/100;
+                                                                       $return_delivered_amount=round($return_delivered_amount_fix+$gstreturn_next);
+
+                                                                }
+
+                                                            }
                             
 
 

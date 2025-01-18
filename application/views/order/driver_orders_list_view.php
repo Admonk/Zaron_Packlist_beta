@@ -518,7 +518,7 @@ td input[type="text"] {
 <input type='hidden'  id='return_hidden_amount' value='{{return_amount}}'>
 <input type="hidden" class="hidden" name="is_collection_remarks" value="{{is_collection_remarks}}" id="is_collection_remarks">
 <p ng-if="return_amount>0"><span>Return</span><span> Rs. {{return_amount}}</span></p>
-<p ng-if="return_amount>0"><span>Balance </span><span> Rs. {{collection_remarks-return_amount}}</span></p>
+<p ng-if="return_amount>0"><span>Balance </span><span> Rs. {{collection_remarks-return_amount | indianCurrency}}</span></p>
 
 
 
@@ -1544,7 +1544,7 @@ td input[type="text"] {
                                                                    
                                                                  
                                                                   <p ng-if="return_amount_show>0"><span>Return</span><span> Rs. {{return_amount_show}}</span></p>
-<p ng-if="return_amount>0 && is_collection_remarks==0"><span>Balance </span><span> Rs. {{collection_remarks-return_amount}}</span></p>
+<p ng-if="return_amount>0 && is_collection_remarks==0"><span>Balance </span><span> Rs. {{ roundOff(collection_remarks - return_amount) }}</span></p>
                                                                   
                                                                 <!--   <p ng-if="collection_remarks"><span>Collect Amount</span><span> Rs. {{discountfulltotal-collection_remarks}}</span></p> -->
                                                                </div>
@@ -2887,7 +2887,15 @@ $scope.statusChange = function(id){
     }
 };
 
-
+$scope.roundOff = function(value) {
+    if (!value) return ''; // Handle empty or undefined values
+    // Remove commas if they exist and parse the number
+    let cleanNumber = parseFloat(value.toString().replace(/,/g, ''));
+    // Round the number to the nearest integer
+    let roundedNumber = Math.round(cleanNumber);
+    // Format the number with commas
+    return roundedNumber.toLocaleString();
+};
 
 
 
@@ -4635,7 +4643,7 @@ $(document).ready(function(){
 
  $('#1_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*1
        $('#1_total').val(tot);
        
@@ -4707,11 +4715,11 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
-        var allam= parseInt($('#fulltotal').data('value'));
+        var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -4761,7 +4769,7 @@ $(document).ready(function(){
 
  $('#2_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*2
        $('#2_total').val(tot);
        
@@ -4833,14 +4841,14 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
 
 
 
 
 
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -4888,7 +4896,7 @@ $(document).ready(function(){
 
  $('#5_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*5
        $('#5_total').val(tot);
        
@@ -4960,13 +4968,13 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
 
 
 
 
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5020,7 +5028,7 @@ $(document).ready(function(){
 
    $('#10_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*10
        $('#10_total').val(tot);
        
@@ -5093,11 +5101,11 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5144,7 +5152,7 @@ $(document).ready(function(){
   
   $('#20_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*20
        $('#20_total').val(tot);
        
@@ -5223,11 +5231,11 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5270,7 +5278,7 @@ $(document).ready(function(){
   
   $('#50_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*50
        $('#50_total').val(tot);
        
@@ -5352,11 +5360,11 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5401,7 +5409,7 @@ $(document).ready(function(){
 
    $('#100_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*100
        $('#100_total').val(tot);
        
@@ -5478,11 +5486,11 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5528,7 +5536,7 @@ $(document).ready(function(){
 
    $('#200_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*200
        $('#200_total').val(tot);
        
@@ -5604,12 +5612,12 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5654,7 +5662,7 @@ $(document).ready(function(){
 
    $('#500_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*500
        $('#500_total').val(tot);
        
@@ -5729,11 +5737,11 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
@@ -5774,7 +5782,7 @@ $(document).ready(function(){
    });
    $('#2000_rs').on('input',function(){
       
-       var input= parseInt($(this).val());
+       var input= parseFloat($(this).val());
        var tot=  input*2000
        $('#2000_total').val(tot);
        
@@ -5844,12 +5852,12 @@ $(document).ready(function(){
          var c2000_total=0;
      }
        
-     var  amount_data= parseInt(c1_total)+parseInt(c2_total)+parseInt(c5_total)+parseInt(c10_total)+parseInt(c20_total)+parseInt(c50_total)+ parseInt(c100_total)+ parseInt(c200_total)+parseInt(c500_total)+parseInt(c2000_total);
+     var  amount_data= parseFloat(c1_total)+parseFloat(c2_total)+parseFloat(c5_total)+parseFloat(c10_total)+parseFloat(c20_total)+parseFloat(c50_total)+ parseFloat(c100_total)+ parseFloat(c200_total)+parseFloat(c500_total)+parseFloat(c2000_total);
      $('#fulltotal').val(amount_data);
      
      
      
-     var allam= parseInt($('#fulltotal').data('value'));
+     var allam= parseFloat($('#fulltotal').data('value'));
         
 
         // gg changes for return afftect to balence
