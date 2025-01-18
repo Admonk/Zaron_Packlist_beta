@@ -306,7 +306,7 @@ class Order_check extends CI_Controller
    
                 // gg changes scope task
    
-                $query = $this->db->query("SELECT a.*,ds.payment_mode,ds.delivery_status,ds.delivery_charge,ds.picked_status as picked_status_last,ds.randam_id,ds.reason as reason_last,ds.collection_remarks as collection_remarks_final,  ds.id as aa_id,ds.collection_remarks_2,c.name, b.company_name, b.email, b.phone,b.id as c_id, b.sales_team_id, b.sales_team_sub_id, b.address1, b.address2, b.landmark, b.zone, b.pincode, b.state FROM orders_process AS a LEFT JOIN customers AS b ON a.customer_id = b.id LEFT JOIN admin_users AS c ON a.user_id = c.id  $JOIN WHERE a.deleteid = '0'  $userslog $where $whereNew ORDER BY ds.id DESC LIMIT $offset, $pagesize ");
+                $query = $this->db->query("SELECT a.*,ds.return_id as return_ids,ds.payment_mode,ds.delivery_status,ds.delivery_charge,ds.picked_status as picked_status_last,ds.randam_id,ds.reason as reason_last,ds.collection_remarks as collection_remarks_final,  ds.id as aa_id,ds.collection_remarks_2,c.name, b.company_name, b.email, b.phone,b.id as c_id, b.sales_team_id, b.sales_team_sub_id, b.address1, b.address2, b.landmark, b.zone, b.pincode, b.state FROM orders_process AS a LEFT JOIN customers AS b ON a.customer_id = b.id LEFT JOIN admin_users AS c ON a.user_id = c.id  $JOIN WHERE a.deleteid = '0'  $userslog $where $whereNew ORDER BY ds.id DESC LIMIT $offset, $pagesize ");
                 $result = $query->result();    
     
    
@@ -328,6 +328,120 @@ class Order_check extends CI_Controller
    
    
    
+
+
+//CHECK RETURN //
+
+$resultsub_inproduction_all=$this->db->query(
+                                                                "SELECT 
+                                                                   
+                                                                     SUM(ss.qty*c.rate) as totaldelivery_amount,
+                                                                     b.id
+                                                                      FROM  
+                                                                      order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id
+                                                                      JOIN sales_load_products as ss  ON ss.order_product_id=c.purchase_order_product_id
+
+                                                                        WHERE b.deleteid=0 AND b.id='" . $value->return_ids . "' AND  b.order_base=2 AND ss.delivered_products=1 AND ss.return_status=1 GROUP BY b.id   ORDER BY b.id DESC");
+$resultsub_inproduction_all=$resultsub_inproduction_all->result();
+
+$totaldelivery_amount_val_all=0;
+if(count($resultsub_inproduction_all)>0)
+{
+     foreach($resultsub_inproduction_all as $rrrrv)
+     {
+
+     
+        $totaldelivery_amount_all=$rrrrv->totaldelivery_amount;
+        $gstreturn_de_all=$totaldelivery_amount_all*18/100;
+        $totaldelivery_amount_val_all=round($totaldelivery_amount_all+$gstreturn_de_all);
+       
+     }
+
+}
+
+
+
+  $resultsub_inproduction=$this->db->query(
+                                                                "SELECT 
+                                                                    SUM(c.qty*c.rate) as bill_total,
+                                                                    SUM(c.return_qty_pick*c.rate) as return_picked_amount,
+                                                                     SUM(c.return_qty_pick) as return_picked_qty,
+                                                                     SUM(c.return_delivered_qty) as return_delivered_qty,
+                                                                     SUM(c.return_delivered_qty*c.rate) as return_delivered_amount_fix,
+                                                                     SUM(c.qty) as bill_qty,b.return_delivered_amount as return_delivered_amount
+
+                                                                      FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.id='".$value->id."' AND  b.order_base=2  AND b.remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')  ORDER BY b.id DESC");
+
+
+
+                                                                 $resultsub_inproduction=$resultsub_inproduction->result();
+                                                                 $inproduction_total_return=0;
+
+                                                                 // echo "</br>"; 
+                                                                 // echo "Query 7 - " . date("Y-m-d H:i:s"); 
+                                                                 // echo "</br>";
+                                                                 // echo "SELECT SUM(b.bill_total) as bill_total FROM  order_sales_return_complaints as b   WHERE b.deleteid=0 AND b.customer='".$value->id."'  AND b.order_base=2 AND b.driver_delivery_status=0 ORDER BY b.id DESC"; 
+if(count($resultsub_inproduction)>0)
+{
+
+
+                                                                 foreach($resultsub_inproduction as $vals)
+                                                                 { 
+                                                                        
+
+                                                                
+
+                                                            $return_delivered_amount=$vals->return_delivered_amount;
+                                                            $return_amount_val=$vals->bill_total;
+                                                            $gstreturn=$return_amount_val*18/100;
+                                                            $inproduction_total_return=round($return_amount_val+$gstreturn);
+                                                            $return_return_picked_amount=$vals->return_picked_amount;
+                                                            $gstreturn_picked=$return_return_picked_amount*18/100;
+                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
+                            
+
+
+                                                            if($return_delivered_amount<=0)
+                                                            {
+                                                                $return_delivered_amount_fix=$vals->return_delivered_amount_fix;
+                                                                if($return_delivered_amount_fix>0)
+                                                                {
+                                                                       $gstreturn_next=$return_delivered_amount_fix*18/100;
+                                                                       $return_delivered_amount=round($return_delivered_amount_fix+$gstreturn_next);
+
+                                                                }
+
+                                                            }
+                            
+                     
+
+                                                                    $inproduction_total_return=round($inproduction_total_return-$return_delivered_amount-$inproduction_total_return_picked);
+
+
+                                                                     if($inproduction_total_return<=2)
+                                                                     {
+                                                                        $inproduction_total_return=0;
+                                                                     }
+                                                                       
+
+                                                                  
+                                                                
+                                                     
+                                                                 }
+
+
+
+                                                           
+
+
+}
+if($inproduction_total_return==0)
+{
+
+    $this->db->query("DELETE FROM order_delivery_order_status  WHERE finance_status=2 AND deleteid=0 AND reason='Return Partial Dispatched Yet to confirm'");
+
+}
+// CHECK RETURN END //
    
                 if($_GET['cMode']!=1)
                 {

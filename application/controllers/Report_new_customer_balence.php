@@ -26045,6 +26045,7 @@ if(count($resultsub_inproduction_return_delivey)>0)
                                                                     SUM(c.return_qty_pick*c.rate) as return_picked_amount,
                                                                      SUM(c.return_qty_pick) as return_picked_qty,
                                                                      SUM(c.return_delivered_qty) as return_delivered_qty,
+                                                                     SUM(c.return_delivered_qty*c.rate) as return_delivered_amount_fix,
                                                                      SUM(c.qty) as bill_qty,b.return_delivered_amount as return_delivered_amount
 
                                                                       FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.customer='".$value->id."' AND  b.order_base=2  AND date(b.create_date) <= '".$todate."'  AND b.remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')  ORDER BY b.id DESC");
@@ -26071,14 +26072,24 @@ if(count($resultsub_inproduction_return_delivey)>0)
                                                             $return_delivered_amount=$vals->return_delivered_amount;
                                                             $return_amount_val=$vals->bill_total;
                                                             $gstreturn=$return_amount_val*18/100;
-                                                            $inproduction_total_return=round($return_amount_val+$gstreturn);
+                                                            $inproduction_total_return=round($return_amount_val+$gstreturn,2);
                                                             $return_return_picked_amount=$vals->return_picked_amount;
                                                             $gstreturn_picked=$return_return_picked_amount*18/100;
-                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked);
-                            
-                     
+                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked,2);
 
-                            $inproduction_total_return=round($inproduction_total_return-$return_delivered_amount-$inproduction_total_return_picked);
+                                                            if($return_delivered_amount<=0)
+                                                            {
+                                                                $return_delivered_amount_fix=$vals->return_delivered_amount_fix;
+                                                                if($return_delivered_amount_fix>0)
+                                                                {
+                                                                       $gstreturn_next=$return_delivered_amount_fix*18/100;
+                                                                       $return_delivered_amount=round($return_delivered_amount_fix+$gstreturn_next);
+
+                                                                }
+
+                                                            }
+
+                            $inproduction_total_return=round($inproduction_total_return-$return_delivered_amount-$inproduction_total_return_picked,2);
 
 
                                                                      if($inproduction_total_return<=2)

@@ -3950,65 +3950,65 @@ $formdate=date('Y-m-d');
                                                                          $roundoffstatusval_data="";
                                                                          $getdataminis=0;
  
-                                                                         if($totalval!=0)
-                                                                                 {
+                                                                                 // if($totalval!=0)
+                                                                                 // {
  
  
-                                                                                         if($totalval>0.5)
-                                                                                         {
+                                                                                 //         if($totalval>0.5)
+                                                                                 //         {
                                                                                                  
  
-                                                                                                 $getplusevalue=1-$totalval;
-                                                                                                 $totalamountGST_ROUND=$totalamountGST_ROUND+$getplusevalue;
+                                                                                 //                 $getplusevalue=1-$totalval;
+                                                                                 //                 $totalamountGST_ROUND=$totalamountGST_ROUND+$getplusevalue;
                                                                                                  
-                                                                                                 if($getplusevalue>0)
-                                                                                                 {
-                                                                                                     $roundoffstatusval_data=" (+) ".$getplusevalue;
-                                                                                                     $autoRoundStat = 'plus';
-                                                                                                     $autoRound = $getplusevalue;
-                                                                                                 }
+                                                                                 //                 if($getplusevalue>0)
+                                                                                 //                 {
+                                                                                 //                     $roundoffstatusval_data=" (+) ".$getplusevalue;
+                                                                                 //                     $autoRoundStat = 'plus';
+                                                                                 //                     $autoRound = $getplusevalue;
+                                                                                 //                 }
  
-                                                                                         }
-                                                                                         elseif($totalval == 0.5)
-                                                                                         {
+                                                                                 //         }
+                                                                                 //         elseif($totalval == 0.5)
+                                                                                 //         {
  
  
-                                                                                                 $getplusevalue=$totalval;
-                                                                                                 $totalamountGST_ROUND=$totalamountGST_ROUND+$getplusevalue;
+                                                                                 //                 $getplusevalue=$totalval;
+                                                                                 //                 $totalamountGST_ROUND=$totalamountGST_ROUND+$getplusevalue;
                                                                                                  
-                                                                                                 if($getplusevalue>0)
-                                                                                                 {
-                                                                                                     $roundoffstatusval_data=" (+) ".$getplusevalue;
-                                                                                                     $autoRoundStat = 'plus';
-                                                                                                     $autoRound = $getplusevalue;
-                                                                                                 }
+                                                                                 //                 if($getplusevalue>0)
+                                                                                 //                 {
+                                                                                 //                     $roundoffstatusval_data=" (+) ".$getplusevalue;
+                                                                                 //                     $autoRoundStat = 'plus';
+                                                                                 //                     $autoRound = $getplusevalue;
+                                                                                 //                 }
  
-                                                                                         }
-                                                                                         else
-                                                                                         {
+                                                                                 //         }
+                                                                                 //         else
+                                                                                 //         {
  
-                                                                                                 $totalamountGST_ROUND=round($totalamountGST_ROUND-$totalval);
-                                                                                                 if($totalval>0)
-                                                                                                 {
-                                                                                                     $roundoffstatusval_data=" (-) ".$totalval;
-                                                                                                     $autoRoundStat = 'minus';
-                                                                                                     $autoRound = $totalval;
-                                                                                                 }
+                                                                                 //                 $totalamountGST_ROUND=round($totalamountGST_ROUND-$totalval);
+                                                                                 //                 if($totalval>0)
+                                                                                 //                 {
+                                                                                 //                     $roundoffstatusval_data=" (-) ".$totalval;
+                                                                                 //                     $autoRoundStat = 'minus';
+                                                                                 //                     $autoRound = $totalval;
+                                                                                 //                 }
                                                                                                  
-                                                                                         }
+                                                                                 //         }
  
                                           
-                                                                                 }
+                                                                                 // }
 
 
                                                                                 
                            if($autoRoundStat=='plus')  
                            {
-                                  $totalamountGST_ROUND=$totalamountGST+$autoRound;
+                                  //$totalamountGST_ROUND=$totalamountGST+$autoRound;
                            }
                            else
                            {
-                                 $totalamountGST_ROUND=$totalamountGST-$autoRound;   
+                                 //$totalamountGST_ROUND=$totalamountGST-$autoRound;   
                            }                                                 
 
               if($createDate > '2024-05-31')
@@ -6318,7 +6318,7 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                                     
     
                                             $totalamount+=$purchase_qty_data[$i]*$rate;
-                                            $gstAmount += ($purchase_qty_data[$i]*$rate) * 1.18;
+                                            $gstAmount += round($purchase_qty_data[$i]*$rate * 1.18,2);
     
                                             
                                             $netweight+=$purchase_qty_data[$i];
@@ -6431,11 +6431,11 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                      $tcsamount=0;
                      if($tcs_status==1)
                      {
-                        $tcsamount=round($gstAmount*0.1/100); 
+                        $tcsamount=round($gstAmount*0.1/100,2); 
                      }
 
 
-                                                 $totalamount=round($gstAmount+$tcsamount);
+                                                 $totalamount=$gstAmount+$tcsamount;
 
 
     // exit;
@@ -6453,7 +6453,7 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                                 
     
                                      $st=1;
-                                     $totalamount=round($totalamount,2);
+                                    // $totalamount=round($totalamount,2);
     
     
             $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11',return_amount='".$totalamount."',return_status='1',reason='Driver Full Return',delivery_date_status='0',seq_status='1',return_id='".$insert_id."' WHERE id='".$order_id."'");
@@ -6517,7 +6517,7 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
     
                                 ////////////////// DRIVER PARTIAL RETURN /////////////////
     
-                                    $totalamount=round($totalamount,2);
+                                    //$totalamount=round($totalamount,2);
     $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11',reason='Return Partial',return_amount='".$totalamount."',seq_status='1',delivery_date_status='1',return_id='".$insert_id."' WHERE id='".$order_id."'");
     
     //$this->db->query("UPDATE order_delivery_order_status SET randam_id=NULL,dispatch_load_status='0',dispath_load_status_view='0',dispatch_status='0',assign_status='0',picked_status='0',return_status='1',finance_status='11',delivery_date_status='0',return_amount='".$totalamount."',reason='Driver Return Partial',seq_status='0',return_id='".$insert_id."',collection_remarks='".$totalamount."' WHERE order_id='".$order_id."' AND randam_id='".$randam_id."'");
@@ -6583,7 +6583,7 @@ $this->db->query("UPDATE order_delivery_order_status SET collection_remarks_2='"
                         else
                         {     
     
-                                $totalamount=round($totalamount);
+                                //$totalamount=round($totalamount);
                                 $this->db->query("UPDATE orders_process SET delivery_date_status='1',reason='Return Partial',assign_status='0',finance_status='11',return_amount='".$totalamount."',return_id='".$insert_id."' WHERE id='".$order_id."'");
     
     
@@ -32110,7 +32110,8 @@ $current_packed_balence = ($current_packed_balence > 0) ? $current_packed_balenc
 
            
 
-              $this->db->query("UPDATE order_delivery_order_status SET total_picked_amount='".round($total_show_value)."',collection_remarks_2='".round($total_show_value)."' WHERE order_id='".$_GET['order_id']."'  AND dispatch_status=0 AND deleteid=0 AND finance_status=2");
+$total_show_value=0.2;
+$this->db->query("UPDATE order_delivery_order_status SET total_picked_amount='".$total_show_value."',collection_remarks_2='".$total_show_value."' WHERE order_id='".$_GET['order_id']."'  AND dispatch_status=0 AND deleteid=0 AND finance_status=2 AND total_picked_amount!='0.2' AND collection_remarks_2!='0.2'");
 
           
 
@@ -32330,7 +32331,7 @@ $resultsub_inproduction_all=$this->db->query(
                                                                       order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id
                                                                       JOIN sales_load_products as ss  ON ss.order_product_id=c.purchase_order_product_id
 
-                                                                        WHERE b.deleteid=0 AND ss.order_id='" . $return_id . "' AND  b.order_base=2 AND ss.delivered_products=1 AND ss.return_status=1 GROUP BY b.id   ORDER BY b.id DESC");
+                                                                        WHERE b.deleteid=0 AND b.id='" . $return_id . "' AND  b.order_base=2 AND ss.delivered_products=1 AND ss.return_status=1 GROUP BY b.id   ORDER BY b.id DESC");
 $resultsub_inproduction_all=$resultsub_inproduction_all->result();
 
 $totaldelivery_amount_val_all=0;
@@ -32348,13 +32349,77 @@ if(count($resultsub_inproduction_all)>0)
 
 }
 
+$totaldelivery_amount_val_all=0;
+if($totaldelivery_amount_val_all<=0)
+{
+
+
+                                                                $resultsub_inproduction=$this->db->query(
+                                                                "SELECT 
+                                                                    SUM(c.qty*c.rate) as bill_total,
+                                                                    SUM(c.return_qty_pick*c.rate) as return_picked_amount,
+                                                                     SUM(c.return_qty_pick) as return_picked_qty,
+                                                                     SUM(c.return_delivered_qty) as return_delivered_qty,
+                                                                     SUM(c.return_delivered_qty*c.rate) as return_delivered_amount_fix,
+                                                                     SUM(c.qty) as bill_qty,b.return_delivered_amount as return_delivered_amount
+
+                                                                      FROM  order_sales_return_complaints as b JOIN sales_return_products as c ON b.id=c.c_id  WHERE b.deleteid=0 AND b.id='" . $return_id . "' AND  b.order_base=2  AND b.remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')  ORDER BY b.id DESC");
+
+
+
+                                                                 $resultsub_inproduction=$resultsub_inproduction->result();
+                                                                 $inproduction_total_return=0;
+
+
+                                                                 foreach($resultsub_inproduction as $vals)
+                                                                 { 
+                                                                        
+
+                                                                
+
+                                                            $return_delivered_amount=$vals->return_delivered_amount;
+                                                            $return_amount_val=$vals->bill_total;
+                                                            $gstreturn=$return_amount_val*18/100;
+                                                            $inproduction_total_return=round($return_amount_val+$gstreturn,2);
+                                                            $return_return_picked_amount=$vals->return_picked_amount;
+                                                            $gstreturn_picked=$return_return_picked_amount*18/100;
+                                                            $inproduction_total_return_picked=round($return_return_picked_amount+$gstreturn_picked,2);
+
+                                                            if($return_delivered_amount<=0)
+                                                            {
+                                                                $return_delivered_amount_fix=$vals->return_delivered_amount_fix;
+                                                                if($return_delivered_amount_fix>0)
+                                                                {
+                                                                       $gstreturn_next=$return_delivered_amount_fix*18/100;
+                                                                       $return_delivered_amount=round($return_delivered_amount_fix+$gstreturn_next);
+
+                                                                }
+
+                                                            }
+
+                            $inproduction_total_return_all=round($inproduction_total_return-$return_delivered_amount-$inproduction_total_return_picked,2);
+
+
+                                                                     if($inproduction_total_return_all<=2)
+                                                                     {
+                                                                        $inproduction_total_return_all=0;
+                                                                     }
+                                                                       
+
+
+                                                                
+                                                     
+                                                                 }
 
 
 
 
 
+}
+
+$return_amount_return_to_sale=$inproduction_total_return_all;
 $total_return_pickup=0;
-$resultmainss_ss = $this->db->query("SELECT SUM(b.qty*b.rate) as return_picked_amount  FROM order_product_list_process as a JOIN sales_load_products as b ON a.id=b.order_product_id  WHERE a.order_id='" . $order_id . "' AND a.deleteid=0 AND a.return_status=1 AND a.randam_id IS NULL AND b.randam_id IS NULL AND a.picked_status=1");
+$resultmainss_ss = $this->db->query("SELECT SUM(b.qty*b.rate) as return_picked_amount  FROM order_product_list_process as a JOIN sales_load_products as b ON a.id=b.order_product_id  WHERE a.order_id='" . $order_id . "' AND a.deleteid=0  AND a.randam_id IS NULL AND b.randam_id IS NULL AND a.picked_status=1");
 $resultcss_gg = $resultmainss_ss->result();
 if(count($resultcss_gg)>0)
 {
@@ -32366,7 +32431,7 @@ if(count($resultcss_gg)>0)
                                                                    
                                                             $return_picked_amount=$vlvd->return_picked_amount;
                                                             $gstreturn=$return_picked_amount*18/100;
-                                                            $inproduction_total_return=round($return_picked_amount+$gstreturn);
+                                                            $inproduction_total_return=round($return_picked_amount+$gstreturn,2);
                                                             $total_return_pickup= $inproduction_total_return;
                                                                  
                                               
@@ -32377,16 +32442,17 @@ if(count($resultcss_gg)>0)
 }
 
 
-$return_amount_return_to_sale=round($return_amount_return_to_sale-$total_return_pickup);
-if($totaldelivery_amount_val_all>0)
-{
-     $return_amount_return_to_sale=round($return_amount_return_to_sale-$totaldelivery_amount_val_all);
-}
+$return_amount_return_to_sale=round($return_amount_return_to_sale-$total_return_pickup,2);
 
-if($return_amount_return_to_sale<0)
-{
-      $return_amount_return_to_sale=0;
-}
+// if($totaldelivery_amount_val_all>0)
+// {
+//      $return_amount_return_to_sale=round($return_amount_return_to_sale-$totaldelivery_amount_val_all,2);
+// }
+
+ if($return_amount_return_to_sale<0)
+ {
+       $return_amount_return_to_sale=0;
+ }
 
 }
 
@@ -42760,7 +42826,7 @@ if($value->create_date > '2024-05-31'){
             ds.reason as reason_last,
             ds.randam_id as randam_id,
             ds.sort_id as sort_id_latest,
-            ds.collection_remarks as collection_remarks_final,
+            ds.collection_remarks_2 as collection_remarks_final,
             ds.assign_status as assign_status_latest,
             ds.finance_status as finance_status_latest,
             ds.seq_status as seq_status_latest,
@@ -47248,7 +47314,8 @@ if($unbilledloadamount>0)
                             if($valuedis->tcs_status == '1') {
                                 $return_amount_tcs = $return_amount_total*0.001;
                             }
-                            $return_amount=round($return_amount_total+$return_amount_tcs);
+                            $return_amount=round($return_amount_total+$return_amount_tcs,2);
+
                     }
                     
                 
@@ -47352,7 +47419,7 @@ if($unbilledloadamount>0)
             
             
             
-            $array = array('order_no_id' => $order_no,'sort_id' => $sort_id,'trip_id' => $trip_id, 'last_trip_sort_id' => $last_trip_sort_id,'loadtotalamount' => round($loadtotalamount),'return_amount' => round($return_amount),'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'start_reading' => $start_reading, 'paricel_mode' => $paricel_mode, 'delivery_mode' => $delivery_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff, 'fulltotal' => round($discountfulltotal), 'discountfulltotal' => round($bill_total), 'totalitems' => count($result), 'discount' => round($discount), 'gsttotal' => round($amounttotalgst,2), 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2),'is_collection_remarks'=>$is_collection_remarks);
+            $array = array('order_no_id' => $order_no,'sort_id' => $sort_id,'trip_id' => $trip_id, 'last_trip_sort_id' => $last_trip_sort_id,'loadtotalamount' => round($loadtotalamount),'return_amount' => round($return_amount,2),'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'start_reading' => $start_reading, 'paricel_mode' => $paricel_mode, 'delivery_mode' => $delivery_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff, 'fulltotal' => round($discountfulltotal), 'discountfulltotal' => round($bill_total), 'totalitems' => count($result), 'discount' => round($discount), 'gsttotal' => round($amounttotalgst,2), 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2),'is_collection_remarks'=>$is_collection_remarks);
             echo json_encode($array);
         }
         
@@ -56278,9 +56345,6 @@ $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
 
         for ($i = 0;$i < count($orderid_data);$i++)
         {
-
-
-
 
 
 
