@@ -700,20 +700,33 @@ $this->db->query("UPDATE  order_delivery_order_status SET customer_id='".$value-
 
           $whereNew="";
 
-         if($search == "")
-         {
-
-
-                 if($viewstatus==0)
-                 {
-                     $whereNew .= " AND ps.uom='Kg'";
-                 }
-                 else
-                 {
-                     $whereNew .= " AND ps.uom!='Kg'";
-                 }
-
-         }
+          if($search == "")
+          {
+ 
+ 
+             if ($viewstatus == 0) {
+                 // If viewstatus is 0, include rows where uom is 'Kg' or billing_options is 2
+                 $whereNew .= " AND (ps.uom='Kg' OR pp.billing_options=2)";
+             } else {
+                 // If viewstatus is not 0, exclude orders where uom is 'Kg' or any row has billing_options = 2
+                 $whereNew .= " AND ps.uom != 'Kg' 
+                                AND a.order_no NOT IN (
+                                    SELECT 
+                                        a_sub.order_no
+                                    FROM 
+                                        orders_process AS a_sub
+                                    LEFT JOIN 
+                                        order_product_list_process AS pp_sub ON pp_sub.order_id = a_sub.id
+                                    LEFT JOIN 
+                                        product_list AS ps_sub ON ps_sub.id = pp_sub.product_id
+                                    WHERE 
+                                        ps_sub.uom = 'Kg' OR pp_sub.billing_options = 2
+                                )";
+             }
+             
+             
+ 
+          }
 
          
 
