@@ -13347,7 +13347,7 @@ $result = $result->result();
      
                                                 if($value->picked_status==0)
                                                 {
-                                                    $value->reason='Partial Pick Pending';
+                                                    //$value->reason='Partial Pick Pending';
                                                 }
                                                
                                                 if($type==9)
@@ -13970,7 +13970,7 @@ $result = $result->result();
      
                                                 if($value->picked_status==0)
                                                 {
-                                                    $value->reason='Partial Pick Pending';
+                                                    //$value->reason='Partial Pick Pending';
                                                 }
                                                
                                                 if($type==9)
