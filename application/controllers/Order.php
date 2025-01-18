@@ -17563,7 +17563,10 @@ if($end_reading<=6)
             WHERE  trip_id='".$trip_id."' AND dispatch_status=1 AND deleteid=0");
 
 
-
+  $this->db->query("UPDATE sales_load_products SET trip_started_status='1' WHERE  randam_id='".$randam_id."' AND dispatch_load=1");
+            
+             
+            
 
 
             $id = $form_data->id;

@@ -13397,6 +13397,7 @@ $result = $result->result();
 
 
      $base_check=0;
+    
      $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
      $vvs=$vvs->result();
 
@@ -13418,6 +13419,7 @@ $result = $result->result();
                                   
 
                                   $loadstatus=$ssvs->loadstatus;
+                                  $dispatch_load=$ssvs->dispatch_load;
                                   if($loadstatus==1)
                                   {
                                            
@@ -13426,6 +13428,8 @@ $result = $result->result();
 
                                   }
 
+
+                                 
 
 
 
@@ -13483,7 +13487,32 @@ $result = $result->result();
         }   
 
 
+                          $dis_qty=0;
+                          $dis_nos=0;
+                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='3' AND randam_id IS NOT NULL ");
+                          $vvs=$vvs->result();
+                          foreach ($vvs as  $ssvsss)
+                          {
 
+
+
+                                          $loadstatus=$ssvsss->loadstatus;
+                                          $dispatch_load=$ssvsss->dispatch_load;
+                                          $driver_confirmation=$ssvsss->driver_confirmation;
+                                          $trip_started_status=$ssvsss->trip_started_status;
+                                          $delivered_products=$ssvsss->delivered_products;
+                                     
+
+                                          if($loadstatus==1 && $dispatch_load==1 && $driver_confirmation==1 && $trip_started_status==1)
+                                          {
+                                                   
+                                            $dis_qty+=$ssvsss->qty;
+                                            $dis_nos+=$ssvsss->nos;
+
+                                          }
+
+
+                         }
 
 
 
@@ -13501,8 +13530,11 @@ $result = $result->result();
                                                 {
 
                                                 
-                                                $pending_qty=round($bill_qty-$value->qty,3);
-                                                $pending_nos=$bill_nos-$value->nos;
+                                                $pending_qty=round($bill_qty-$value->qty-$dis_qty,3);
+                                                $pending_nos=$bill_nos-$value->nos-$dis_nos;
+
+                                                
+
                                                 $array[] = array(
                                                     
                                                     
@@ -13919,9 +13951,9 @@ $result = $result->result();
                        
                        
                                                  
-                                   
- $reasonfirst=$value->reason;
-  $bill_nos=$value->nos;
+     $reasonfirst=$value->reason;
+
+                   $bill_nos=$value->nos;
                    $bill_qty=$value->qty;
                        
                        
@@ -14103,6 +14135,7 @@ $result = $result->result();
 
 
      $base_check=0;
+    
      $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE randam_id='".$value->randam_id."' AND  order_product_id='".$value->order_product_id."'");
      $vvs=$vvs->result();
 
@@ -14124,6 +14157,7 @@ $result = $result->result();
                                   
 
                                   $loadstatus=$ssvs->loadstatus;
+                                  $dispatch_load=$ssvs->dispatch_load;
                                   if($loadstatus==1)
                                   {
                                            
@@ -14132,6 +14166,8 @@ $result = $result->result();
 
                                   }
 
+
+                                 
 
 
 
@@ -14189,8 +14225,32 @@ $result = $result->result();
         }   
 
 
+                          $dis_qty=0;
+                          $dis_nos=0;
+                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='3' AND randam_id IS NOT NULL ");
+                          $vvs=$vvs->result();
+                          foreach ($vvs as  $ssvsss)
+                          {
 
 
+
+                                          $loadstatus=$ssvsss->loadstatus;
+                                          $dispatch_load=$ssvsss->dispatch_load;
+                                          $driver_confirmation=$ssvsss->driver_confirmation;
+                                          $trip_started_status=$ssvsss->trip_started_status;
+                                          $delivered_products=$ssvsss->delivered_products;
+                                     
+
+                                          if($loadstatus==1 && $dispatch_load==1 && $driver_confirmation==1 && $trip_started_status==1)
+                                          {
+                                                   
+                                            $dis_qty+=$ssvsss->qty;
+                                            $dis_nos+=$ssvsss->nos;
+
+                                          }
+
+
+                         }
 
 
 
@@ -14208,8 +14268,10 @@ $result = $result->result();
                                                 if($value->total>0)
                                                 {
 
-                                                 $pending_qty=round($bill_qty-$value->qty,3);
-                                                 $pending_nos=$bill_nos-$value->nos;
+                                                 $pending_qty=round($bill_qty-$value->qty-$dis_qty,3);
+                                                $pending_nos=$bill_nos-$value->nos-$dis_nos;
+
+                                                
                                                
                                                 $array[] = array(
                                                     
