@@ -2465,7 +2465,7 @@ $i++;
                      
                     $form_data = json_decode(file_get_contents("php://input"));
                     $catid = $form_data->cat_id;
-                        if($catid == '626' || $catid == '628' || $catid == '627'){
+                        if($catid == '626' || $catid == '628' || $catid == '627' || $catid == '611'){
                             $searchbase = '34';
                         }else{
                             $searchbase = array(3,36,34);
