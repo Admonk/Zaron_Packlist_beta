@@ -13929,11 +13929,9 @@ $result = $result->result();
                     
                
                 $resultccreturn=$this->db->query("SELECT sheet_in_factory_report_data(
-<<<<<<< HEAD
-b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2 GROUP BY a.id  ORDER BY a.id DESC");
-=======
+
 b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2 GROUP BY a.id ORDER BY a.id DESC");
->>>>>>> dev-gokul
+
                 $resultccreturn=$resultccreturn->result();       
 
 
