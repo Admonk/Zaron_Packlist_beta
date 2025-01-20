@@ -147,7 +147,7 @@ table#datatable {
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
                           <th>BILL QTY</th>
-
+           
                           <th>PARTIAL PICK PENDING QTY</th>
                           <th>QTY</th>
                           <th>TOTAL AMOUNT</th>
