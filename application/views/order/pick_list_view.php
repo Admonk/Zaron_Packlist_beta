@@ -4682,6 +4682,8 @@ var return_id=$('#return_id').val();
                     if (status == 0) 
                     {
 
+
+
                         $http({
                             method: "POST",
                             url: "<?php echo base_url() ?>index.php/order/insertandupdate",
@@ -4701,7 +4703,7 @@ var return_id=$('#return_id').val();
                            }).success(function (data) {});
 
                             
-
+                           
                            
 
 
@@ -6591,12 +6593,22 @@ $scope.fetchSingleDatatotaldel = function(){
                     else {
                         $scope.loadtotalamount = 0;
                     }
+
+
+                    if($scope.loadtotalamount==0)
+                    {
+                         $scope.fetchSingleDatatotaldelcheck_data($scope.loadtotalamount);
+                    }
+
+
                     // gg changes
-                    if (data.picked_amount > 0) {
+                    if (data.picked_amount > 0) 
+                    {
                         $scope.unbilledloadamount = data.picked_amount + data.picked_amount_alreay_packed;
                         var setpickedamount = data.picked_amount + data.picked_amount_alreay_packed;
                     }
-                    else {
+                    else 
+                    {
                         $scope.unbilledloadamount = data.picked_amount_alreay_packed;
                         var setpickedamount = data.picked_amount_alreay_packed;
                     }
@@ -6720,6 +6732,49 @@ $scope.fetchSingleDatatotaldel = function(){
                     $scope.bill_roundoff_show = data.bill_roundoff_show;
                 });
             };
+
+
+
+
+
+
+
+
+
+
+
+
+
+              
+
+
+
+
+              $scope.fetchSingleDatatotaldelcheck_data = function (amount) {
+                // For one rupee issue
+                var sum_bill_nos=$('#sum_bill_nos').val();
+
+                $http({
+                    method: "POST",
+                    url: "<?php echo base_url() ?>index.php/order_check/fetch_single_data_totaldel_pickup_test_val?order_id=<?php echo $id; ?>&sum_total_nos="+sum_bill_nos+'&DC_id=<?php echo $_GET['DC_id'] ?>&convertion=<?php echo $_GET['convertion']; ?>',
+                    data: { 'action': 'fetch_single_data', 'tablenamemain': 'orders_process', 'DC_id': '<?php echo $DC_id_data; ?>', 'driver_pickip': '<?php echo $driver_pickip; ?>', 'tablename_sub': 'order_product_list_process','amount': amount, 'convert': '1','convertion':'<?php echo $convertion; ?>' }
+                }).success(function (data) {
+
+
+                  
+                });
+            };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
