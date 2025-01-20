@@ -451,7 +451,7 @@ $scope.fetchDatagetlegderGroup = function(){
       var cateid= $('#order_no').val();
       var productid= 0;
       var order_status= 0;
-      
+      $scope.totalcount= 0;
       $http.get('<?php echo base_url() ?>index.php/report/<?=$url?>?limit=10&cate_id='+cateid+'&productid='+productid+'&formdate='+fromdate+'&todate='+fromto+'&order_status='+order_status).success(function(data){
     
     
@@ -460,7 +460,7 @@ $scope.fetchDatagetlegderGroup = function(){
     
       $scope.namesDataledgergroup = data;
       
-       $scope.totalcount= data[0].count;
+      $scope.totalcount= data[0].count;
       
 
         
