@@ -13975,7 +13975,7 @@ if($return_no_pick<=0)
                 WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY a.id HAVING total_val > 0  ORDER BY b.order_id DESC, b.id ASC");
                 $resultcc=$resultcc->result(); 
    
-   
+      
               
                 $result=$this->db->query("SELECT ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 

@@ -458,7 +458,7 @@ $scope.fetchDatagetlegderGroup = function(){
       $scope.query = {}
       $scope.queryBy = '$';
     
-      $scope.namesDataledgergroup = data;
+      $scope.namesDataledgergroup = data;  
       
       $scope.totalcount= data[0].count;
       
