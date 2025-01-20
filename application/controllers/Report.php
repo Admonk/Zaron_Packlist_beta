@@ -13529,7 +13529,7 @@ $result = $result->result();
                                                    $roundAmount =  round($value->total);
                                                 }
 
-                                                if($value->total>0)
+                                                if($roundAmount>0)
                                                 {
 
                                                 
@@ -14268,7 +14268,7 @@ $result = $result->result();
                                                    $roundAmount =  round($value->total);
                                                 }
 
-                                                if($value->total>0)
+                                                if($roundAmount>0)
                                                 {
 
                                                 
@@ -14578,11 +14578,11 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                           <th>CRIMP</th>
                           <th>BILL NOS</th>
                           
-                          <th>PACKED NOS</th>
+                          <th>PARTIAL PICK PENDING NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
                           <th>BILL QTY</th>
-                          <th>PENDING QTY</th>
+                          <th>PARTIAL PICK PENDING QTY</th>
                           <th>QTY</th> 
                           <th>TOTAL AMOUNT</th> 
                           <th>AMOUNT W/O GST</th>
