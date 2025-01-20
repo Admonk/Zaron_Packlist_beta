@@ -9797,7 +9797,11 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                         if($form_data->optionid==3)
                                         {
                                               $this->db->query("UPDATE orders_process SET finance_status=10,assign_status=0,return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_no."'");
-                                              $this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_no."' AND deleteid=0");
+
+                                             
+                                             //$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_no."' AND deleteid=0");
+
+
                                         }
                                         else
                                         {
