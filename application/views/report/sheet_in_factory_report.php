@@ -142,12 +142,20 @@ table#datatable {
                           <th>LENGTH</th>
                           <th>CRIMP</th>
                           <th>BILL NOS</th>
+<<<<<<< HEAD
                                        
+=======
+                          
+>>>>>>> 07967d3e0aa47f0f56199c229fa9b8b3bc254138
                           <th>PARTIAL PICK PENDING NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
                           <th>BILL QTY</th>
+<<<<<<< HEAD
                                     
+=======
+                          
+>>>>>>> 07967d3e0aa47f0f56199c229fa9b8b3bc254138
                           <th>PARTIAL PICK PENDING QTY</th>
                           <th>QTY</th>
                           <th>TOTAL AMOUNT</th>
