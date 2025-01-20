@@ -148,7 +148,7 @@ table#datatable {
                           <!--<th>RN MTR</th>-->
                           <!-- <th>BILL QTY</th> -->
            
-                          <th>PARTIAL PICK PENDING QTY</th>
+                          <!-- <th>PARTIAL PICK PENDING QTY</th> -->
                           <th>QTY</th>
                           <th>TOTAL AMOUNT</th>
                           <th>AMOUNT W/O GST</th>
@@ -190,13 +190,13 @@ table#datatable {
                                 </td>
                                  <td>{{names.nos}}</td>
                                  <!--<td>{{names.Sqr_feet_to_Meter}}</td>-->
-                                 <!-- <td>{{names.bill_qty}}</td> -->
+                                 <!-- <td>{{names.bill_qty}}</td> 
 
                                  <td>
                                     <span ng-if="names.pending_qty>0.1" style="color:red;">{{names.pending_qty}}</span>
                                 
 
-                                </td>
+                                </td>-->
                                   
                                  
                                   <td>{{names.qty}}</td>
