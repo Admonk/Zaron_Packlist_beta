@@ -13929,10 +13929,18 @@ $result = $result->result();
                      
                     
                
-                $resultccreturn=$this->db->query("SELECT a.id  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status=0 AND a.driver_return IN ('0','1','2') $stat2  GROUP BY b.c_id  ORDER BY a.id DESC");
+                $resultccreturn=$this->db->query("SELECT sheet_in_factory_report_data(
+b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2 GROUP BY a.id ORDER BY a.id DESC");
                 $resultccreturn=$resultccreturn->result();       
                    
-                $resultcc=$this->db->query("SELECT a.id  FROM orders_process as a JOIN order_product_list_process as b ON a.id=b.order_id  WHERE   a.deleteid=0 AND a.order_base='1'  AND a.finance_status NOT IN ('10','4','5','6','14') AND a.return_status=0 $stat $userslog  GROUP BY b.order_id  ORDER BY a.id DESC");
+                $resultcc=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
+
+
+                          order_delivery_order_status as ds JOIN
+                          order_product_list_process as b ON b.order_id=ds.order_id JOIN
+                          orders_process as a ON a.id=ds.order_id 
+
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY a.id HAVING total_val > 0  ORDER BY a.id DESC");
                 $resultcc=$resultcc->result(); 
    
               
