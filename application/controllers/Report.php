@@ -13537,7 +13537,7 @@ $result = $result->result();
                                                 $pending_nos=$bill_nos-$value->nos-$dis_nos;
 
                                                 
-
+          
                                                 $array[] = array(
                                                     
                                                     
