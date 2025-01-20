@@ -13517,7 +13517,6 @@ $result = $result->result();
 
 
 
-                     
 
                                                  
                                                 if($value->create_date > '2024-05-31')
@@ -13537,7 +13536,7 @@ $result = $result->result();
                                                 $pending_nos=$bill_nos-$value->nos-$dis_nos;
 
                                                 
-
+          
                                                 $array[] = array(
                                                     
                                                     
