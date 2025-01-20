@@ -141,12 +141,12 @@ table#datatable {
                           <th>THK</th>
                           <th>LENGTH</th>
                           <th>CRIMP</th>
-                          <th>BILL NOS</th>
+                          <!-- <th>BILL NOS</th> -->
 
                           <th>PARTIAL PICK PENDING NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
-                          <th>BILL QTY</th>
+                          <!-- <th>BILL QTY</th> -->
            
                           <th>PARTIAL PICK PENDING QTY</th>
                           <th>QTY</th>
@@ -181,7 +181,7 @@ table#datatable {
                           
                               <td>{{names.profile}}</td>
                                <td>{{names.crimp}}</td>
-                               <td>{{names.bill_nos}}</td>
+                               <!-- <td>{{names.bill_nos}}</td> -->
                                
                                 <td>
                                     <span ng-if="names.pending_nos>0" style="color:red;">{{names.pending_nos}}</span>
@@ -190,7 +190,7 @@ table#datatable {
                                 </td>
                                  <td>{{names.nos}}</td>
                                  <!--<td>{{names.Sqr_feet_to_Meter}}</td>-->
-                                 <td>{{names.bill_qty}}</td>
+                                 <!-- <td>{{names.bill_qty}}</td> -->
 
                                  <td>
                                     <span ng-if="names.pending_qty>0.1" style="color:red;">{{names.pending_qty}}</span>
