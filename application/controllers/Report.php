@@ -13520,9 +13520,12 @@ $result = $result->result();
 
 
                                                  
-                                                 if($value->create_date > '2024-05-31'){
+                                                if($value->create_date > '2024-05-31')
+                                                {
                                                     $roundAmount = round($value->total * 1.18);
-                                                }else{
+                                                }
+                                                else
+                                                {
                                                    $roundAmount =  round($value->total);
                                                 }
 
@@ -13949,9 +13952,7 @@ $result = $result->result();
                       
                 foreach ($result as  $value) {
                        
-                       
-                                                 
-     $reasonfirst=$value->reason;
+              $reasonfirst=$value->reason;
 
                    $bill_nos=$value->nos;
                    $bill_qty=$value->qty;
@@ -14227,7 +14228,7 @@ $result = $result->result();
 
                           $dis_qty=0;
                           $dis_nos=0;
-                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='3' AND randam_id IS NOT NULL ");
+                          $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NOT NULL ");
                           $vvs=$vvs->result();
                           foreach ($vvs as  $ssvsss)
                           {
@@ -14256,23 +14257,24 @@ $result = $result->result();
 
 
 
+
                                                  
-                                                 if($value->create_date > '2024-05-31'){
+                                                if($value->create_date > '2024-05-31')
+                                                {
                                                     $roundAmount = round($value->total * 1.18);
-                                                }else{
+                                                }
+                                                else
+                                                {
                                                    $roundAmount =  round($value->total);
                                                 }
-
-                            
 
                                                 if($value->total>0)
                                                 {
 
-                                                 $pending_qty=round($bill_qty-$value->qty-$dis_qty,3);
-                                                $pending_nos=$bill_nos-$value->nos-$dis_nos;
-
                                                 
-                                               
+                                                $pending_qty=round($bill_qty-$value->qty-$dis_qty,3);
+                                                $pending_nos=$bill_nos-$value->nos-$dis_nos;
+                                 
                                                 $array[] = array(
                                                     
                                                     
@@ -14576,7 +14578,7 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                           <th>CRIMP</th>
                           <th>BILL NOS</th>
                           
-                          <th>PENDING NOS</th>
+                          <th>PACKED NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
                           <th>BILL QTY</th>

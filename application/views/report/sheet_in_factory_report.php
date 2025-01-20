@@ -143,7 +143,7 @@ table#datatable {
                           <th>CRIMP</th>
                           <th>BILL NOS</th>
                           
-                          <th>PENDING NOS</th>
+                          <th>PACKED NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
                           <th>BILL QTY</th>
