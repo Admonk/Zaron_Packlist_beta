@@ -260,11 +260,20 @@ table.table.align-middle.table-nowrap.newBorderedTable {
                                                                          <td>
 
 
+<span ng-if="name.collection_remarks>1">
 
-                                <input type="number" name="advance"  class="form-control" id="ad_{{name.id}}" data-mode="{{name.payment_mode}}" ng-blur="inputsave_1(name.id,$event)" ng-disabled="name.disabled =='disabled'"  value="{{name.collection_remarks}}">
-                                                                           
+ <input type="number" name="advance"  class="form-control" id="ad_{{name.id}}" data-mode="{{name.payment_mode}}" ng-blur="inputsave_1(name.id,$event)" ng-disabled="name.disabled =='disabled'"  value="{{name.collection_remarks}}">
+                                 
+    
+</span>
+                                                                         
 
+<span ng-if="name.collection_remarks<1">
 
+ <input type="number"   class="form-control"  disabled  value="{{ name.collection_remarks | number:2 }}">
+                                 
+    
+</span>
 
                                                                          </td>
                                                                                
