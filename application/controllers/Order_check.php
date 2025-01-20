@@ -37,6 +37,49 @@ class Order_check extends CI_Controller
 
 
 
+public function fetch_single_data_totaldel_pickup_test_val() 
+{
+
+   
+
+    
+    
+       $form_data = json_decode(file_get_contents("php://input"));
+       $tablenamemain = 'orders_process';
+       $tablename = 'order_product_list_process';
+       $convert = $form_data->convert;
+       $get_convertion = $form_data->convertion;
+       $DC_id = $form_data->DC_id;
+       $total_show_value = $form_data->amount;
+      
+         
+       if($total_show_value==0)
+       {
+
+
+                                $poin_to_member = $this->db->query("SELECT * FROM order_delivery_order_status  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0");
+                                $poin_to_member = $poin_to_member->result();
+                                if(count($poin_to_member)==1)
+                                {
+
+                                                    //$total_show_value=0.2;
+                                                    $this->db->query("UPDATE order_delivery_order_status SET total_picked_amount='".$total_show_value."',collection_remarks_2='".$total_show_value."' WHERE order_id='".$_GET['order_id']."'  AND dispatch_status=0 AND deleteid=0 AND finance_status=2");
+
+
+                                }
+           
+
+
+       }
+
+
+
+
+
+
+       
+   }
+
 
 
     public function fetch_product_get_vendor_order_no() 
