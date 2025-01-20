@@ -13091,7 +13091,7 @@ $result = $result->result();
                      }
                      else
                      {
-                         $stat.=" AND a.create_date BETWEEN '".$formdate."' AND '".$todate."' ";
+                         $statds.=" AND a.create_date BETWEEN '".$formdate."' AND '".$todate."' ";
                          $stat2.=" AND a.invoice_date BETWEEN '".$formdate."' AND '".$todate."' ";
                      }
                                           
@@ -13184,19 +13184,23 @@ $result = $result->result();
                      
                     
                
-                $resultccreturn=$this->db->query("SELECT a.id  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status=0  AND a.driver_return IN ('0','1','2') $stat2  GROUP BY b.c_id  ORDER BY a.id DESC");
+                $resultccreturn=$this->db->query("SELECT b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1') $stat2  GROUP BY a.id ORDER BY a.id DESC");
                 $resultccreturn=$resultccreturn->result();       
                    
-                $resultcc=$this->db->query("SELECT a.id  FROM orders_process as a JOIN order_product_list_process as b ON a.id=b.order_id  WHERE   a.deleteid=0 AND a.order_base='1'   AND a.finance_status NOT IN ('10','4','5','6','14') AND a.return_status=0 $stat $userslog  GROUP BY b.order_id  ORDER BY a.id DESC");
+                $resultcc=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
+
+
+                          order_delivery_order_status as ds JOIN
+                          order_product_list_process as b ON b.order_id=ds.order_id JOIN
+                          orders_process as a ON a.id=ds.order_id 
+
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY a.id HAVING total_val > 0  ORDER BY b.order_id DESC, b.id ASC");
                 $resultcc=$resultcc->result(); 
    
 
 
 
-
-
-
-                $result=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
+                $result=$this->db->query("SELECT ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
                           order_delivery_order_status as ds JOIN
@@ -13318,7 +13322,17 @@ $result = $result->result();
                                                if($value->assign_status==0)
                                                {
 
-                                                    $status='In Production';
+
+                                                        if($value->return_id>0)
+                                                        {
+                                                             $status='In Production Return';
+                                                        }
+                                                        else
+                                                        {
+                                                             $status='In Production';
+                                                        }
+                                                   
+
                                                     if($value->picked_status==0)
                                                     {
                                                         $value->reason='Pick Pending';
@@ -13594,7 +13608,7 @@ $result = $result->result();
 
 
    
-                $resultreturn=$this->db->query("SELECT b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
+                $resultreturn=$this->db->query("SELECT b.edit_nos,b.qty as returnqty,b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1') $stat2  ORDER BY a.id DESC");
                 $resultreturn=$resultreturn->result();
 
 
@@ -13608,6 +13622,9 @@ $result = $result->result();
 
                                $return_no_pick=$value->return_no_pick;
                                $return_qty_pick=$value->return_qty_pick;
+
+                               $bill_nos=$value->edit_nos;
+                               $bill_qty=$value->returnqty;
 
 
                                //if($return_qty_pick!=$value->org_qty)
@@ -13749,6 +13766,19 @@ $result = $result->result();
                                                         $value->reason='Return Picked';
                                                      }
                                                  }
+
+
+$pending_nos=$bill_nos-$return_no_pick;
+$pending_qty=$bill_qty-$return_qty_pick;
+
+if($return_no_pick<=0)
+{
+    $return_no_pick=$value->edit_nos;
+    $pending_nos=0;
+    $return_qty_pick=$value->qty;
+   
+}
+
                                                
                                                 $arrayreturn[] = array(
                                                     
@@ -13757,6 +13787,10 @@ $result = $result->result();
                                                     'id' => $value->id, 
                                                     'order_id' => $value->order_id,
                                                     'month' => strtoupper($value->month), 
+                                                    'bill_nos' => $bill_nos,
+                                                    'bill_qty' => $bill_qty,
+                                                    'pending_nos' => $pending_nos,
+                                                    'pending_qty' => $pending_qty,
                                                     'order_no' => $value->old_order_no, 
                                                     'product_name' => $product_name,
                                                     'company_name' => $company_name,                            
@@ -13766,14 +13800,14 @@ $result = $result->result();
                                                     'sales_group' => $sales_group,
                                                      'status' => $status,
                                                     'rate' => $value->rate,
-                                                    'price' =>  round($value->rate * $value->qty,2),
+                                                    'price' =>  round($value->rate * $return_qty_pick,2),
                                                     'profile' => $value->profile,
                                                     'brand' => $brand,
                                                     'colors' => $colors,
                                                     'thickness'=>$thickness,
                                                     'crimp' => $value->crimp,
                                                     'remarks' => $value->reason,
-                                                    'nos' =>  $value->nos,
+                                                    'nos' =>  $return_no_pick,
                                                     'Sqr_feet_to_Meter' => $value->Sqr_feet_to_Meter,
                                                     'qty' =>  $value->qty,
                                                     'create_date' =>date('d-m-Y',strtotime($value->update_date)),
@@ -13832,7 +13866,7 @@ $result = $result->result();
                      }
                      else
                      {
-                         $stat.=" AND a.create_date BETWEEN '".$formdate."' AND '".$todate."' ";
+                         $statds.=" AND a.create_date BETWEEN '".$formdate."' AND '".$todate."' ";
                          $stat2.=" AND a.invoice_date BETWEEN '".$formdate."' AND '".$todate."' ";
                      }
                                           
@@ -13928,14 +13962,15 @@ $result = $result->result();
                       
                     
                
+<<<<<<< HEAD
                 $resultccreturn=$this->db->query("SELECT sheet_in_factory_report_data(
 
 b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2 GROUP BY a.id ORDER BY a.id DESC");
 
+=======
+                   $resultccreturn=$this->db->query("SELECT b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1') $stat2  GROUP BY a.id ORDER BY a.id DESC");
+>>>>>>> dev-gokul
                 $resultccreturn=$resultccreturn->result();       
-
-
-                
                    
                 $resultcc=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
@@ -13944,11 +13979,12 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                           order_product_list_process as b ON b.order_id=ds.order_id JOIN
                           orders_process as a ON a.id=ds.order_id 
 
-                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY a.id HAVING total_val > 0  ORDER BY a.id DESC");
+                WHERE   b.deleteid=0 AND a.deleteid=0  AND a.order_base>0 AND  ds.finance_status NOT IN ('10','4','5','6','14','11')  $statds $userslog GROUP BY a.id HAVING total_val > 0  ORDER BY b.order_id DESC, b.id ASC");
                 $resultcc=$resultcc->result(); 
    
+   
               
-                $result=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
+                $result=$this->db->query("SELECT ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
                           order_delivery_order_status as ds JOIN
@@ -14069,7 +14105,14 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                                                if($value->assign_status==0)
                                                {
 
-                                                    $status='In Production';
+                                                        if($value->return_id>0)
+                                                        {
+                                                             $status='In Production Return';
+                                                        }
+                                                        else
+                                                        {
+                                                             $status='In Production';
+                                                        }
                                                     if($value->picked_status==0)
                                                     {
                                                         $value->reason='Pick Pending';
@@ -14344,8 +14387,8 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
 
 
    
-             $resultreturn=$this->db->query("SELECT sheet_in_factory_report_data(
-b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1','2') $stat2  ORDER BY a.id DESC");
+            
+                $resultreturn=$this->db->query("SELECT b.edit_nos,b.qty as returnqty,b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1') $stat2  ORDER BY a.id DESC");
                 $resultreturn=$resultreturn->result();
 
 
@@ -14360,11 +14403,13 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                                $return_no_pick=$value->return_no_pick;
                                $return_qty_pick=$value->return_qty_pick;
 
+                               $bill_nos=$value->edit_nos;
+                               $bill_qty=$value->returnqty;
+
 
                                //if($return_qty_pick!=$value->org_qty)
                                //{
-
-                               
+                                         
 
                                          if($value->return_delivered_qty>0)
                                          {
@@ -14379,7 +14424,9 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                                              $value->qty=round($value->qty-$return_qty_pick,3);
 
                                          }
+                               
 
+                                        
 
                                                  $poin_to_member = $this->Main_model->where_names('customers','id',$value->customer_id);
                                                  foreach ($poin_to_member as $point)
@@ -14498,8 +14545,20 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                                                      {
                                                         $value->reason='Return Picked';
                                                      }
-                                                     
                                                  }
+
+
+$pending_nos=$bill_nos-$return_no_pick;
+$pending_qty=$bill_qty-$return_qty_pick;
+
+if($return_no_pick<=0)
+{
+    $return_no_pick=$value->edit_nos;
+    $pending_nos=0;
+    $return_qty_pick=$value->qty;
+   
+}
+
                                                
                                                 $arrayreturn[] = array(
                                                     
@@ -14508,6 +14567,10 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                                                     'id' => $value->id, 
                                                     'order_id' => $value->order_id,
                                                     'month' => strtoupper($value->month), 
+                                                    'bill_nos' => $bill_nos,
+                                                    'bill_qty' => $bill_qty,
+                                                    'pending_nos' => $pending_nos,
+                                                    'pending_qty' => $pending_qty,
                                                     'order_no' => $value->old_order_no, 
                                                     'product_name' => $product_name,
                                                     'company_name' => $company_name,                            
@@ -14517,14 +14580,14 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
                                                     'sales_group' => $sales_group,
                                                      'status' => $status,
                                                     'rate' => $value->rate,
-                                                    'price' =>  round($value->rate * $value->qty,2),
+                                                    'price' =>  round($value->rate * $return_qty_pick,2),
                                                     'profile' => $value->profile,
                                                     'brand' => $brand,
                                                     'colors' => $colors,
                                                     'thickness'=>$thickness,
                                                     'crimp' => $value->crimp,
                                                     'remarks' => $value->reason,
-                                                    'nos' =>  $value->nos,
+                                                    'nos' =>  $return_no_pick,
                                                     'Sqr_feet_to_Meter' => $value->Sqr_feet_to_Meter,
                                                     'qty' =>  $value->qty,
                                                     'create_date' =>date('d-m-Y',strtotime($value->update_date)),
@@ -14539,7 +14602,7 @@ b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase
 
 
                         $k++;
-
+             
                         //}
 
                      }
