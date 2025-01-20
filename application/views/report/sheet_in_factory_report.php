@@ -159,7 +159,7 @@ table#datatable {
                           <th>STATUS</th>
                           <th>REMARKS</th>
                         
-                                       
+                                        
                         </tr>
                       </thead>
                         <tbody  ng-repeat="names in namesDataledgergroup | filter:query" >
