@@ -142,24 +142,24 @@ table#datatable {
                           <th>LENGTH</th>
                           <th>CRIMP</th>
                           <th>BILL NOS</th>
-                          
-                          <th>PENDING NOS</th>
+                                       
+                          <th>PARTIAL PICK PENDING NOS</th>
                           <th>NOS</th>
                           <!--<th>RN MTR</th>-->
                           <th>BILL QTY</th>
-                          
-                          <th>PENDING QTY</th>
+                                    
+                          <th>PARTIAL PICK PENDING QTY</th>
                           <th>QTY</th>
                           <th>TOTAL AMOUNT</th>
                           <th>AMOUNT W/O GST</th>
                           <th>UOM</th>
                           <th>SALES PERSON</th>
                           <th>GROUP</th>
-                         
+                                      
                           <th>STATUS</th>
                           <th>REMARKS</th>
                         
-                                    
+                                       
                         </tr>
                       </thead>
                         <tbody  ng-repeat="names in namesDataledgergroup | filter:query" >
@@ -193,7 +193,7 @@ table#datatable {
                                  <td>{{names.bill_qty}}</td>
 
                                  <td>
-                                    <span ng-if="names.pending_qty>0" style="color:red;">{{names.pending_qty}}</span>
+                                    <span ng-if="names.pending_qty>0.1" style="color:red;">{{names.pending_qty}}</span>
                                 
 
                                 </td>
