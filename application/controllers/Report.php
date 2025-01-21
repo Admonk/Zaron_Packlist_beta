@@ -13200,7 +13200,7 @@ $result = $result->result();
 
 
 
-                $result=$this->db->query("SELECT ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
+                $result=$this->db->query("SELECT b.return_status,ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
                           order_delivery_order_status as ds JOIN
@@ -13325,7 +13325,15 @@ $result = $result->result();
 
                                                         if($value->return_id>0)
                                                         {
+                                                            if($value->return_status==1)
+                                                            {
+
                                                              $status='In Production Return';
+                                                            }
+                                                            else
+                                                            {
+                                                                $status='In Production';
+                                                            }
                                                         }
                                                         else
                                                         {
@@ -14008,7 +14016,7 @@ if($return_no_pick<=0)
    
       
               
-                $result=$this->db->query("SELECT ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
+                $result=$this->db->query("SELECT b.return_status,ds.return_id,b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
 
 
                           order_delivery_order_status as ds JOIN
@@ -14131,7 +14139,15 @@ if($return_no_pick<=0)
 
                                                         if($value->return_id>0)
                                                         {
+                                                            if($value->return_status==1)
+                                                            {
+
                                                              $status='In Production Return';
+                                                            }
+                                                            else
+                                                            {
+                                                                $status='In Production';
+                                                            }
                                                         }
                                                         else
                                                         {
