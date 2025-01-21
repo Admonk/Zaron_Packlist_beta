@@ -57,7 +57,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
        {
 
 
-                                $poin_to_member = $this->db->query("SELECT * FROM order_delivery_order_status  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0");
+                                $poin_to_member = $this->db->query("SELECT * FROM order_delivery_order_status  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0 ORDER BY id ASC");
                                 $poin_to_member = $poin_to_member->result();
                                 if(count($poin_to_member)==1)
                                 {
