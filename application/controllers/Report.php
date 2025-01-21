@@ -13398,10 +13398,31 @@ $result = $result->result();
                                                     }
 
                                                }
-                                                  if($value->month=='')
-                                                 {
+
+
+                                               if($value->assign_status==2)
+                                               {
+
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
+                                               }
+
+
+                                               if($value->month=='')
+                                               {
                                                      $value->month=date('M',strtotime($value->create_date));
-                                                 }
+                                               }
 
 
 
@@ -13434,10 +13455,19 @@ $result = $result->result();
 
                                   $loadstatus=$ssvs->loadstatus;
                                   $dispatch_load=$ssvs->dispatch_load;
+                                  $trip_started_status=$ssvs->dispatch_load;
                                   if($loadstatus==1)
                                   {
                                            
                                     $status='Sheet in Factory';
+                                    $value->reason=$reasonfirst;
+
+                                  }
+
+                                  if($loadstatus==1 && $trip_started_status==1)
+                                  {
+                                           
+                                    $status='Transit';
                                     $value->reason=$reasonfirst;
 
                                   }
@@ -13543,16 +13573,6 @@ $result = $result->result();
                                                 }
 
 
-                                               if($value->assign_status==2)
-                                               {
-
-                                                   
-                                                        $status='Transit';
-                                                   
-                                                    
-
-                                               }
- 
                                                 if($roundAmount>0)
                                                 {
 
@@ -14182,6 +14202,26 @@ if($return_no_pick<=0)
                                                     }
 
                                                }
+
+                                               if($value->assign_status==2)
+                                               {
+
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
+                                               }
+
+                                               
                                                   if($value->month=='')
                                                  {
                                                      $value->month=date('M',strtotime($value->create_date));
@@ -14218,6 +14258,7 @@ if($return_no_pick<=0)
 
                                   $loadstatus=$ssvs->loadstatus;
                                   $dispatch_load=$ssvs->dispatch_load;
+                                  $trip_started_status=$ssvs->trip_started_status;
                                   if($loadstatus==1)
                                   {
                                            
@@ -14225,6 +14266,15 @@ if($return_no_pick<=0)
                                     $value->reason=$reasonfirst;
 
                                   }
+
+                                    if($loadstatus==1 && $trip_started_status==1)
+                                  {
+                                           
+                                    $status='Transit';
+                                    $value->reason=$reasonfirst;
+
+                                  }
+
 
 
                                  
@@ -14328,16 +14378,7 @@ if($return_no_pick<=0)
                                                 }
 
 
-                                               if($value->assign_status==2)
-                                               {
-
-                                                   
-                                                        $status='Transit';
-                                                   
-                                                    
-
-                                               }
-
+                                           
                                                 if($roundAmount>0)
                                                 {
 
