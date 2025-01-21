@@ -9901,7 +9901,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                               $dil_status['create_time'] = $time;
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
-                              $dil_status['assign_status_11_date'] =$date;
+                              //$dil_status['assign_status_11_date'] =$date;
 
 if($order_no!='')
 {
