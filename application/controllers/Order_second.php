@@ -9829,7 +9829,38 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                              $reasons='Return To Extra Sheet';
                                              $randam_idset=rand(1000,9999);
         $this->db->query("UPDATE orders_process SET finance_status=10,assign_status=0,return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_no."'");
-        $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+
+                                     if($count==$count2) 
+                                    {
+            
+            
+                                  
+            
+                                           if($qty1==$qty2) 
+                                           {
+
+                                            
+$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Extra Sheet',return_id='".$insert_id."',return_status=1 WHERE order_id='".$order_id."' AND finance_status=2");
+
+
+                                           }
+                                           else
+                                           {
+
+                                              $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+                                           }
+
+
+
+                                       }
+                                       else
+                                       {
+
+
+                                           $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+
+                                       }
+        
 
 
                                              
