@@ -13455,7 +13455,7 @@ $result = $result->result();
 
                                   $loadstatus=$ssvs->loadstatus;
                                   $dispatch_load=$ssvs->dispatch_load;
-                                  $trip_started_status=$ssvs->dispatch_load;
+                                  $trip_started_status=$ssvs->trip_started_status;
                                   if($loadstatus==1)
                                   {
                                            
@@ -13464,7 +13464,7 @@ $result = $result->result();
 
                                   }
 
-                                  if($loadstatus==1 && $trip_started_status==1)
+                                  if($loadstatus=='1' && $trip_started_status=='1')
                                   {
                                            
                                     $status='Transit';
@@ -14267,7 +14267,7 @@ if($return_no_pick<=0)
 
                                   }
 
-                                    if($loadstatus==1 && $trip_started_status==1)
+                                    if($loadstatus=='1' && $trip_started_status=='1')
                                   {
                                            
                                     $status='Transit';
