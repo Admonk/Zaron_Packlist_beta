@@ -12296,7 +12296,7 @@ $value->delivery_date_time=$value->delivery_date_time_last;
              }
          }
      }
- 
+     $status = 0;
      $myData = [
          "status" => $status,
      ];
