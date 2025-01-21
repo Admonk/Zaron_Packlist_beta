@@ -9725,9 +9725,7 @@ $checkdata = $this->Main_model->where_names_three_order_by($tablename, 'id', $fo
                                            $datadd['categories_id']=$categories_id;
                                            $datadd['return_recived_status']=0;
                                            $datadd['order_process_product_id']=$oid;
-
-                                           
-                                           $datadd['purchase_order_product_id']=$purchase_order_product_id[$i];
+                                           $datadd['purchase_order_product_id']=$oid;
 // gg weight update
                                            $datadd['weight']=$value->qty;
 $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_products', 'c_id', $insert_id, 'purchase_order_product_id',$purchase_order_product_id[$i],'deleteid', 0, 'id', 'ASC');
@@ -9847,7 +9845,12 @@ $this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assig
                                            else
                                            {
 
-                                              $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+
+$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+
+
+
+
                                            }
 
 
