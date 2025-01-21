@@ -13080,8 +13080,8 @@ $result = $result->result();
                      
                      $stat="";
                     
-                     $stat=" AND a.assign_status IN('11','12','1','0')";
-                     $statds=" AND ds.assign_status IN('11','12','1','0')";
+                     $stat=" AND a.assign_status IN('11','12','1','0','2')";
+                     $statds=" AND ds.assign_status IN('11','12','1','0','2')";
                      $stat2="";
                      $search='';
                      if($cateid!='') 
@@ -13542,6 +13542,17 @@ $result = $result->result();
                                                 {
                                                    $roundAmount =  round($value->total);
                                                 }
+
+
+                                               if($value->assign_status==2)
+                                               {
+
+                                                   
+                                                        $status='Transit';
+                                                   
+                                                    
+
+                                               }
  
                                                 if($roundAmount>0)
                                                 {
@@ -13857,8 +13868,8 @@ if($return_no_pick<=0)
                      
                      $stat="";
                     
-                     $stat=" AND a.assign_status IN('11','12','1','0')";
-                     $statds=" AND ds.assign_status IN('11','12','1','0')";
+                     $stat=" AND a.assign_status IN('11','12','1','0','2')";
+                     $statds=" AND ds.assign_status IN('11','12','1','0','2')";
                    
                      if($cateid!='') 
                      {
@@ -14316,6 +14327,17 @@ if($return_no_pick<=0)
                                                 {
                                                    $roundAmount =  round($value->total);
                                                 }
+
+
+                                               if($value->assign_status==2)
+                                               {
+
+                                                   
+                                                        $status='Transit';
+                                                   
+                                                    
+
+                                               }
 
                                                 if($roundAmount>0)
                                                 {
