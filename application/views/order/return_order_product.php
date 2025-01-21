@@ -1976,7 +1976,7 @@ input.inputtext {
                                                     if($optionid == '2'){
                                                       $read1op = '';
                                                     }else{
-                                                      $read1op = 'disabled';
+                                                      $read1op = disabled;
                                                     }
                                                  ?>
                                                  
