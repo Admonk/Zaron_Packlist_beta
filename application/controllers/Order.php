@@ -18481,7 +18481,7 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
 
 
 
-                    $this->db->query("UPDATE order_delivery_order_status SET finance_status='3',assign_status='1',reason='Driver Return Trip Assigned' WHERE order_id='".$form_data->order_id."'  AND randam_id='".$DC_id."' AND deleteid=0");    
+                    $this->db->query("UPDATE order_delivery_order_status SET finance_status='3',assign_status='12',reason='Driver Return Trip Assigned' WHERE order_id='".$form_data->order_id."'  AND randam_id='".$DC_id."' AND deleteid=0");    
 
 
 
@@ -18797,7 +18797,7 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                      
                      
                      
-                                         $this->db->query("UPDATE order_delivery_order_status SET finance_status='3',assign_status='1',reason='Driver Return Trip Assigned' WHERE order_id='".$form_data->order_id."'  AND randam_id='".$DC_id."' AND deleteid=0");    
+                                         $this->db->query("UPDATE order_delivery_order_status SET finance_status='3',assign_status='12',reason='Driver Return Trip Assigned' WHERE order_id='".$form_data->order_id."'  AND randam_id='".$DC_id."' AND deleteid=0");    
                      
                      
                      

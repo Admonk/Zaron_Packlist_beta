@@ -9693,8 +9693,9 @@ $checkdata = $this->Main_model->where_names_three_order_by($tablename, 'id', $fo
                                                        $order_id=$value->order_id;
                                                
                                                     }
-                                                     $datadd['qty']=$value->qty;
-                                                    $amount=$value->amount;
+
+                                                    $datadd['qty']=$value->qty;
+                                                    $amount=$rate*$value->qty;
                                                     $datadd['org_qty']=$value->org_qty;
                                                     $datadd['org_nos']=$value->org_nos;
                                                     $datadd['edit_nos']=$value->nos;
@@ -9703,12 +9704,16 @@ $checkdata = $this->Main_model->where_names_three_order_by($tablename, 'id', $fo
                                                     
                                            }
                                            
-                                            if($create_date > '2024-05-31'){
-                                           $totalamount+=($amount* 1.18);
+                                           if($create_date > '2024-05-31')
+                                           {
+                                           
+                                               $totalamount+=round($amount* 1.18,2);
 
-                                       }else{
-                                           $totalamount+=$amount;
-                                       }
+                                           }
+                                           else
+                                           {
+                                               $totalamount+=$amount;
+                                           }
                                            $netweight+=$datadd['qty'];
                                           
                                            
@@ -9746,7 +9751,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                         }
 
 
-                                   $result_order =$this->Main_model->where_names_two_order_by('orders_process', 'order_no', $order_no, 'deleteid', '0', 'id', 'ASC');
+                                           $result_order =$this->Main_model->where_names_two_order_by('orders_process', 'order_no', $order_no, 'deleteid', '0', 'id', 'ASC');
                                            foreach ($result_order as $orders) 
                                            {
 
@@ -9763,32 +9768,52 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                         if($order_no!='')
                                         {
 
+                                                $qty2=0;
+                                                $totalamount_old=0;
+                                                $old_amount=0;
+                                                $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id, 'deleteid', '0', 'id', 'ASC');
+                                                $count2=count($resultgetprodutold);
+                                                foreach ($resultgetprodutold as  $valueold)
+                                                {
+                                                          
+                                                    $rate_old=$valueold->rate+$valueold->commission;
+                                                    $amountold=$rate_old*$valueold->qty;
+                                                    $totalamount_old+=round($amountold* 1.18,2);
+                                                    $old_amount+=$valueold->amount;
+                                                    $qty2+= round($valueold->qty);
+                                                           
+                                                            
+                                                 }
 
-                                        $resultgetprodutold= $this->Main_model->where_names('order_product_list_process','order_no',$order_no);
-                                        foreach ($resultgetprodutold as  $valueold) {
-                                                  
-                                              $old_amount+=$valueold->amount;
-                                                   
-                                                    
-                                        }
+
+
+
+
+
+
+
+                        $st=0;   
+                        $qty1=0;         
+                        $querycount = $this->db->query("SELECT a.id,b.qty FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE b.deleteid='0' AND a.id='".$insert_id."'   ORDER BY a.id DESC");
+                        $resultcount = $querycount->result();
+                        $count=count($resultcount);
+                        foreach ($resultcount as $rc1) {
+                           $qty1+= round($rc1->qty);
+                        }
+    
+
+
 
                                         }
                                         
-                                        $bill_total=round($totalamount);  
-                                        $old_amount=round($old_amount);
-                                        if($bill_total==$old_amount)
-                                        {
-                                            $bill_total=$form_data->billamount;
-                                        }
-                                         
+                                        $bill_total=round($totalamount,2);  
                                       
-                                        
                                         $re_order_no='RE-'.strtoupper(date('M') . '/' . $neworder_id); 
                                         
                                         
                                         
                                         
-                       $this->db->query("UPDATE $tablename SET qty='".$netweight."',bill_total='".$bill_total."',tcs_status='".$tcs_status."' WHERE id='".$insert_id."'");
+                       $this->db->query("UPDATE $tablename SET qty='".$netweight."',bill_total='".$bill_total."',driver_return=2,delivery_date_status=1,tcs_status='".$tcs_status."' WHERE id='".$insert_id."'");
 
 
 
@@ -9797,20 +9822,123 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                         if($form_data->optionid==3)
                                         {
 
-                                             
+
+
+
+
+                                             $reasons='Return To Extra Sheet';
+                                             $randam_idset=rand(1000,9999);
         $this->db->query("UPDATE orders_process SET finance_status=10,assign_status=0,return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_no."'");
-        $this->db->query("UPDATE order_delivery_order_status SET return_id='".$insert_id."',return_status=1 WHERE order_id='".$order_id."' AND finance_status=2");
+        $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+
+
                                              
                                         }
                                         else
                                         {
 
+                                            $randam_idset=rand(1000,9999);
 
+
+
+        $reasons='Return To Sale';
         $this->db->query("UPDATE orders_process SET return_status=1,return_id='".$insert_id."' WHERE order_no='".$order_no."'");
-        $this->db->query("UPDATE order_delivery_order_status SET return_id='".$insert_id."',return_status=1 WHERE order_id='".$order_id."' AND finance_status=2");
+        $this->db->query("UPDATE order_delivery_order_status SET randam_id='".$randam_idset."',dispatch_status=1,delivery_date_status=1,finance_status=11,assign_status=0,reason='Return To Sale',return_id='".$insert_id."',return_status=1 WHERE order_id='".$order_id."' AND finance_status=2");
+
+
+          $dil_status['dispatch_status'] = 0;
+                              $dil_status['assign_status'] = 0;
+                              $dil_status['order_id'] = $order_id;
+                              $dil_status['order_no'] = $order_no;
+                              $dil_status['finance_status'] = 2;
+
+
+                                    if($count==$count2) 
+                                    {
+            
+            
+                                  
+            
+                                           if($qty1==$qty2) 
+                                           {
+
+                                              $dil_status['deleteid'] = 1002;
+                                              $dil_status['collection_remarks_2'] = round($bill_total);
+                                              $dil_status['total_picked_amount'] = round($bill_total);
+
+                                           }
+                                           else
+                                           {
+                                              $dil_status['deleteid'] = 0;
+                                              $dil_status['collection_remarks_2'] = round($totalamount_old-$bill_total);
+                                              $dil_status['total_picked_amount'] = round($totalamount_old-$bill_total);
+                                           }
+
+
+
+                                    }
+                                    else
+                                    {
+
+                                          $dil_status['deleteid'] = 0;
+                                          $dil_status['collection_remarks_2'] = round($totalamount_old-$bill_total);
+                                          $dil_status['total_picked_amount'] = round($totalamount_old-$bill_total);
+
+                                    }
+
+                              
+
+                              $dil_status['assign_status_0_date'] = $date;
+                              $dil_status['assign_status_11_date'] = NULL;
+                              // gg changes to comment for return values
+                              $dil_status['return_id'] = $insert_id;
+                              $dil_status['customer_id'] = $customer_id;
+                             
+                             
+                             // $dil_status['return_amount'] = $totalamount;
+                              $dil_status['reason'] = $reasons;
+                              $dil_status['create_date'] = $create_date;
+                              $dil_status['create_time'] = $time;
+                              $dil_status['delivery_date'] =$date;
+                              $dil_status['delivery_time'] =$time;
+                              $dil_status['assign_status_11_date'] =$date;
+
+if($order_no!='')
+{
+
+                               $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $order_id . "' AND finance_status=2 AND deleteid='0'");
+                                            $allcheck = $allcheck->result();
+                                            if(count($allcheck)==0)
+                                            {
+
+                   $this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
+
+
+                                            }
+                                            else
+                                            {
+
+
+$this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_id='".$insert_id."',reason='".$reasons."',deleteid=0 WHERE  finance_status=2 AND deleteid='0' AND order_id='".$order_id."'"); 
+
+
+           
+                                            }
+
+
+}
+
+
+
+
+
+
                                         
 
                                         }
+
+
+                            
 
                      
                      

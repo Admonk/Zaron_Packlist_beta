@@ -348,6 +348,10 @@ public function fetch_single_data_totaldel_pickup_test_val()
                // $result = $query->result();
    
                 // gg changes scope task
+
+
+
+
    
                 $query = $this->db->query("SELECT a.*,ds.return_id as return_ids,ds.payment_mode,ds.delivery_status,ds.delivery_charge,ds.picked_status as picked_status_last,ds.randam_id,ds.reason as reason_last,ds.collection_remarks as collection_remarks_final,  ds.id as aa_id,ds.collection_remarks_2,c.name, b.company_name, b.email, b.phone,b.id as c_id, b.sales_team_id, b.sales_team_sub_id, b.address1, b.address2, b.landmark, b.zone, b.pincode, b.state FROM orders_process AS a LEFT JOIN customers AS b ON a.customer_id = b.id LEFT JOIN admin_users AS c ON a.user_id = c.id  $JOIN WHERE a.deleteid = '0'  $userslog $where $whereNew ORDER BY ds.id DESC LIMIT $offset, $pagesize ");
                 $result = $query->result();    
