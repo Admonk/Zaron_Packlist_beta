@@ -13398,10 +13398,31 @@ $result = $result->result();
                                                     }
 
                                                }
-                                                  if($value->month=='')
-                                                 {
+
+
+                                               if($value->assign_status==2)
+                                               {
+
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
+                                               }
+
+
+                                               if($value->month=='')
+                                               {
                                                      $value->month=date('M',strtotime($value->create_date));
-                                                 }
+                                               }
 
 
 
@@ -13434,10 +13455,19 @@ $result = $result->result();
 
                                   $loadstatus=$ssvs->loadstatus;
                                   $dispatch_load=$ssvs->dispatch_load;
+                                  $trip_started_status=$ssvs->dispatch_load;
                                   if($loadstatus==1)
                                   {
                                            
                                     $status='Sheet in Factory';
+                                    $value->reason=$reasonfirst;
+
+                                  }
+
+                                  if($loadstatus==1 && $trip_started_status==1)
+                                  {
+                                           
+                                    $status='Transit';
                                     $value->reason=$reasonfirst;
 
                                   }
@@ -13530,9 +13560,8 @@ $result = $result->result();
 
 
 
-                 
-                     
-                               
+
+
                                                  
                                                 if($value->create_date > '2024-05-31')
                                                 {
@@ -13544,16 +13573,6 @@ $result = $result->result();
                                                 }
 
 
-                                               if($value->assign_status==2)
-                                               {
-
-                                                   
-                                                        $status='Transit';
-                                                   
-                                                    
-
-                                               }
- 
                                                 if($roundAmount>0)
                                                 {
 
@@ -13592,7 +13611,7 @@ $result = $result->result();
                                                     'nos' =>  $value->nos,
                                                     'price' =>  round($value->rate * $value->qty,2),
                                                     'Sqr_feet_to_Meter' => $value->Sqr_feet_to_Meter,
-                                                    'qty' =>  $value->qty,
+                                                    'qty' =>  round($value->qty,3),
                                                     'create_date' =>date('d-m-Y',strtotime($value->create_date)),
                                                     'count'=>count($resultcc)+count($resultccreturn),
                                                     'total' => round($value->total,2),
@@ -13974,7 +13993,7 @@ if($return_no_pick<=0)
                       
                     
                
-                   $resultccreturn=$this->db->query("SELECT b.return_delivered_nos,b.return_delivered_qty,b.return_qty_pick,b.return_no_pick,b.return_picked,a.id,a.update_date,b.purchase_order_product_id,b.rate,a.order_id,a.remarks as reason,a.order_no as old_order_no,a.re_order_no as order_no,b.org_qty,b.edit_nos as nos,a.month,b.product_name,a.order_base,a.customer as customer_id,a.user_id,b.product_id,b.qty,a.bill_total as total  FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND a.order_base='2'  AND a.driver_delivery_status IN ('0','1') AND a.remarks NOT IN ('Driver Delivered The Order') AND a.driver_return IN ('0','1') $stat2  GROUP BY a.id ORDER BY a.id DESC");
+
                 $resultccreturn=$resultccreturn->result();       
                    
                 $resultcc=$this->db->query("SELECT b.picked_status,ds.randam_id,b.id as order_product_id,ds.assign_status,b.sub_product_id,b.remarks,b.profile,b.crimp,b.Sqr_feet_to_Meter,b.order_id,b.nos,a.order_no,a.sales_group,ds.reason,a.user_id,a.customer_id,a.month,a.create_date,b.product_name,b.product_id,b.categories_id,b.categories_name,b.rate,b.qty,b.amount as total ,b.qty*b.rate as total_val FROM
@@ -14183,6 +14202,26 @@ if($return_no_pick<=0)
                                                     }
 
                                                }
+
+                                               if($value->assign_status==2)
+                                               {
+
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $status='In Production';
+                                                    }
+                                                    else
+                                                    {
+                                                        $status='Sheet in Factory';
+                                                    }
+                                                    if($value->picked_status==0)
+                                                    {
+                                                        $value->reason='Pick Pending';
+                                                    }
+
+                                               }
+
+                                               
                                                   if($value->month=='')
                                                  {
                                                      $value->month=date('M',strtotime($value->create_date));
@@ -14219,6 +14258,7 @@ if($return_no_pick<=0)
 
                                   $loadstatus=$ssvs->loadstatus;
                                   $dispatch_load=$ssvs->dispatch_load;
+                                  $trip_started_status=$ssvs->trip_started_status;
                                   if($loadstatus==1)
                                   {
                                            
@@ -14226,6 +14266,15 @@ if($return_no_pick<=0)
                                     $value->reason=$reasonfirst;
 
                                   }
+
+                                    if($loadstatus==1 && $trip_started_status==1)
+                                  {
+                                           
+                                    $status='Transit';
+                                    $value->reason=$reasonfirst;
+
+                                  }
+
 
 
                                  
@@ -14329,16 +14378,7 @@ if($return_no_pick<=0)
                                                 }
 
 
-                                               if($value->assign_status==2)
-                                               {
-
-                                                   
-                                                        $status='Transit';
-                                                   
-                                                    
-
-                                               }
-
+                                           
                                                 if($roundAmount>0)
                                                 {
 
@@ -14375,7 +14415,7 @@ if($return_no_pick<=0)
                                                     'nos' =>  $value->nos,
                                                     'price' =>  round($value->rate * $value->qty,2),
                                                     'Sqr_feet_to_Meter' => $value->Sqr_feet_to_Meter,
-                                                    'qty' =>  $value->qty,
+                                                    'qty' =>  round($value->qty,3),
                                                     'create_date' =>date('d-m-Y',strtotime($value->create_date)),
                                                     'count'=>count($resultcc)+count($resultccreturn),
                                                     'total' => round($value->total,2),
