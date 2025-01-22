@@ -123,7 +123,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
             //     $array['status'] =1;
             // }
 
-            
+                              
 
 
             if($value->delivery_date_status==0)
