@@ -112,11 +112,11 @@ public function fetch_single_data_totaldel_pickup_test_val()
                 $array['msg']='Trip in progress. Return is not available. However, driver can return if the order is not delivered.';
                 $array['status'] =1;
             }
-            if($value->finance_status=='4')
-            {
-                $array['msg']='Trip in progress Reconcilation Pending. Return is not available. However, driver can return if the order is not delivered.';
-                $array['status'] =1;
-            }
+            // if($value->finance_status=='4')
+            // {
+            //     $array['msg']='Trip in progress Reconcilation Pending. Return is not available. However, driver can return if the order is not delivered.';
+            //     $array['status'] =1;
+            // }
 
             
 
