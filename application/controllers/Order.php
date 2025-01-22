@@ -6154,7 +6154,7 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                                          $data['trip_end_date']= $date;
                                          $data['trip_end_time']= $time;
     
-                                         $data['remarks']= 'Driver Return to Sales';
+                                         $data['remarks']= 'Driver Return to Sales | '.$form_data->remarks;
     
                                          $data['driver_return']=2;
                                          $data['randam_id']=$randam_id;

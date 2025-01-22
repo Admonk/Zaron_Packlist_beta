@@ -1473,7 +1473,8 @@ th {
                                                                                                             <span
                                                                                                                 ng-if='name.empty_loadnos>0'
                                                                                                                 class="loadamountred">
-                                                                                                                {{name.bill_nos-name.empty_loadnos}}
+                                                                                                                 <!-- {{name.bill_nos-name.empty_loadnos}} -->
+                                                                                                                    {{ (name.bill_nos - name.empty_loadnos) < 0 ? 0 : (name.bill_nos - name.empty_loadnos) }}
                                                                                                             </span>
 
                                                                                                             <span
@@ -2796,19 +2797,21 @@ th {
                                                                                                                 <span
                                                                                                                     ng-if='name.empty_loadnos>0'
                                                                                                                     class="loadamountred">
-                                                                                                                    {{name.bill_nos-name.empty_loadnos}}
+                                                                                                                    <!-- {{name.bill_nos-name.empty_loadnos}} -->
+                                                                                                                    {{ (name.bill_nos - name.empty_loadnos) < 0 ? 0 : (name.bill_nos - name.empty_loadnos) }}
+
                                                                                                                 </span>
 
-                                                                                                                <span
-                                                                                                                    ng-if='name.empty_loadnos==0'>
+                                                                                                                <span ng-if='name.empty_loadnos==0'>
+                                                                                                                    
 
-                                                                                                                    <span
-                                                                                                                        ng-if="name.dis_nos>0"
-                                                                                                                        class="loadamountred">{{name.bill_nos-name.dis_nos}}</span>
-                                                                                                                    <span
-                                                                                                                        ng-if="name.dis_nos==0"
-                                                                                                                        class="loadamountred">{{name.empty_loadnos}}</span>
+                                                                                                                    <span ng-if="name.dis_nos>0" class="loadamountred">{{name.bill_nos-name.dis_nos}}</span>
+                                                                                                                        
+                                                                                                                        
+                                                                                                                    <span  ng-if="name.dis_nos==0"  class="loadamountred">{{name.empty_loadnos}}</span>
 
+                                                                                                                       
+                                                                                                                       
                                                                                                                 </span>
 
 

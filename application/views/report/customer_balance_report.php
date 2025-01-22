@@ -942,7 +942,7 @@ Mouse hover on the respective column title to view the help text details.
                            <div class="table-body-cell checkdata_13 <?php echo $checkdata_13_hide; ?>" ng-click="handleClick(namesvv,0)"><b ng-if="namesvv.balance!=0">
                                
                                <span ng-if="namesvv.getstatus==0" style="color:red;">{{namesvv.balance | number}}</span>
-                               <span ng-if="namesvv.getstatus==1" style="color:green;">{{namesvv.balance | number}}</span>
+                               <!-- <span ng-if="namesvv.getstatus==1" style="color:green;">{{namesvv.balance | number}}</span> -->
                                
                                </b></div>
 

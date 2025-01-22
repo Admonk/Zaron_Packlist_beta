@@ -9838,7 +9838,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                            {
 
                                             
-$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Extra Sheet',return_id='".$insert_id."',return_status=1 WHERE order_id='".$order_id."' AND finance_status=2");
+$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Extra Sheet',return_id='".$insert_id."',return_status=1,return_base=1 WHERE order_id='".$order_id."' AND finance_status=2");
 
 
                                            }
@@ -9846,7 +9846,7 @@ $this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assig
                                            {
 
 
-$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."',return_base=1 WHERE order_id='".$order_id."' AND finance_status=2");
 
 
 
