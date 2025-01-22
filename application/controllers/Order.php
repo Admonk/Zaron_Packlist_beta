@@ -26264,6 +26264,9 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                                                                 //$value->picked_status=0;
 
 
+$ddnos=0;
+$ssqty=0;
+
                                                              $querycheck = "SELECT SUM(nos) as ddnos,SUM(qty) as ssqty FROM sales_load_products  WHERE  loadstatus = 1  AND order_product_id= " . $vl->order_product_id . " GROUP BY randam_id  ORDER BY id ASC ";
 
                                                             $querycheck = $this->db->query($querycheck)->result();     
