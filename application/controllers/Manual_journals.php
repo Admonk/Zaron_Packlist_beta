@@ -1754,10 +1754,15 @@ $querycheck = $this->db->query("SELECT id FROM $tableleg  WHERE party_type='5' A
                               
                               $data_driver['notes']=$form_data->notes;
                               $data_driver['payout']=$credits_value_data;
+                               
 
+                               if($form_data->net_balance_status=='')
+                               {
+                                    $form_data->net_balance_status='DR';
+                               }
                            
 
-                               if($form_data->net_balance_status=='DR' || $form_data->net_balance_status=='')
+                               if($form_data->net_balance_status=='DR')
                               {
 
                                   $data_driver['debits']=0;
