@@ -250,7 +250,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
              //$where .= " OR c.name='" . $search . "' OR b.company_name LIKE '%" . $search . "%' OR b.phone LIKE '%" . $search . "%' OR a.reason LIKE '%" . $search . "%'";
               $where1 .= " AND order_no LIKE '%" . $search . "'";
                
-              $where .= " AND a.order_base IN ('1','21','23','20','11','120') AND ds.deleteid IN ('0','1002')  AND ds.delivery_status IN  ('2','1') AND ds.finance_status NOT IN ('10')";   
+             // $where .= " AND a.order_base IN ('1','21','23','20','11','120') AND ds.deleteid IN ('0','1002')  AND ds.delivery_status IN  ('2','1') AND ds.finance_status NOT IN ('10')";   
    
    
            }
