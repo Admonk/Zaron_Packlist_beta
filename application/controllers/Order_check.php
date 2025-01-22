@@ -93,13 +93,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
         if($order_no!='')
         {
             
-<<<<<<< HEAD
-          
-                     
-=======
-                       
-            
->>>>>>> dev-gokul
+
             $sql=' AND b.order_no="'.$order_no.'"';
           
         
