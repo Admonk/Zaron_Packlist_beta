@@ -1390,7 +1390,7 @@ th {
 
 
                                                                                                                 <span
-                                                                                                                    ng-if='name.empty_loadnos_input>0 && name.picked_status==1 && name.loadstatus==0 && name.retirn_toresale==0'
+                                                                                                                    ng-if='name.empty_loadnos_input>0 && name.picked_status==1 && name.loadstatus==0'
                                                                                                                     class="loadamount">
 
                                                                                                                     <input
@@ -2725,7 +2725,7 @@ th {
 
 
                                                                                                                     <span
-                                                                                                                        ng-if='name.empty_loadnos_input>0 && name.picked_status==1 && name.loadstatus==0 && name.retirn_toresale==0'
+                                                                                                                        ng-if='name.empty_loadnos_input>0 && name.picked_status==1 && name.loadstatus==0'
                                                                                                                         class="loadamount">
 
                                                                                                                         <input
