@@ -103,7 +103,11 @@ public function fetch_single_data_totaldel_pickup_test_val()
         $query = $this->db->query("SELECT b.reason,b.delivery_date_status,b.delivery_confirm_date_time,b.finance_status  FROM  orders_process as b   WHERE b.deleteid='0' AND b.order_base>0  $sql  ORDER BY b.id  DESC");
         $result=$query->result();                       
         foreach ($result as $value) {
+                        
 
+
+
+                        
 
 
              $array['status'] =0;
