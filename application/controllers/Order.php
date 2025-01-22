@@ -26239,7 +26239,7 @@ $return_id = $scope_changes->return_id;
 
  $edit_nos=0;
  $edit_qty=0;
-
+ $retirn_toresale=0;
 $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE a.id='" . $return_id . "' AND a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->id . "'");
                                                        $resultcss = $resultmainss->result();
                                                        if(count($resultcss)>0)
@@ -26255,6 +26255,9 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                                                                
                                                                 $bill_nos= $bill_nos-$vl->edit_nos;
                                                                 $value->qty= $value->qty-$vl->qty;
+
+
+                                                                $retirn_toresale=1;
                                                              
                                           
                                                               
@@ -26894,6 +26897,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             $array[] = array(
             'no' => $i, 
             'id' => $value->id,
+            'retirn_toresale'=>$retirn_toresale,
             'loadnos' => round($loadnos,2),
             'loadamount' => $loadamount,
             'ssload' => $ssload,
