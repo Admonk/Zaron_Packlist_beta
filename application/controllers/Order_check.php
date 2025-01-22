@@ -105,7 +105,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
         foreach ($result as $value) {
                         
 
-
+   
 
                         
 
