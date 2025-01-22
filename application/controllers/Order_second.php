@@ -9735,7 +9735,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                            
                                            $insert_id_data=$this->Main_model->insert_commen($datadd,'sales_return_products');
                                            $this->db->query("UPDATE order_product_list_process_return_temp SET return_status=1,return_id='".$insert_id_data."' WHERE id='".$purchase_order_product_id[$i]."'");
-                                           $this->db->query("UPDATE order_product_list_process SET return_status=1,return_id='".$insert_id_data."' WHERE id='".$order_process_product_id."'");
+                                           $this->db->query("UPDATE order_product_list_process SET return_status=1,picked_status=0,randam_id=NULL,return_id='".$insert_id_data."' WHERE id='".$order_process_product_id."'");
 
                                            }
 

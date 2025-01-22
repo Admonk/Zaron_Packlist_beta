@@ -26218,6 +26218,9 @@ $return_id = $scope_changes->return_id;
 
     }
 
+
+
+
                 $resultload = $this->db->query("SELECT SUM(nos) as nos,SUM(amount) as amount,SUM(qty) as qty FROM sales_load_products  WHERE order_product_id='" . $value->id . "' AND pickedstatus=1   AND order_id='".$value->order_id."'  ORDER BY id ASC");
                 $resultload = $resultload->result();
 
@@ -26258,6 +26261,38 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
 
 
                                                                 $retirn_toresale=1;
+                                                                //$value->picked_status=0;
+
+
+                                                             $querycheck = "SELECT SUM(nos) as ddnos,SUM(qty) as ssqty FROM sales_load_products  WHERE  loadstatus = 1  AND order_product_id= " . $vl->order_product_id . " GROUP BY randam_id  ORDER BY id ASC ";
+
+                                                            $querycheck = $this->db->query($querycheck)->result();     
+                                                            if(count($querycheck)>0)
+                                                            {
+
+                                                                foreach($querycheck as $ddsd)
+                                                                {
+                                                                   $ddnos=$ddsd->ddnos;
+                                                                   $ssqty=$ddsd->ssqty;
+                                                                }
+
+                                                            }              
+                                    
+                                                                if($ddnos>0)
+                                                                {
+
+                                                                    $dispatch_nos=0;
+
+                                                                }
+
+
+                                                                if($ssqty>0)
+                                                                {
+
+                                                                    $dispatch_qty=0;
+
+                                                                }
+
                                                              
                                           
                                                               
