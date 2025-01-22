@@ -176,7 +176,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
    
    
    
-           $where .= ' AND ds.return_base=0';
+           //$where .= ' AND ds.return_base=0';
    
    
    
