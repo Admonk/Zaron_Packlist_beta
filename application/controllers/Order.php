@@ -4448,10 +4448,10 @@ $weight=0;
                          }
 
                          if($createDate > '2024-05-31'){
-                         $newTotal = round(($value->qty*$value->rate) * 1.18);
+                         $newTotal = round(($value->qty*$value->rate) * 1.18,3);
                          $this->db->query("UPDATE sales_return_products SET amount = $newTotal WHERE id = '".$value->id."'");
                          }else{
-                         $newTotal = round($value->qty*$value->rate);
+                         $newTotal = round($value->qty*$value->rate,3);
 
                          }
 
@@ -26256,8 +26256,8 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                                                             $edit_nos=$vl->edit_nos;
                                                             $edit_qty=$vl->qty;
                                                                
-                                                                $bill_nos= $bill_nos-$vl->edit_nos;
-                                                                $value->qty= $value->qty-$vl->qty;
+                                                                //$bill_nos= $bill_nos-$vl->edit_nos;
+                                                                //$value->qty= $value->qty-$vl->qty;
 
 
                                                                 $retirn_toresale=1;
