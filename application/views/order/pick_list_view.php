@@ -1447,6 +1447,25 @@ th {
                                                                                                                 </span>
 
 
+                                                                                                                 <span
+                                                                                                                        ng-if='name.empty_loadnos>0 && name.retirn_toresale==1 && name.picked_status==0'
+                                                                                                                        class="loadamount">
+
+
+                                                                                                                        <input
+                                                                                                                            type="text"
+                                                                                                                            <?php echo $readdriver; ?>
+                                                                                                                            <?php echo $inputboxread; ?>
+                                                                                                                            ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)"
+                                                                                                                            style="border: #bbbbbb solid 2px;"
+                                                                                                                            data-val="{{name.bill_nos}}"
+                                                                                                                            class="nos_{{namecate.categories_id}}"
+                                                                                                                            id="nos_{{name.id}}"
+                                                                                                                            value="{{name.bill_nos}}">
+
+                                                                                                                    </span>
+
+
 
 
 
@@ -2754,6 +2773,24 @@ th {
 
                                                                                                                     <span
                                                                                                                         ng-if='name.empty_loadnos==0 && name.picked_status==0'
+                                                                                                                        class="loadamount">
+
+
+                                                                                                                        <input
+                                                                                                                            type="text"
+                                                                                                                            <?php echo $readdriver; ?>
+                                                                                                                            <?php echo $inputboxread; ?>
+                                                                                                                            ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)"
+                                                                                                                            style="border: #bbbbbb solid 2px;"
+                                                                                                                            data-val="{{name.bill_nos}}"
+                                                                                                                            class="nos_{{namecate.categories_id}}"
+                                                                                                                            id="nos_{{name.id}}"
+                                                                                                                            value="{{name.bill_nos}}">
+
+                                                                                                                    </span>
+
+                                                                                                                     <span
+                                                                                                                        ng-if='name.empty_loadnos>0 && name.retirn_toresale==1 && name.picked_status==0'
                                                                                                                         class="loadamount">
 
 
