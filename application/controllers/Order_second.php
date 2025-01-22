@@ -10228,15 +10228,14 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                                                       $order_no=$vl->order_no;
                                                       $order_id_data=$vl->order_id;
                                                       $order_id_no=$vl->order_no;
-                                                      
                                                       $re_order_no=$vl->re_order_no;
                                                       $driver_return=$vl->driver_return;
                                                       $driver_id=$vl->driver_id;
                                                       $km_reading_end=$vl->km_reading_end;
                                                       $start_reading=$vl->start_reading;
-                                                       $bill_amount=$vl->bill_total;
-                                                       $tcs_status=$vl->tcs_status;
-                                                       $createDateOrder=$vl->invoice_date;
+                                                      $bill_amount=$vl->bill_total;
+                                                      $tcs_status=$vl->tcs_status;
+                                                      $createDateOrder=$vl->invoice_date;
                                         }
                                         
                                         
@@ -10246,7 +10245,7 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                                              
                                              
                                                   $totalamount=0;
-                            $resultmainre = $this->db->query("SELECT * FROM `sales_return_products`  WHERE c_id='".$form_data->id."' AND deleteid=0  ORDER BY id DESC");
+                                                  $resultmainre = $this->db->query("SELECT * FROM `sales_return_products`  WHERE c_id='".$form_data->id."' AND deleteid=0  ORDER BY id DESC");
                                                   $getdatare = $resultmainre->result();
                                                   foreach($getdatare as $vlre)
                                                   {
@@ -10675,7 +10674,10 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
 
 //$this->db->query("UPDATE orders_process SET finance_status=14,assign_status=0,return_status=1,reason='Return To Re-Sale',trip_id=0 WHERE order_no='".$order_id_no."'");
 $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re-Sale' WHERE order_no='".$order_id_no."'");
-//$this->db->query("UPDATE order_delivery_order_status SET trip_id=NULL,return_status=1,reason='Return To Re-Sale' WHERE order_no='".$order_id_no."' AND deleteid=0");
+
+
+
+//$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,trip_id=NULL,return_status=1,reason='Return To Re-Sale' WHERE order_id='".$order_id_data."' AND deleteid=0 AND finance_status=2");
 
 
                                        
@@ -10686,7 +10688,13 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
 
 //$this->db->query("UPDATE orders_process SET finance_status=15,assign_status=0,return_status=1,reason='Material Return To Extra Sheet',trip_id=0 WHERE order_no='".$order_id_no."'");
 $this->db->query("UPDATE orders_process SET return_status=1,reason='Material Return To Extra Sheet' WHERE order_no='".$order_id_no."'");
-//$this->db->query("UPDATE order_delivery_order_status SET trip_id=NULL,return_status=1,reason='Material Return To Extra Sheet' WHERE order_no='".$order_id_no."' AND deleteid=0");   
+
+
+
+
+//$this->db->query("UPDATE order_delivery_order_status SET  finance_status=10,trip_id=NULL,return_status=1,reason='Material Return To Extra Sheet' WHERE order_id='".$order_id_data."' AND deleteid=0 AND finance_status=2");   
+
+
 
                                          }
 
@@ -10999,7 +11007,7 @@ echo $response;
 
 
         //$this->db->query("UPDATE order_product_list_process SET randam_id='".$randam_id."' WHERE id='".$vl->id."' AND picked_status=1 AND dispatch_status=0");
-        $this->db->query("UPDATE order_delivery_order_status SET delivery_mode='".$delivery_mode."',reason='Order Confirm and Picked',delivery_date_status='1',picked_status=1 WHERE order_id='".$vl->order_id."' AND dispatch_status=0 AND return_base=0 AND deleteid=0");
+        $this->db->query("UPDATE order_delivery_order_status SET delivery_mode='".$delivery_mode."',reason='Order Confirm and Picked',delivery_date_status='1',picked_status=1 WHERE order_id='".$vl->order_id."' AND dispatch_status=0  AND deleteid=0");
 
 $access="1";
                                        $load['order_product_id'] = $vl->id;
@@ -11061,7 +11069,7 @@ $access="1";
 
 
 //$this->db->query("UPDATE order_product_list_process SET randam_id='".$randam_id."' WHERE id='".$vl->id."' AND picked_status=1 AND dispatch_status=0");
-$this->db->query("UPDATE order_delivery_order_status SET delivery_mode='".$delivery_mode."',delivery_date_status='1',reason='Order Date Confirmed and picked',picked_status=1 WHERE order_id='".$vl->order_id."' AND dispatch_status=0 AND return_base=0 AND deleteid=0");
+$this->db->query("UPDATE order_delivery_order_status SET delivery_mode='".$delivery_mode."',delivery_date_status='1',reason='Order Date Confirmed and picked',picked_status=1 WHERE order_id='".$vl->order_id."' AND dispatch_status=0  AND deleteid=0");
 
 $access="1";
 
