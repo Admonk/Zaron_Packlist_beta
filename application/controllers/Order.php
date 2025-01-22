@@ -26284,7 +26284,7 @@ $ssqty=0;
                                                                 if($ddnos>0)
                                                                 {
 
-                                                                    $dispatch_nos=0;
+                                                                   // $dispatch_nos=0;
 
                                                                 }
 
@@ -26292,7 +26292,7 @@ $ssqty=0;
                                                                 if($ssqty>0)
                                                                 {
 
-                                                                    $dispatch_qty=0;
+                                                                   // $dispatch_qty=0;
 
                                                                 }
 
