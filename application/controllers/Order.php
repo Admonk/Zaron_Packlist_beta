@@ -36852,7 +36852,7 @@ $discountfulltotal = $value->bill_total;
                         $arraysub[] = array('no' => $value['no'],
                         'payment_id_base' => $value['payment_id_base'],
                         'trip_id' => $value['trip_id'],
-                        'collection_remarks' => $value['collection_remarks'],
+                        'collection_remarks' => round($value['collection_remarks']),
                         'driver_recived_payment' => $value['driver_recived_payment'],
                         'id' => $value['id'],
                         'vehicle_number' => $value['vehicle_number'], 
