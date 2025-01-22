@@ -4738,6 +4738,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
          if(totbal>1)
         {
@@ -4875,6 +4876,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
        
 
         if(totbal>1)
@@ -5011,6 +5013,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
           if(totbal>1)
         {
@@ -5151,6 +5154,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
           if(totbal>1)
         {
@@ -5290,6 +5294,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
           if(totbal>1)
         {
@@ -5428,6 +5433,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
           if(totbal>1)
         {
@@ -5563,6 +5569,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
           if(totbal>1)
         {
@@ -5699,6 +5706,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
          if(totbal>1)
         {
@@ -5833,6 +5841,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
           if(totbal>1)
         {
@@ -5958,6 +5967,7 @@ $(document).ready(function(){
 
       
         var totbal=allam-amount_data;
+        var totbal = totbal.toFixed(2);
 
        if(totbal>1)
         {
