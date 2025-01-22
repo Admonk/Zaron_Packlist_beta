@@ -26975,7 +26975,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             'categories' => $categories, 
             'type' => $type, 
             'edit_nos'=>$edit_nos,
-            'order_bill_no'=>$bill_nos+$edit_nos,
+            'order_bill_no'=>$bill_nos,
             'order_qty'=>$qty+$edit_qty,
             'description' => $description,
             'product_id' => $value->product_id, 
@@ -27823,42 +27823,12 @@ $remainder = $this->Main_model->where_names_three_thried_where_in_order_by($tabl
 
 
 
+       $km_delivered = $this->db->query("SELECT ds.randam_id,b.create_date,b.create_time,b.order_no,b.user_id,ds.km_reading_end,ds.reason,b.delivery_status,ds.assign_date,b.assign_date_time,ds.assign_time,b.customer_id,b.customer_address_id,b.shipping_address,b.delivery_mode,b.id as order_id,ds.trip_end_date,ds.trip_end_time,c.name as route_name,a.vehicle_number as vehicle_number,d.phone as driver_phone,d.name as driver_name,a.id as vehicle_id FROM vehicle as a JOIN order_delivery_order_status as ds ON a.id=ds.vehicle_id JOIN orders_process as b ON b.id=ds.order_id LEFT JOIN route as c ON c.id=a.route_id LEFT JOIN driver as d ON d.id=ds.driver_id WHERE ds.finance_status IN ('4') AND ds.km_reading_end>0 AND b.order_base IN ('1','120','121','21','23','20','11') AND b.md_approved_status IN ('1','0') AND ds.reason!='Driver Full Return' AND b.entry_user_id IN ('".implode("','", $sales_team_id)."') ORDER BY b.id DESC");
+       $km_delivered = $km_delivered->result();
 
-             $query = $this->db->query("SELECT a.delivery_status,a.km_reading_end,a.trip_end_date FROM order_delivery_order_status as a LEFT JOIN customers as b ON a.customer_id=b.id  LEFT JOIN driver as d ON a.driver_id=d.id LEFT JOIN vehicle as v ON a.vehicle_id=v.id WHERE a.deleteid='0' AND a.order_base IN ('1','120','121','21','23','20') AND a.finance_status='4' AND a.delivery_status IN ('2','1') AND a.entry_user_id IN ('".implode("','", $sales_team_id)."') AND a.reconcilation_status=0 ORDER BY a.id DESC");
-                 $result = $query->result();
 
-  $k=0;
-  foreach ($result as $value) 
-        {
-               if ($value->delivery_status == '1') {
-               
-                $km_reading_end=1;
-               }
-             
-             if ($value->delivery_status == '2')
-             {
 
-                
-                $km_reading_end=$value->km_reading_end;
-
-                   $date='2023-05-12';
-                  if($value->trip_end_date<$date)
-                  {
-                        
-                     $km_reading_end=1;
-
-                  }
-
-                
-
-             }
-             if($km_reading_end>0)
-             {
-                $k+=1;
-             }
-
-        }
-      
+ 
       
        
        
@@ -27892,42 +27862,10 @@ $remainder = $this->Main_model->where_names_three_thried_where_in_order_by($tabl
 
 
 
+       $km_delivered = $this->db->query("SELECT ds.randam_id,b.create_date,b.create_time,b.order_no,b.user_id,ds.km_reading_end,ds.reason,b.delivery_status,ds.assign_date,b.assign_date_time,ds.assign_time,b.customer_id,b.customer_address_id,b.shipping_address,b.delivery_mode,b.id as order_id,ds.trip_end_date,ds.trip_end_time,c.name as route_name,a.vehicle_number as vehicle_number,d.phone as driver_phone,d.name as driver_name,a.id as vehicle_id FROM vehicle as a JOIN order_delivery_order_status as ds ON a.id=ds.vehicle_id JOIN orders_process as b ON b.id=ds.order_id LEFT JOIN route as c ON c.id=a.route_id LEFT JOIN driver as d ON d.id=ds.driver_id WHERE ds.finance_status IN ('4') AND ds.km_reading_end>0 AND b.order_base IN ('1','120','121','21','23','20','11') AND b.md_approved_status IN ('1','0') AND ds.reason!='Driver Full Return' AND b.user_id IN ('".implode("','", $sales_team_id)."') ORDER BY b.id DESC");
+       $km_delivered = $km_delivered->result();
 
 
-             $query = $this->db->query("SELECT a.delivery_status,a.km_reading_end,a.trip_end_date FROM order_delivery_order_status as a LEFT JOIN customers as b ON a.customer_id=b.id  LEFT JOIN driver as d ON a.driver_id=d.id LEFT JOIN vehicle as v ON a.vehicle_id=v.id WHERE a.deleteid='0' AND a.order_base IN ('1','120','121','21','23','20') AND a.finance_status='4' AND a.delivery_status IN ('2','1') AND a.user_id IN ('".implode("','", $sales_team_id)."') AND a.reconcilation_status=0 ORDER BY a.id DESC");
-                 $result = $query->result();
-
-  $k=0;
-  foreach ($result as $value) 
-        {
-               if ($value->delivery_status == '1') {
-               
-                $km_reading_end=1;
-               }
-             
-             if ($value->delivery_status == '2')
-             {
-
-                
-                $km_reading_end=$value->km_reading_end;
-
-                   $date='2023-05-12';
-                  if($value->trip_end_date<$date)
-                  {
-                        
-                     $km_reading_end=1;
-
-                  }
-
-                
-
-             }
-             if($km_reading_end>0)
-             {
-                $k+=1;
-             }
-
-        }
       
       
       
@@ -27957,41 +27895,14 @@ $remainder = $this->Main_model->where_names_three_thried_where_in_order_by($tabl
       
 
 
-       $query = $this->db->query("SELECT a.delivery_status,a.km_reading_end,a.trip_end_date FROM orders_process as a LEFT JOIN customers as b ON a.customer_id=b.id LEFT JOIN admin_users as c ON a.user_id=c.id LEFT JOIN driver as d ON a.driver_id=d.id LEFT JOIN vehicle as v ON a.vehicle_id=v.id WHERE a.deleteid='0' AND a.order_base IN ('1','120','121','21','23','20') AND a.finance_status='4' AND a.delivery_status IN ('2','1') AND a.sales_group IN ('".implode("','", $sales_team_id)."') ORDER BY a.id DESC");
-                 $result = $query->result();
-
-  $k=0;
-  foreach ($result as $value) 
-        {
-               if ($value->delivery_status == '1') {
-               
-                $km_reading_end=1;
-               }
-             
-             if ($value->delivery_status == '2')
-             {
-
-                
-                $km_reading_end=$value->km_reading_end;
-
-                   $date='2023-05-12';
-                  if($value->trip_end_date<$date)
-                  {
-                        
-                     $km_reading_end=1;
-
-                  }
-
-                
-
-             }
-             if($km_reading_end>0)
-             {
-                $k+=1;
-             }
-
-        }
+  
       
+
+
+       $km_delivered = $this->db->query("SELECT ds.randam_id,b.create_date,b.create_time,b.order_no,b.user_id,ds.km_reading_end,ds.reason,b.delivery_status,ds.assign_date,b.assign_date_time,ds.assign_time,b.customer_id,b.customer_address_id,b.shipping_address,b.delivery_mode,b.id as order_id,ds.trip_end_date,ds.trip_end_time,c.name as route_name,a.vehicle_number as vehicle_number,d.phone as driver_phone,d.name as driver_name,a.id as vehicle_id FROM vehicle as a JOIN order_delivery_order_status as ds ON a.id=ds.vehicle_id JOIN orders_process as b ON b.id=ds.order_id LEFT JOIN route as c ON c.id=a.route_id LEFT JOIN driver as d ON d.id=ds.driver_id WHERE ds.finance_status IN ('4') AND ds.km_reading_end>0 AND b.order_base IN ('1','120','121','21','23','20','11') AND b.md_approved_status IN ('1','0') AND ds.reason!='Driver Full Return' AND b.sales_group IN ('".implode("','", $sales_team_id)."') ORDER BY b.id DESC");
+       $km_delivered = $km_delivered->result();
+
+  
       
       
       
@@ -28024,45 +27935,12 @@ $remainder = $this->Main_model->where_names_three_thried_where_in_order_by($tabl
       
 
 
-       $query = $this->db->query("SELECT a.delivery_status,a.km_reading_end,a.trip_end_date FROM order_delivery_order_status as a LEFT JOIN customers as b ON a.customer_id=b.id  LEFT JOIN driver as d ON a.driver_id=d.id LEFT JOIN vehicle as v ON a.vehicle_id=v.id WHERE a.deleteid='0' AND a.order_base IN ('1','120','121','21','23','20') AND a.finance_status='4' AND a.delivery_status IN ('2','1')  AND a.reconcilation_status=0 ORDER BY a.id DESC");
-       $result = $query->result();
+       $km_delivered = $this->db->query("SELECT ds.randam_id,b.create_date,b.create_time,b.order_no,b.user_id,ds.km_reading_end,ds.reason,b.delivery_status,ds.assign_date,b.assign_date_time,ds.assign_time,b.customer_id,b.customer_address_id,b.shipping_address,b.delivery_mode,b.id as order_id,ds.trip_end_date,ds.trip_end_time,c.name as route_name,a.vehicle_number as vehicle_number,d.phone as driver_phone,d.name as driver_name,a.id as vehicle_id FROM vehicle as a JOIN order_delivery_order_status as ds ON a.id=ds.vehicle_id JOIN orders_process as b ON b.id=ds.order_id LEFT JOIN route as c ON c.id=a.route_id LEFT JOIN driver as d ON d.id=ds.driver_id WHERE ds.finance_status IN ('4') AND ds.km_reading_end>0 AND b.order_base IN ('1','120','121','21','23','20','11') AND b.md_approved_status IN ('1','0') AND ds.reason!='Driver Full Return' ORDER BY b.id DESC");
+       $km_delivered = $km_delivered->result();
 
-  $k=0;
-  foreach ($result as $value) 
-        {
-               if ($value->delivery_status == '1') {
-               
-                $km_reading_end=1;
-               }
-             
-             if ($value->delivery_status == '2')
-             {
-
-                
-                $km_reading_end=$value->km_reading_end;
-
-                   $date='2023-05-12';
-                  if($value->trip_end_date<$date)
-                  {
-                        
-                     $km_reading_end=1;
-
-                  }
-
-                
-
-             }
-             if($km_reading_end>0)
-             {
-                $k+=1;
-             }
-
-        }
+  
       
-      
-      
-      
-      
+        
       
       
         }
@@ -28072,7 +27950,7 @@ $remainder = $this->Main_model->where_names_three_thried_where_in_order_by($tabl
         
         
         
-        $array = array('pending' => count($resultpending),'km_delivered' => $k,'Self' => count($self), 'b_c_pending' => count($b_c_pending),'proceed' => count($resultprocessed), 'cancel' => count($resultcancel), 'request' => count($resultrequest), 'transpot' => count($transpot), 'delivered' => count($delivered), 'reconciliation' => count($reconciliation));
+        $array = array('pending' => count($resultpending),'km_delivered' => count($km_delivered),'Self' => count($self), 'b_c_pending' => count($b_c_pending),'proceed' => count($resultprocessed), 'cancel' => count($resultcancel), 'request' => count($resultrequest), 'transpot' => count($transpot), 'delivered' => count($delivered), 'reconciliation' => count($reconciliation));
         echo json_encode($array);
     }
     
