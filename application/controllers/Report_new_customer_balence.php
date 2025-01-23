@@ -25856,6 +25856,12 @@ $this->db->query("UPDATE order_delivery_order_status SET  assign_status_12_date=
                                                                         $production_vass+=round($val->picked_status,2);
 
 
+
+
+
+
+
+
                                                                         // if($val->picked_status==0 && $val->return_status==1)
                                                                         // {
 
@@ -25868,6 +25874,11 @@ $this->db->query("UPDATE order_delivery_order_status SET  assign_status_12_date=
 
 
                                                                         //$production+=round($totalvalue-$return_amount_not_packed_base);
+
+
+
+
+
                                                                       
                                                                         $production+=round($totalvalue);
 
@@ -26299,6 +26310,42 @@ if(count($resultsub_inproduction_return_delivey)>0)
                                             $opening_balance_val=$totalvaluecrited-$totalvaluedebit;
                                             
                                              
+
+
+
+
+
+
+ $totalamountbase_retrun_to_re_sale=0;
+
+$resultmainss = $this->db->query("SELECT SUM(b.edit_nos) as edit_nos,SUM(b.rate*b.qty) as totalamountbase,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND a.customer='" . $value->id. "'");
+                                                       $resultcss = $resultmainss->result();
+                                                       if(count($resultcss)>0)
+                                                       {
+
+
+                                                           foreach($resultcss as $vl)
+                                                           {
+
+
+                                                                 $totalamountbase_retrun_to_re_sale=$vl->totalamountbase;
+                                                                 $totalamountbase_retrun_to_re_sale=round($totalamountbase_retrun_to_re_sale* 1.18,2);
+                                                                 
+                                                              
+                                                              
+                                                           }
+
+
+                                                       }
+
+
+$production=$production-$totalamountbase_retrun_to_re_sale;
+
+
+
+
+
+
 
 
                                              // $productionvalue=$production;
