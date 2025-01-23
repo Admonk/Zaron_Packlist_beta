@@ -1,4 +1,4 @@
-<?php
+<?php 
 ob_start();
 date_default_timezone_set("Asia/Kolkata");
 $conn = mysqli_connect("localhost", "efficq6n_madhura", "GUI6Tr&VE%&&", "efficq6n_madhura");
