@@ -34611,7 +34611,7 @@ if($value->create_date > '2024-05-31'){
                   
 
 
-$this->db->query("UPDATE order_delivery_order_status SET delivery_confirm_date_time='".$delivery_confirm_date_time."',delivery_confirm_person='".$delivery_confirm_person."',delivery_date_status='1',km_reading_end=0,start_reading=0  WHERE order_id='".$order_id[$i]."' AND dispatch_status=0 AND deleteid=0");
+$this->db->query("UPDATE order_delivery_order_status SET delivery_confirm_date_time='".$delivery_confirm_date_time."',delivery_confirm_person='".$delivery_confirm_person."',delivery_date_status='1',km_reading_end=0,start_reading=0  WHERE order_id='".$order_id[$i]."' AND dispatch_status=0  AND deleteid=0");
 
 
 $this->db->query("UPDATE orders_process SET reason='Order Date Confirmed and picked',delivery_confirm_date_time='".$delivery_confirm_date_time."',delivery_confirm_person='".$delivery_confirm_person."',delivery_date_status='1',full_delivery=0,km_reading_end=0,start_reading=0  WHERE id='".$order_id[$i]."'");
@@ -34621,7 +34621,7 @@ $this->db->query("UPDATE orders_process SET reason='Order Date Confirmed and pic
 $this->db->query("UPDATE order_delivery_order_status SET reason='Order Date Confirmed and picked',lengeth_max='".$lengeth."',weighttotal='".$weighttotal."'  WHERE order_id='".$order_id[$i]."' AND dispatch_status=0  AND deleteid=0");
 $this->db->query("UPDATE orders_process SET lengeth_max='".$lengeth."',weighttotal='".$weighttotal."'  WHERE id='".$order_id[$i]."'");
 
-
+              
 
 
 
