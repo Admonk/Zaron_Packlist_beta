@@ -10700,6 +10700,8 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
                                                    $qty1+= round($rc1->qty);
                                                 }
 
+                                                
+
                                                 $qty2=0;
                                                 $totalamount_old=0;
                                                 $old_amount=0;
