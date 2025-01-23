@@ -10680,7 +10680,99 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+                                                $st=0;   
+                                                $qty1=0;         
+                                                $querycount = $this->db->query("SELECT a.id,b.qty FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE b.deleteid='0' AND a.id='".$form_data->id."'   ORDER BY a.id DESC");
+                                                $resultcount = $querycount->result();
+                                                $count=count($resultcount);
+                                                foreach ($resultcount as $rc1) {
+                                                   $qty1+= round($rc1->qty);
+                                                }
+
+                                                $qty2=0;
+                                                $totalamount_old=0;
+                                                $old_amount=0;
+                                                $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id_data, 'deleteid', '0', 'id', 'ASC');
+                                                $count2=count($resultgetprodutold);
+                                                foreach ($resultgetprodutold as  $valueold)
+                                                {
+                                                          
+                                                    $rate_old=$valueold->rate+$valueold->commission;
+                                                    $amountold=$rate_old*$valueold->qty;
+                                                    $totalamount_old+=round($amountold* 1.18,2);
+                                                    $old_amount+=$valueold->amount;
+                                                    $qty2+= round($valueold->qty);
+                                                           
+                                                            
+                                                 }
+
+
+
+
+
+                                    if($count==$count2) 
+                                    {
+            
+            
+                                  
+            
+                                           if($qty1==$qty2) 
+                                           {
+
+                                            
+$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Re-Sale',return_id='".$form_data->id."',return_status=1,return_base=1 WHERE order_id='".$order_id_data."' AND finance_status=2");
+
+
+                                           }
+                                           else
+                                           {
+
+
+$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Re-Sale 1',return_id='".$form_data->id."',return_base=1 WHERE order_id='".$order_id_data."' AND finance_status=2");
+
+
+
+
+                                           }
+
+
+
+                                       }
+                                       else
+                                       {
+
+                             $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Re-Sale 1',return_id='".$form_data->id."',return_base=1 WHERE order_id='".$order_id_data."' AND finance_status=2");
+
+                                       }
+            
+
+
+
 //$this->db->query("UPDATE order_delivery_order_status SET trip_id=NULL,return_status=1,reason='Return To Re-Sale' WHERE order_id='".$order_id_data."' AND deleteid IN ('0','1002') AND finance_status=2");
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
                                        
@@ -10692,6 +10784,75 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
 //$this->db->query("UPDATE orders_process SET finance_status=15,assign_status=0,return_status=1,reason='Material Return To Extra Sheet',trip_id=0 WHERE order_no='".$order_id_no."'");
 $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_id_no."'");
 
+
+
+
+
+                                                $st=0;   
+                                                $qty1=0;         
+                                                $querycount = $this->db->query("SELECT a.id,b.qty FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE b.deleteid='0' AND a.id='".$form_data->id."'   ORDER BY a.id DESC");
+                                                $resultcount = $querycount->result();
+                                                $count=count($resultcount);
+                                                foreach ($resultcount as $rc1) {
+                                                   $qty1+= round($rc1->qty);
+                                                }
+
+                                                $qty2=0;
+                                                $totalamount_old=0;
+                                                $old_amount=0;
+                                                $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id_data, 'deleteid', '0', 'id', 'ASC');
+                                                $count2=count($resultgetprodutold);
+                                                foreach ($resultgetprodutold as  $valueold)
+                                                {
+                                                          
+                                                    $rate_old=$valueold->rate+$valueold->commission;
+                                                    $amountold=$rate_old*$valueold->qty;
+                                                    $totalamount_old+=round($amountold* 1.18,2);
+                                                    $old_amount+=$valueold->amount;
+                                                    $qty2+= round($valueold->qty);
+                                                           
+                                                            
+                                                 }
+
+
+
+
+
+                                    if($count==$count2) 
+                                    {
+            
+            
+                                  
+            
+                                           if($qty1==$qty2) 
+                                           {
+
+                                            
+//$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Extra Sheet',return_id='".$form_data->id."',return_status=1,return_base=1 WHERE order_id='".$order_id_data."' AND finance_status=2");
+
+
+                                           }
+                                           else
+                                           {
+
+
+//$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet 1',return_id='".$form_data->id."',return_base=1 WHERE order_id='".$order_id_data."' AND finance_status=2");
+
+
+
+
+                                           }
+
+
+
+                                       }
+                                       else
+                                       {
+
+ //$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet 1',return_id='".$form_data->id."',return_base=1 WHERE order_id='".$order_id_data."' AND finance_status=2");
+
+                                       }
+            
 
 
 

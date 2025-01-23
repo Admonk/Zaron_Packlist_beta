@@ -642,7 +642,7 @@ if($inproduction_total_return==0)
    
    
                                $disabled='';
-                            if($value->reason_last=='CallBack' || $value->reason_last=='Driver Return Partial' || $value->reason_last=='Driver Full Return' || $value->reason_last=='Driver Partial Return1' || $value->reason_last=='Driver Full Return1' || $value->reason_last=='Return To Re-Sale' || $value->reason_last=='Return To Re-Sale 1' || $value->reason_last=='Return To Sale')
+                            if($value->reason_last=='CallBack' || $value->reason_last=='Driver Return Partial' || $value->reason_last=='Driver Full Return' || $value->reason_last=='Driver Partial Return1' || $value->reason_last=='Driver Full Return1' || $value->reason_last=='Return To Re-Sale' || $value->reason_last=='Return To Re-Sale 1' || $value->reason_last=='Return To Extra Sheet 1' || $value->reason_last=='Return To Sale')
                             { 
    
                              $disabled='disabled';
