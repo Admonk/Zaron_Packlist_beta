@@ -13494,7 +13494,7 @@ $result = $result->result();
         {
 
 
-             $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NULL ");
+             $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND pickedstatus=1 AND randam_id IS NULL ");
              $vvs=$vvs->result();
 
                 if(count($vvs)>0)
@@ -13566,6 +13566,38 @@ $result = $result->result();
 
                          }
 
+
+
+ $edit_nos=0;
+ $edit_qty=0;
+ $retirn_toresale=0;
+$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->order_product_id . "'");
+                                                       $resultcss = $resultmainss->result();
+                                                       if(count($resultcss)>0)
+                                                       {
+
+
+                                                           foreach($resultcss as $vl)
+                                                           {
+
+
+                                                                 $edit_nos=$vl->edit_nos;
+                                                                 $edit_qty=$vl->qty;
+                                                                 $value->qty=abs($value->qty-$edit_qty);
+                                                                 $value->nos=abs($value->nos-$edit_nos);
+
+                                                                 $value->total=$value->qty*$value->rate;
+
+                                                                 $bill_qty=abs($bill_qty-$edit_qty);
+                                                                 $bill_nos=abs($bill_nos-$edit_nos);
+
+                                                                
+                                                              
+                                                              
+                                                           }
+
+
+                                                       }
 
 
 
@@ -14306,7 +14338,7 @@ if($return_no_pick<=0)
         {
 
 
-             $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND randam_id IS NULL ");
+             $vvs=$this->db->query("SELECT * FROM sales_load_products WHERE order_product_id='".$value->order_product_id."' AND pickedstatus=1 AND randam_id IS NULL ");
              $vvs=$vvs->result();
 
                 if(count($vvs)>0)
@@ -14379,7 +14411,36 @@ if($return_no_pick<=0)
                          }
 
 
+ $edit_nos=0;
+ $edit_qty=0;
+ $retirn_toresale=0;
+$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->order_product_id . "'");
+                                                       $resultcss = $resultmainss->result();
+                                                       if(count($resultcss)>0)
+                                                       {
 
+
+                                                           foreach($resultcss as $vl)
+                                                           {
+
+
+                                                                 $edit_nos=$vl->edit_nos;
+                                                                 $edit_qty=$vl->qty;
+                                                                 $value->qty=abs($value->qty-$edit_qty);
+                                                                 $value->nos=abs($value->nos-$edit_nos);
+
+                                                                 $value->total=$value->qty*$value->rate;
+
+                                                                 $bill_qty=abs($bill_qty-$edit_qty);
+                                                                 $bill_nos=abs($bill_nos-$edit_nos);
+
+                                                                
+                                                              
+                                                              
+                                                           }
+
+
+                                                       }
 
 
 
