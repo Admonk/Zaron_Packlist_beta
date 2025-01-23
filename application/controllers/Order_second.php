@@ -9632,6 +9632,9 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
                                         
                                         $data['update_date']= $form_data->arrival_date;
                                         $data['update_time']= $time;
+                                        $data['admin_order']= 1;
+
+                                        
                                         
                                         if($form_data->optionid==3)
                                         {
@@ -9811,7 +9814,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                         
                                         
                                         
-                       $this->db->query("UPDATE $tablename SET qty='".$netweight."',bill_total='".$bill_total."',driver_return=2,delivery_date_status=1,tcs_status='".$tcs_status."' WHERE id='".$insert_id."'");
+                       $this->db->query("UPDATE $tablename SET order_id='".$order_id."',qty='".$netweight."',bill_total='".$bill_total."',driver_return=2,delivery_date_status=1,tcs_status='".$tcs_status."' WHERE id='".$insert_id."'");
 
 
 
@@ -9826,7 +9829,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
 
                                              $reasons='Return To Extra Sheet';
                                              $randam_idset=rand(1000,9999);
-        $this->db->query("UPDATE orders_process SET finance_status=10,assign_status=0,return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_no."'");
+        $this->db->query("UPDATE orders_process SET finance_status=10,assign_status=0,return_status=1,reason='Return To Re-Sale' WHERE order_no='".$order_no."'");
 
                                      if($count==$count2) 
                                     {
@@ -9838,7 +9841,7 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                            {
 
                                             
-$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Extra Sheet',return_id='".$insert_id."',return_status=1,return_base=1 WHERE order_id='".$order_id."' AND finance_status=2");
+$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assign_status=0,reason='Return To Re-Sale',return_id='".$insert_id."',return_status=1,return_base=1 WHERE order_id='".$order_id."' AND finance_status=2");
 
 
                                            }
@@ -9846,7 +9849,7 @@ $this->db->query("UPDATE order_delivery_order_status SET finance_status=10,assig
                                            {
 
 
-$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."',return_base=1 WHERE order_id='".$order_id."' AND finance_status=2");
+$this->db->query("UPDATE order_delivery_order_status SET reason='Return To Re-Sale',return_id='".$insert_id."',return_base=1 WHERE order_id='".$order_id."' AND finance_status=2");
 
 
 
@@ -9860,7 +9863,7 @@ $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra
                                        {
 
 
-                                           $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Extra Sheet',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
+                                           $this->db->query("UPDATE order_delivery_order_status SET reason='Return To Re-Sale',return_id='".$insert_id."' WHERE order_id='".$order_id."' AND finance_status=2");
 
                                        }
         
@@ -10677,7 +10680,7 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
 
 
 
-//$this->db->query("UPDATE order_delivery_order_status SET finance_status=10,trip_id=NULL,return_status=1,reason='Return To Re-Sale' WHERE order_id='".$order_id_data."' AND deleteid=0 AND finance_status=2");
+//$this->db->query("UPDATE order_delivery_order_status SET trip_id=NULL,return_status=1,reason='Return To Re-Sale' WHERE order_id='".$order_id_data."' AND deleteid IN ('0','1002') AND finance_status=2");
 
 
                                        
@@ -10687,12 +10690,12 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
                                          {
 
 //$this->db->query("UPDATE orders_process SET finance_status=15,assign_status=0,return_status=1,reason='Material Return To Extra Sheet',trip_id=0 WHERE order_no='".$order_id_no."'");
-$this->db->query("UPDATE orders_process SET return_status=1,reason='Material Return To Extra Sheet' WHERE order_no='".$order_id_no."'");
+$this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Extra Sheet' WHERE order_no='".$order_id_no."'");
 
 
 
 
-//$this->db->query("UPDATE order_delivery_order_status SET  finance_status=10,trip_id=NULL,return_status=1,reason='Material Return To Extra Sheet' WHERE order_id='".$order_id_data."' AND deleteid=0 AND finance_status=2");   
+//$this->db->query("UPDATE order_delivery_order_status SET  trip_id=NULL,return_status=1,reason='Return To Extra Sheet' WHERE order_id='".$order_id_data."' AND deleteid IN ('0','1002') AND finance_status=2");   
 
 
 

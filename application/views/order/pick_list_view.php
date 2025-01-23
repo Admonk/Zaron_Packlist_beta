@@ -3268,6 +3268,9 @@ th {
                                                                                                                     <label
                                                                                                                         for="set_id{{name.id}}"
                                                                                                                         ng-if="name.bill_nos!=name.dis_nos && namecate.labletype!=9">
+                                                                                                                        
+
+
                                                                                                                         <input
                                                                                                                             type="checkbox"
                                                                                                                             value="{{name.id}}"
@@ -3275,12 +3278,18 @@ th {
                                                                                                                             ng-click="loadProduct(name.id)"
                                                                                                                             <?php echo $disabled; ?>
                                                                                                                             class="loaditems"
-                                                                                                                            name="loaditems">
+                                                                                                                            name="loaditems" 
+                                                                                                                            ng-disabled="(name.bill_nos - name.edit_nos) === 0"
+                                                                                                                            ng-checked="(name.bill_nos - name.edit_nos) === 0"
+
+                                                                                                                            >
 
                                                                                                                         <span
                                                                                                                             id="textchange_{{name.id}}">
                                                                                                                             Pack
                                                                                                                         </span>
+
+
 
 
                                                                                                                     </label>
@@ -3296,7 +3305,11 @@ th {
                                                                                                                             ng-click="loadProduct(name.id)"
                                                                                                                             <?php echo $disabled; ?>
                                                                                                                             class="loaditems"
-                                                                                                                            name="loaditems">
+                                                                                                                            name="loaditems"
+                                                                                                                            ng-disabled="(name.bill_qty - name.edit_qty) === 0"
+                                                                                                                            ng-checked="(name.bill_qty - name.edit_qty) === 0"
+
+                                                                                                                            >
 
                                                                                                                         <span
                                                                                                                             id="textchange_{{name.id}}">

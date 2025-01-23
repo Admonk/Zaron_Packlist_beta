@@ -173,14 +173,13 @@ public function fetch_single_data_totaldel_pickup_test_val()
            else
            {
 
-                   if($search == "")
-                   {
+                 
                        $where .= ' AND ds.delivery_date_status=0';
                        $where .= ' AND ds.dispatch_status=0';
 
-                   }
+                   
 
-                   $where .= ' AND ds.deleteid IN ("0","1002")';
+                       $where .= ' AND ds.deleteid IN ("0","1002")';
            }
    
    
@@ -252,11 +251,15 @@ public function fetch_single_data_totaldel_pickup_test_val()
            {
                       
                  //AND a.order_base IN ('1','21','23','20','11')
-              $where .=" AND a.order_no LIKE '%" . $search . "%'";
+              
              //$where .= " OR c.name='" . $search . "' OR b.company_name LIKE '%" . $search . "%' OR b.phone LIKE '%" . $search . "%' OR a.reason LIKE '%" . $search . "%'";
-              $where1 .= " AND order_no LIKE '%" . $search . "'";
+              //$where .=" AND a.order_no LIKE '%" . $search . "%'";
+              //$where1 .= " AND order_no LIKE '%" . $search . "'";
+
+               $where .=" AND a.order_no='" . $search . "'";
+               $where1 .= " AND order_no='" . $search . "'";
                
-              $where .= " AND a.order_base IN ('1','21','23','20','11','120')   AND ds.delivery_status IN  ('2','1') AND ds.finance_status NOT IN ('10')";   
+               $where .= " AND ds.order_base>0  AND ds.finance_status NOT IN ('10')";   
    
    
            }
@@ -299,7 +302,7 @@ public function fetch_single_data_totaldel_pickup_test_val()
    
                          // $where .= " AND a.order_base IN ('1','21','23','20','11','120') AND a.delivery_status IN ('2','1')";
                           
-                         $where .= " AND a.order_base IN ('1','21','23','20','11','120') AND ds.finance_status NOT IN ('10')";                         
+                         $where .= " AND ds.order_base IN ('1','21','23','20','11','120') AND ds.finance_status NOT IN ('10')";                         
            
            }
    
@@ -360,9 +363,10 @@ public function fetch_single_data_totaldel_pickup_test_val()
 
 
 
-
+// echo "SELECT a.*,ds.return_id as return_ids,ds.payment_mode,ds.delivery_status,ds.delivery_charge,ds.picked_status as picked_status_last,ds.randam_id,ds.reason as reason_last,ds.collection_remarks as collection_remarks_final,  ds.id as aa_id,ds.collection_remarks_2,c.name, b.company_name, b.email, b.phone,b.id as c_id, b.sales_team_id, b.sales_team_sub_id, b.address1, b.address2, b.landmark, b.zone, b.pincode, b.state FROM orders_process AS a LEFT JOIN customers AS b ON a.customer_id = b.id LEFT JOIN admin_users AS c ON a.user_id = c.id  $JOIN WHERE a.deleteid = '0'  $userslog $where $whereNew ORDER BY ds.id DESC LIMIT $offset, $pagesize ";
+// exit;
    
-                $query = $this->db->query("SELECT a.*,ds.return_id as return_ids,ds.payment_mode,ds.delivery_status,ds.delivery_charge,ds.picked_status as picked_status_last,ds.randam_id,ds.reason as reason_last,ds.collection_remarks as collection_remarks_final,  ds.id as aa_id,ds.collection_remarks_2,c.name, b.company_name, b.email, b.phone,b.id as c_id, b.sales_team_id, b.sales_team_sub_id, b.address1, b.address2, b.landmark, b.zone, b.pincode, b.state FROM orders_process AS a LEFT JOIN customers AS b ON a.customer_id = b.id LEFT JOIN admin_users AS c ON a.user_id = c.id  $JOIN WHERE a.deleteid = '0'  $userslog $where $whereNew ORDER BY ds.id DESC LIMIT $offset, $pagesize ");
+                $query = $this->db->query("SELECT a.*,ds.return_id as return_ids,ds.payment_mode,ds.delivery_status,ds.delivery_charge,ds.picked_status as picked_status_last,ds.randam_id,ds.reason as reason_last,ds.collection_remarks as collection_remarks_final,  ds.id as aa_id,ds.collection_remarks_2,c.name, b.company_name, b.email, b.phone,b.id as c_id, b.sales_team_id, b.sales_team_sub_id, b.address1, b.address2, b.landmark, b.zone, b.pincode, b.state FROM orders_process AS a LEFT JOIN customers AS b ON a.customer_id = b.id LEFT JOIN admin_users AS c ON a.user_id = c.id  $JOIN WHERE a.deleteid NOT IN ('60','1')  $userslog $where $whereNew ORDER BY ds.id DESC LIMIT $offset, $pagesize ");
                 $result = $query->result();    
     
    
@@ -638,7 +642,7 @@ if($inproduction_total_return==0)
    
    
                                $disabled='';
-                            if($value->reason_last=='CallBack' || $value->reason_last=='Driver Return Partial' || $value->reason_last=='Driver Full Return')
+                            if($value->reason_last=='CallBack' || $value->reason_last=='Driver Return Partial' || $value->reason_last=='Driver Full Return' || $value->reason_last=='Driver Partial Return1' || $value->reason_last=='Driver Full Return1' || $value->reason_last=='Return To Re-Sale' || $value->reason_last=='Return To Sale')
                             { 
    
                              $disabled='disabled';

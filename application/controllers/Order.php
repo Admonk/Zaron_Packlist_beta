@@ -26112,9 +26112,38 @@ public function fetch_data_delivery_data_by_picklist() {
                $amountdata = $rate * $value->modify_qty;
                $amount = $amountdata;
         }
+
+
+
+
+
+
+
+$resale_nos=0;
+$resale_qty=0;
+$resultmainss_resale = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base NOT IN ('5') AND a.admin_order=1 AND b.purchase_order_product_id='" . $value->id . "'");
+                                                       $resultmainss_resale = $resultmainss_resale->result();
+                                                       if(count($resultmainss_resale)>0)
+                                                       {
+
+
+                                                           foreach($resultmainss_resale as $resale)
+                                                           {
+
+
+                                                            $resale_nos=$resale->edit_nos;
+                                                            $resale_qty=$resale->qty;
+                                                               
+                                                            
+                                                              
+                                                           }
+
+
+                                                       }
+
+
            
     if($_GET['DC_id'] == "")  
-
     {
 
 
@@ -26130,8 +26159,8 @@ $return_id = $scope_changes->return_id;
                 $resultload = $resultload->result();
                 foreach ($resultload as $valueload)
                 {
-                     $dispatch_nos= $valueload->nos;
-                     $dispatch_qty= $valueload->qty;
+                     $dispatch_nos= $valueload->nos-$resale_nos;
+                     $dispatch_qty= $valueload->qty-$resale_qty;
                 }
 
 
@@ -26211,14 +26240,14 @@ $return_id = $scope_changes->return_id;
                         $dispatch_nos = 0;
                         $dispatch_qty = 0;
                         foreach ($resultload as $valueload) {
-                            $dispatch_nos = $valueload->nos;
-                            $dispatch_qty = $valueload->qty;
+                            $dispatch_nos= $valueload->nos-$resale_nos;
+                            $dispatch_qty= $valueload->qty-$resale_qty;
                         }
 
 
     }
 
-
+// CURRENT CHANGE
 
 
                 $resultload = $this->db->query("SELECT SUM(nos) as nos,SUM(amount) as amount,SUM(qty) as qty FROM sales_load_products  WHERE order_product_id='" . $value->id . "' AND pickedstatus=1   AND order_id='".$value->order_id."'  ORDER BY id ASC");
@@ -26243,7 +26272,7 @@ $return_id = $scope_changes->return_id;
  $edit_nos=0;
  $edit_qty=0;
  $retirn_toresale=0;
-$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE a.id='" . $return_id . "' AND a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->id . "'");
+$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->id . "'");
                                                        $resultcss = $resultmainss->result();
                                                        if(count($resultcss)>0)
                                                        {
@@ -26264,38 +26293,8 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                                                                 //$value->picked_status=0;
 
 
-$ddnos=0;
-$ssqty=0;
 
-                                                             $querycheck = "SELECT SUM(nos) as ddnos,SUM(qty) as ssqty FROM sales_load_products  WHERE  loadstatus = 1  AND order_product_id= " . $vl->order_product_id . " GROUP BY randam_id  ORDER BY id ASC ";
-
-                                                            $querycheck = $this->db->query($querycheck)->result();     
-                                                            if(count($querycheck)>0)
-                                                            {
-
-                                                                foreach($querycheck as $ddsd)
-                                                                {
-                                                                   $ddnos=$ddsd->ddnos;
-                                                                   $ssqty=$ddsd->ssqty;
-                                                                }
-
-                                                            }              
-                                    
-                                                                if($ddnos>0)
-                                                                {
-
-                                                                   // $dispatch_nos=0;
-
-                                                                }
-
-
-                                                                if($ssqty>0)
-                                                                {
-
-                                                                   // $dispatch_qty=0;
-
-                                                                }
-
+                                                              
                                                              
                                           
                                                               
@@ -32461,6 +32460,7 @@ public function update_scope_details() {
                           delivery_status='" . $delivery_status . "' ,
                           payment_mode='" . $payment_mode . "',
                           deleteid='0',
+                          collection_remarks='0',
                           utr_status='" . $utr_status . "' ,
                           sample_load_status='" . $sample_load_status . "',
                           cash_bill_status='" . $cash_bill_status . "' ,
