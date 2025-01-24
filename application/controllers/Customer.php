@@ -5228,7 +5228,7 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                         a.deleteid = 0 
                                         AND b.customer_id = '".$customer_id."'  AND b.order_base>0
                                         AND b.reason != 'Return To Re-sale'
-                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2') 
+                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2') AND b.return_status_check=0
                                         AND (
                                             CASE
                                                 WHEN b.assign_status_0_date <= '$todate'  AND (b.assign_status_12_date > '$todate' OR b.assign_status_12_date IS NULL)  AND (b.assign_status_11_date > '$todate' OR b.assign_status_11_date IS NULL)  AND (b.assign_status_3_date > '$todate' OR b.assign_status_3_date IS NULL)  THEN 1
@@ -5346,7 +5346,7 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                     WHERE 
                                         a.deleteid = 0 
                                         AND b.customer_id = '".$customer_id."'  AND b.order_base > 0
-                                         AND b.reason != 'Return To Re-sale' AND b.return_status IN ('0','2')
+                                         AND b.reason != 'Return To Re-sale' AND b.return_status IN ('0','2') AND b.return_status_check=0
                                                                       AND b.deleteid = 0  
                                                                       AND (
                                                                            CASE
@@ -5436,7 +5436,7 @@ $this->db->query("UPDATE all_ledgers SET user_id='".$this->userid."',debits='".$
                                         a.deleteid = 0 
                                         AND b.customer_id = $customer_id 
                                         AND b.reason != 'Return To Re-sale' 
-                                        AND b.deleteid = 0  AND b.return_status IN ('0','2')
+                                        AND b.deleteid = 0  AND b.return_status IN ('0','2') AND b.return_status_check=0
                                         AND (
                                              CASE
                                                 WHEN (b.delivery_status = 2 AND (b.assign_status_2_date <= '$todate' AND ((b.trip_end_date >= '$todate' OR b.trip_end_date IS NULL) AND (b.trip_end_date IS NULL AND b.trip_start_date <= '$todate' )) ) )  THEN 1

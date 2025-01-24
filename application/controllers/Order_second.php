@@ -9769,22 +9769,71 @@ $checkdata_p = $this->Main_model->where_names_three_order_by('sales_return_produ
                                         if($order_no!='')
                                         {
 
-                                                $qty2=0;
-                                                $totalamount_old=0;
-                                                $old_amount=0;
-                                                $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id, 'deleteid', '0', 'id', 'ASC');
-                                                $count2=count($resultgetprodutold);
-                                                foreach ($resultgetprodutold as  $valueold)
-                                                {
+                                                // $qty2=0;
+                                                // $totalamount_old=0;
+                                                // $old_amount=0;
+                                                // $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id, 'deleteid', '0', 'id', 'ASC');
+                                                // $count2=count($resultgetprodutold);
+                                                // foreach ($resultgetprodutold as  $valueold)
+                                                // {
                                                           
-                                                    $rate_old=$valueold->rate+$valueold->commission;
-                                                    $amountold=$rate_old*$valueold->qty;
-                                                    $totalamount_old+=round($amountold* 1.18,2);
-                                                    $old_amount+=$valueold->amount;
-                                                    $qty2+= round($valueold->qty);
+                                                //     $rate_old=$valueold->rate+$valueold->commission;
+                                                //     $amountold=$rate_old*$valueold->qty;
+                                                //     $totalamount_old+=round($amountold* 1.18,2);
+                                                //     $old_amount+=$valueold->amount;
+                                                //     $qty2+= round($valueold->qty);
                                                            
                                                             
-                                                 }
+                                                //  }
+
+
+                                                   $nondelivery= $this->Main_model->where_names_three_order_by('sales_load_products', 'order_id', $order_id, 'delivered_products', '0','loadstatus','1', 'id', 'ASC');
+                                                $nondeliverycount=count($nondelivery);
+                                                $count2=count($nondelivery);
+                                                if($nondeliverycount>0)
+                                                {
+
+                                                    foreach ($nondelivery as  $valueold)
+                                                    {
+
+                                                        if($valueold->amount>0)
+                                                        {
+                                                            $rate_old=$valueold->rate;
+                                                            $amountold=$rate_old*$valueold->qty;
+                                                            $totalamount_old+=round($amountold* 1.18,2);
+                                                            $old_amount+=$valueold->amount;
+                                                            $qty2+= round($valueold->qty);
+
+                                                        }
+                                                        
+                                                                
+                                                     }
+
+                                                }
+                                                else
+                                                {
+
+
+                                                        $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id, 'deleteid', '0', 'id', 'ASC');
+                                                        $count2=count($resultgetprodutold);
+                                                        foreach ($resultgetprodutold as  $valueold)
+                                                        {
+
+                                                            
+                                                                  
+                                                            $rate_old=$valueold->rate+$valueold->commission;
+                                                            $amountold=$rate_old*$valueold->qty;
+                                                            $totalamount_old+=round($amountold* 1.18,2);
+                                                            $old_amount+=$valueold->amount;
+                                                            $qty2+= round($valueold->qty);
+                                                                   
+                                                                    
+                                                         }
+
+
+
+
+                                                }
 
 
 
@@ -10702,22 +10751,61 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
 
                                                 
 
+                                                
                                                 $qty2=0;
                                                 $totalamount_old=0;
                                                 $old_amount=0;
-                                                $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id_data, 'deleteid', '0', 'id', 'ASC');
-                                                $count2=count($resultgetprodutold);
-                                                foreach ($resultgetprodutold as  $valueold)
+                                               
+
+
+                                                $nondelivery= $this->Main_model->where_names_three_order_by('sales_load_products', 'order_id', $order_id_data, 'delivered_products', '0','loadstatus','1', 'id', 'ASC');
+                                                $nondeliverycount=count($nondelivery);
+                                                $count2=count($nondelivery);
+                                                if($nondeliverycount>0)
                                                 {
-                                                          
-                                                    $rate_old=$valueold->rate+$valueold->commission;
-                                                    $amountold=$rate_old*$valueold->qty;
-                                                    $totalamount_old+=round($amountold* 1.18,2);
-                                                    $old_amount+=$valueold->amount;
-                                                    $qty2+= round($valueold->qty);
-                                                           
+
+                                                    foreach ($nondelivery as  $valueold)
+                                                    {
+
+                                                        if($valueold->amount>0)
+                                                        {
+                                                            $rate_old=$valueold->rate;
+                                                            $amountold=$rate_old*$valueold->qty;
+                                                            $totalamount_old+=round($amountold* 1.18,2);
+                                                            $old_amount+=$valueold->amount;
+                                                            $qty2+= round($valueold->qty);
+
+                                                        }
+                                                        
+                                                                
+                                                     }
+
+                                                }
+                                                else
+                                                {
+
+
+                                                        $resultgetprodutold= $this->Main_model->where_names_two_order_by('order_product_list_process', 'order_id', $order_id_data, 'deleteid', '0', 'id', 'ASC');
+                                                        $count2=count($resultgetprodutold);
+                                                        foreach ($resultgetprodutold as  $valueold)
+                                                        {
+
                                                             
-                                                 }
+                                                                  
+                                                            $rate_old=$valueold->rate+$valueold->commission;
+                                                            $amountold=$rate_old*$valueold->qty;
+                                                            $totalamount_old+=round($amountold* 1.18,2);
+                                                            $old_amount+=$valueold->amount;
+                                                            $qty2+= round($valueold->qty);
+                                                                   
+                                                                    
+                                                         }
+
+
+
+
+                                                }
+                                                
 
 
 

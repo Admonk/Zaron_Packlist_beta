@@ -6481,6 +6481,8 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
+                              $dil_status['return_status_check'] =1;
+                              $dil_status['customer_id'] =$customer_id;
 
 //$this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
                                $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $order_id . "' AND finance_status=2 AND deleteid='0'");
@@ -6544,6 +6546,8 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
+                              $dil_status['return_status_check'] =1;
+                              $dil_status['customer_id'] =$customer_id;
 
 
 
@@ -6618,6 +6622,9 @@ $this->db->query("UPDATE order_delivery_order_status SET collection_remarks_2='"
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
+                              $dil_status['return_status_check'] =1;
+
+
 
 
 //$this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
@@ -27061,7 +27068,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             'nos_tab_value'=> $nos_tab_values,
             'activel_qty' => $value->activel_qty,
             'activel_qty_packlist'=>isset($activel_qtys->activel_qty) ? $activel_qtys->activel_qty : '',
-
+ 
         );
             $i++;
     }
@@ -32493,6 +32500,7 @@ public function update_scope_details() {
                           payment_mode='" . $payment_mode . "',
                           deleteid='0',
                           collection_remarks='0',
+                          return_status_check='0',
                           utr_status='" . $utr_status . "' ,
                           sample_load_status='" . $sample_load_status . "',
                           cash_bill_status='" . $cash_bill_status . "' ,
