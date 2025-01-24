@@ -46587,14 +46587,60 @@ if($tcs_status==1)
                 $scope_changes = $query_scope->row(); 
                 
                 $delivery_charge = $scope_changes->delivery_charge;
+                $return_id = $scope_changes->return_id;
        
        
+
+
+
+$return_amount_return_to_resale=0;
+$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base IN ('5','8')");
+$resultcss = $resultmainss->result();
+if(count($resultcss)>0)
+{
+
+
+                                                               foreach($resultcss as $vl)
+                                                               {
+                                                                   
+                                                                  $return_amount_return_to_resale= $vl->bill_total;
+                                                                 
+                                              
+                                                                  
+                                                               }
+
+
+}
+
+
+
+$return_amount_return_to_sale=0;
+$resultmainss_ss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id. "' AND deleteid=0 AND order_base=2 AND remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')");
+$resultcss_gg = $resultmainss_ss->result();
+if(count($resultcss_gg)>0)
+{
+
+
+                                                               foreach($resultcss_gg as $vlvd)
+                                                               {
+                                                                   
+                                                                  $return_amount_return_to_sale= $vlvd->bill_total;
+                                                                 
+                                              
+                                                                  
+                                                               }
+
+
+}
+
+
+
        
        
        
                     $trip_id = $valuedis->trip_id;
        
-        if($valuedis->return_amount>0)
+                  if($valuedis->return_amount>0)
                    {
                             $return_amount = $valuedis->return_amount;
                    }
@@ -47168,6 +47214,8 @@ if($unbilledloadamount>0)
                     'vehicle_name'=>$vehicle_name,  
                      'driver_name'=>$driver_name,
                      'picked_amount'=>round($picked_amount),
+                     'return_amount_return_to_sale'=>$return_amount_return_to_sale,
+                     'return_amount_return_to_resale'=>$return_amount_return_to_resale,
                      'pickedtotalamount'=>round($pickedtotalamount),
                      'phone'=>$phone,'address'=>$address,'company_name_data'=>$company_name_data,'lengeth'=>$lengeth,'delivery_charge'=>$delivery_charge,'assign_date' => $assign_date . ' ' . $assign_time,'delivery_date_time' => $delivery_date_time,'SSD_check' => $SSD_check,'excess_payment_status' => $excess_payment_status,'order_no' => $order_no,'tcsamount' => $tcsamount, 'unbilledloadamount' => round($unbilledloadamount),'deliveredamount' => round($deliveredamount),'loadtotalamount' => round($loadtotalamount),'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'start_reading' => $start_reading, 'paricel_mode' => $paricel_mode, 'delivery_mode' => $delivery_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff, 'fulltotal' => round($bill_total,2), 'discountfulltotal' => round($discountfulltotal), 'totalitems' => count($result), 'discount' => round($discount,2), 'gsttotal' => $amounttotalgst, 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2),'return_amount'=>$return_amount, 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2),
 
