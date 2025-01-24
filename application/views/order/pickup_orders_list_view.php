@@ -3853,7 +3853,7 @@ $scope.fetchSingleDatatotaldel = function(){
              $scope.loadtotalamount = 0;
           }
 
-         
+                      
         $scope.unbilledloadamount = data.unbilledloadamount;
         $scope.deliveredamount = data.deliveredamount;
         $scope.return_amount_return_to_sale = data.return_amount_return_to_sale;
