@@ -451,6 +451,12 @@ th {
                                                                   <p><span>Delivery Charge</span><span> Rs. {{ delivery_charge | indianCurrency }}</span></p>
                                                                   <p><span>Total Amount</span><span> Rs. {{ fulltotaldel | indianCurrency }}</span></p>
                                                                   <p><span>Loaded</span><span> Rs. {{ unbilledloadamount | indianCurrency }}</span></p>
+
+
+                                                                  <p ng-if="return_amount_return_to_sale>0"><span>Return To Sale</span><span> Rs.  {{ return_amount_return_to_sale | indianCurrency }}</span></p>
+
+                                                                  <p ng-if="return_amount_return_to_resale>0"><span>Return To Re-Sale</span><span> Rs.  {{ return_amount_return_to_resale | indianCurrency }}</span></p>
+
                                                                   <p ng-if="deliveredamount>0"><span>Delivered</span><span> Rs. {{ deliveredamount| indianCurrency }}</span></p>
                                                                   
                                                                   <p><span>Balance </span><span> Rs. {{ finalbalnce | indianCurrency }} </span></p>
@@ -3847,9 +3853,11 @@ $scope.fetchSingleDatatotaldel = function(){
              $scope.loadtotalamount = 0;
           }
 
-         
+                        
         $scope.unbilledloadamount = data.unbilledloadamount;
         $scope.deliveredamount = data.deliveredamount;
+        $scope.return_amount_return_to_sale = data.return_amount_return_to_sale;
+        $scope.return_amount_return_to_resale = data.return_amount_return_to_resale;
 
         // For one rupee issue
 
@@ -3875,11 +3883,11 @@ $scope.fetchSingleDatatotaldel = function(){
  
          var picked_driver_panel="<?php echo $driver_pickip; ?>";
           if(picked_driver_panel !=1) {
-            var   finalbalnce=data.fulltotal-data.picked_amount-data.already_loaded_value_onpage;
+            var   finalbalnce=data.fulltotal-data.picked_amount-data.already_loaded_value_onpage-data.return_amount_return_to_resale;
           }else {
 
          
-            var   finalbalnce=data.fulltotal-data.already_loaded_value_onpage-data.finalbalnce_amount;
+            var   finalbalnce=data.fulltotal-data.already_loaded_value_onpage-data.finalbalnce_amount-data.return_amount_return_to_resale;
             //alert(data.fulltotal);
             //alert(data.already_loaded_value_onpage);
             //alert(data.finalbalnce_amount);
