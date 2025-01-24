@@ -5109,7 +5109,7 @@ var return_pick_up_value = $('#return_pick_up_value').val();
 
                 $scope.fetchData = function () {
 
-                    
+
 
                     $http.get('<?php echo base_url() ?>index.php/order/fetch_data_delivery_data_by_picklist?order_id=<?php echo $id; ?>&driver_pickip=<?php echo $driver_pickip; ?>&tablenamemain=<?php echo 'orders_process'; ?>&tablename_sub=<?php echo 'order_product_list_process'; ?>&convert=1&DC_id=<?php echo $_GET['DC_id'] ?>&convertion=<?php echo $_GET['convertion']; ?>').success(function (data) {
                         $scope.namesData = data;
@@ -5117,7 +5117,7 @@ var return_pick_up_value = $('#return_pick_up_value').val();
                         // For one rupee issue
 
                     var pending_count = 0;
-                 
+                  
                             for(var i = 0; i < data.length; i++){
                                 
                                         var amount = parseFloat(data[i].bill_nos-data[i].empty_loadnos);
@@ -5132,7 +5132,6 @@ var return_pick_up_value = $('#return_pick_up_value').val();
                                         pending_count += parseFloat(amount-resale_nos);
 
                             }
-
                             if(pending_count <=0){
                                 pending_count=0;
                             }
