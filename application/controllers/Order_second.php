@@ -10709,6 +10709,8 @@ $this->db->query("UPDATE orders_process SET return_status=1,reason='Return To Re
                                                 $count2=count($resultgetprodutold);
                                                 foreach ($resultgetprodutold as  $valueold)
                                                 {
+
+                                                    
                                                           
                                                     $rate_old=$valueold->rate+$valueold->commission;
                                                     $amountold=$rate_old*$valueold->qty;

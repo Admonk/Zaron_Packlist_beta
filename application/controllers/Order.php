@@ -6544,6 +6544,7 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
+                              $dil_status['return_status_check'] =1;
 
 
 
@@ -6618,6 +6619,9 @@ $this->db->query("UPDATE order_delivery_order_status SET collection_remarks_2='"
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
+                              $dil_status['return_status_check'] =1;
+
+
 
 
 //$this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
@@ -32492,6 +32496,7 @@ public function update_scope_details() {
                           payment_mode='" . $payment_mode . "',
                           deleteid='0',
                           collection_remarks='0',
+                          return_status_check='0',
                           utr_status='" . $utr_status . "' ,
                           sample_load_status='" . $sample_load_status . "',
                           cash_bill_status='" . $cash_bill_status . "' ,

@@ -25781,6 +25781,9 @@ $this->db->query("UPDATE order_delivery_order_status SET  assign_status_12_date=
                                  if($testMode)
                                  {
 
+
+
+
                                   $resultsub_production=$this->db->query("SELECT 
                                    b.total_picked_amount AS totalvalue,
                                    a.rate*a.qty AS amount,
@@ -25796,7 +25799,7 @@ $this->db->query("UPDATE order_delivery_order_status SET  assign_status_12_date=
                                         a.deleteid = 0 
                                         AND b.customer_id = '".$value->id."'  AND b.order_base>0
                                         AND b.reason != 'Return To Re-sale'
-                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2') 
+                                        AND b.deleteid IN('0','88')  AND b.return_status IN ('0','2')  AND b.return_status_check=0
                                         AND (
                                             CASE
                                                 WHEN b.assign_status_0_date <= '$todate'  AND (b.assign_status_12_date > '$todate' OR b.assign_status_12_date IS NULL)  AND (b.assign_status_11_date > '$todate' OR b.assign_status_11_date IS NULL)  AND (b.assign_status_3_date > '$todate' OR b.assign_status_3_date IS NULL)  THEN 1
