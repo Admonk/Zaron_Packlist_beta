@@ -6776,7 +6776,7 @@ $scope.fetchSingleDatatotaldel = function(){
 
                     }else {*/
                         
-                       var finalbalnce = parseInt(data.fulltotal) - parseInt(data.return_amount_return_to_resale) - parseInt(data.already_loaded_value_onpage) - parseInt(data.pickedtotalamount);
+                       var finalbalnce = parseInt(data.fulltotal) - parseInt(data.return_amount_return_to_resale_2) - parseInt(data.already_loaded_value_onpage) - parseInt(data.pickedtotalamount);
 
                    // }
                    
