@@ -6481,6 +6481,8 @@ $this->db->query("UPDATE orders_process SET assign_status='0',finance_status='11
                               $dil_status['delivery_date'] =$date;
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
+                              $dil_status['return_status_check'] =1;
+                              $dil_status['customer_id'] =$customer_id;
 
 //$this->Main_model->insert_commen($dil_status, 'order_delivery_order_status');
                                $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $order_id . "' AND finance_status=2 AND deleteid='0'");
@@ -6545,6 +6547,7 @@ $this->db->query("UPDATE order_delivery_order_status SET return_status=2,return_
                               $dil_status['delivery_time'] =$time;
                               $dil_status['assign_status_11_date'] =$date;
                               $dil_status['return_status_check'] =1;
+                              $dil_status['customer_id'] =$customer_id;
 
 
 
