@@ -386,7 +386,7 @@ th {
                                                                 <?php } ?>
 
 
-                                                                <p ng-if="return_id>0">
+                                                                <p ng-if="return_amount_return_to_sale>0">
                                                                     <span>Return To Sale</span><span> Rs.
                                                                       
                                                                         {{ return_amount_return_to_sale | indianCurrency }}
@@ -6664,12 +6664,29 @@ $scope.fetchSingleDatatotaldel = function(){
                     }
 
 
-                    if (finalbalnce > 0) {
-                        $scope.finalbalnce = finalbalnce;
+                    if (finalbalnce > 0) 
+                    {
+                         
+
+                        if(finalbalnce==0)
+                        {
+                            $scope.finalbalnce =0;
+                            var finalbalnce =0;
+                        } 
+                        else
+                        {
+                            $scope.finalbalnce = finalbalnce;
+                        }
+
+                        
+
+
                     }
                     else {
                         $scope.finalbalnce = 0;
                     }
+
+
 
                     // For one rupee issue
                     $('#is_balence').val(finalbalnce);

@@ -13571,7 +13571,7 @@ $result = $result->result();
  $edit_nos=0;
  $edit_qty=0;
  $retirn_toresale=0;
-$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->order_product_id . "'");
+$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base IN ('5','8') AND b.purchase_order_product_id='" . $value->order_product_id . "'");
                                                        $resultcss = $resultmainss->result();
                                                        if(count($resultcss)>0)
                                                        {
@@ -14419,7 +14419,7 @@ if($return_no_pick<=0)
  $edit_nos=0;
  $edit_qty=0;
  $retirn_toresale=0;
-$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->order_product_id . "'");
+$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base IN ('5','8') AND b.purchase_order_product_id='" . $value->order_product_id . "'");
                                                        $resultcss = $resultmainss->result();
                                                        if(count($resultcss)>0)
                                                        {

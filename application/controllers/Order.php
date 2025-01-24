@@ -26126,7 +26126,7 @@ public function fetch_data_delivery_data_by_picklist() {
 
 $resale_nos=0;
 $resale_qty=0;
-$resultmainss_resale = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base NOT IN ('5') AND a.admin_order=1 AND b.purchase_order_product_id='" . $value->id . "'");
+$resultmainss_resale = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base NOT IN ('5','8') AND a.admin_order=1 AND b.purchase_order_product_id='" . $value->id . "'");
                                                        $resultmainss_resale = $resultmainss_resale->result();
                                                        if(count($resultmainss_resale)>0)
                                                        {
@@ -26277,7 +26277,7 @@ $return_id = $scope_changes->return_id;
  $edit_nos=0;
  $edit_qty=0;
  $retirn_toresale=0;
-$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND b.purchase_order_product_id='" . $value->id . "'");
+$resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base IN ('5','8') AND b.purchase_order_product_id='" . $value->id . "'");
                                                        $resultcss = $resultmainss->result();
                                                        if(count($resultcss)>0)
                                                        {
@@ -26433,15 +26433,28 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                     
                 }
 
-
+                 
+                 $checkby_checkbox=0;
                 if($dispatch_nos>0)
                 {
+
+
                     $empty_loadnos_input=$empty_loadnos_input-$edit_nos;
+                    if($edit_nos>0)
+                    {
+                         $checkby_checkbox=1;
+                    }
+
+
                 }
 
                 if($dispatch_qty>0)
                 {
                     $empty_loadqty_input=$empty_loadqty_input-$edit_qty;
+                     if($edit_qty>0)
+                    {
+                         $checkby_checkbox=1;
+                    }
                 }
        
       
@@ -26951,6 +26964,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             $array[] = array(
             'no' => $i, 
             'id' => $value->id,
+            'checkby_checkbox'=>$checkby_checkbox,
             'retirn_toresale'=>$retirn_toresale,
             'loadnos' => round($loadnos,2),
             'loadamount' => $loadamount,
@@ -31327,7 +31341,7 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
             $delivery_status = $scope_changes->delivery_status;
             $delivery_charge = $scope_changes->delivery_charge;
             $payment_mode = $scope_changes->payment_mode;
-
+            $return_id = $scope_changes->return_id;
             $utr_status = $scope_changes->utr_status;
             $sample_load_status = $scope_changes->sample_load_status;
             $cash_bill_status = $scope_changes->cash_bill_status;
@@ -31358,7 +31372,7 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
 
 
 $return_amount_return_to_resale=0;
-$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base=5");
+$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base IN ('5','8')");
 $resultcss = $resultmainss->result();
 if(count($resultcss)>0)
 {

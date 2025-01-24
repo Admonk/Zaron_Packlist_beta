@@ -26318,7 +26318,7 @@ if(count($resultsub_inproduction_return_delivey)>0)
 
  $totalamountbase_retrun_to_re_sale=0;
 
-$resultmainss = $this->db->query("SELECT SUM(b.edit_nos) as edit_nos,SUM(b.rate*b.qty) as totalamountbase,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base=5 AND a.payment_recived=0 AND a.customer='" . $value->id. "'");
+$resultmainss = $this->db->query("SELECT SUM(b.edit_nos) as edit_nos,SUM(b.rate*b.qty) as totalamountbase,b.purchase_order_product_id as order_product_id FROM order_sales_return_complaints as a JOIN sales_return_products as b ON a.id=b.c_id  WHERE  a.deleteid=0 AND b.deleteid=0 AND a.order_base IN ('5','8') AND a.payment_recived=0 AND a.customer='" . $value->id. "'");
                                                        $resultcss = $resultmainss->result();
                                                        if(count($resultcss)>0)
                                                        {
@@ -26339,7 +26339,20 @@ $resultmainss = $this->db->query("SELECT SUM(b.edit_nos) as edit_nos,SUM(b.rate*
                                                        }
 
 
+
+
 $production=$production-$totalamountbase_retrun_to_re_sale;
+if($totalamountbase_retrun_to_re_sale>0)
+{
+    if($production<0)
+    {
+        $production=0;
+    }
+
+}
+    
+
+     
 
 
 
