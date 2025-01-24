@@ -32114,7 +32114,7 @@ $deliveredamount+= $valueloads_data->total_picked_amount_confirmed-$valueloads_d
                             }
                     
        }
-
+       
     // if deliveredamount and bill amount difference 1 rupee means add bill round to delivered
     $bill_balence=$discountfulltotal-$deliveredamount;
     if($bill_balence==1){
