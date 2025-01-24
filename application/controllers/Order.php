@@ -18393,6 +18393,7 @@ $collection_remarks_2_set=$bill_total-$collection_remarks_2;
                               $dil_status_first['collection_remarks_2'] = $collection_remarks_2_set;
                               $dil_status_first['total_picked_amount'] = $collection_remarks_2_set;
                               $dil_status_first['assign_status_0_date'] = date('Y-m-d');
+                              $dil_status_first['return_id'] = $return_id;
 
 
                                if($delivery_status==2)
@@ -18427,7 +18428,7 @@ $this->db->query("UPDATE order_delivery_order_status SET delivery_mode='Partial'
                                             {
 
                                               
-$this->db->query("UPDATE order_delivery_order_status SET reason='Partial Pick Pending',delivery_mode='Partial',collection_remarks_2='".$collection_remarks_2_set."',total_picked_amount='".$collection_remarks_2_set."',deleteid=0 WHERE  finance_status=2 AND deleteid='88' AND order_id='".$form_data->order_id."'"); 
+$this->db->query("UPDATE order_delivery_order_status SET return_id='".$return_id."',reason='Partial Pick Pending',delivery_mode='Partial',collection_remarks_2='".$collection_remarks_2_set."',total_picked_amount='".$collection_remarks_2_set."',deleteid=0 WHERE  finance_status=2 AND deleteid='88' AND order_id='".$form_data->order_id."'"); 
 
 
                                             }
@@ -18712,6 +18713,10 @@ $this->db->query("UPDATE order_product_list_process SET picked_status='0',randam
                                                    $dil_status_first['delivery_time'] =$time;
                                                    $dil_status_first['collection_remarks_2'] = $collection_remarks_2_set;
                                                    $dil_status_first['seq_status'] = 1;
+                                                   $dil_status_first['return_id'] = $return_id;
+
+
+
                                                    //     if($delivery_status==2)
                                                 //    {
                      
@@ -26306,7 +26311,7 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
 
 
 //exit;
-
+                        
 // echo'<pre>';print_r($loadnos);
 // echo'<pre>';print_r($value->nos);
 // echo'<pre>';print_r($loadamount);
@@ -26403,7 +26408,8 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                     }
                     
                 }
-
+//echo $bill_nos;
+//exit;
 
                  if($dispatch_qty>0)
                 {
@@ -26411,7 +26417,7 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                     if($empty_loadqty_input<=0)
                     {
                         $empty_loadqty_input=$bill_qty-$dispatch_qty;
-                        //$bill_nos=$bill_nos-$dispatch_nos;
+                        //$bill_qty=$bill_qty-$dispatch_qty;
                     }
                    
                     
@@ -26425,6 +26431,17 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                         $empty_loadqty_input=$empty_loadqty;
                     }
                     
+                }
+
+
+                if($dispatch_nos>0)
+                {
+                    $empty_loadnos_input=$empty_loadnos_input-$edit_nos;
+                }
+
+                if($dispatch_qty>0)
+                {
+                    $empty_loadqty_input=$empty_loadqty_input-$edit_qty;
                 }
        
       
@@ -32530,6 +32547,7 @@ $this->db->query("DELETE FROM order_delivery_order_status WHERE order_id='".$ord
                               $dil_status_first['create_time'] = $time;
                               $dil_status_first['delivery_date'] =$date;
                               $dil_status_first['delivery_time'] =$time;
+
                               
                               $dil_status_first['assign_status_0_date'] = date('Y-m-d');
                               
@@ -32591,8 +32609,12 @@ $this->db->query("DELETE FROM order_delivery_order_status WHERE order_id='".$ord
 
                               //$dil_status_first['deleteid'] = 88;
                               //$dil_status_first['return_id'] = $return_id;
+if($return_id>0)
+{
 
+    $this->db->query("UPDATE order_sales_return_complaints SET payment_recived=1 WHERE id='".$return_id."' AND order_base=5");
 
+}
 
                           $allcheck = $this->db->query("SELECT id FROM order_delivery_order_status  WHERE order_id='" . $form_data->order_id . "' AND finance_status=2 AND deleteid='88'");
                                             $allcheck = $allcheck->result();
@@ -56057,6 +56079,7 @@ $JOIN=' JOIN order_delivery_order_status as ds ON a.id=ds.order_id';
                                       $dil_status['create_time'] = $time;
                                       $dil_status['delivery_date'] =$date;
                                       $dil_status['delivery_time'] =$time;
+                                      $dil_status['return_id'] = $return_id;
         
         
         

@@ -13586,7 +13586,12 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                                                                  $value->qty=abs($value->qty-$edit_qty);
                                                                  $value->nos=abs($value->nos-$edit_nos);
 
-                                                                 $value->total=$value->qty*$value->rate;
+                                                                 if($value->qty<1)
+                                                                 {
+                                                                    $value->total=0;
+                                                                 }
+
+                                                                 
 
                                                                  $bill_qty=abs($bill_qty-$edit_qty);
                                                                  $bill_nos=abs($bill_nos-$edit_nos);
@@ -14429,7 +14434,12 @@ $resultmainss = $this->db->query("SELECT b.edit_nos,b.rate,b.qty,b.purchase_orde
                                                                  $value->qty=abs($value->qty-$edit_qty);
                                                                  $value->nos=abs($value->nos-$edit_nos);
 
-                                                                 $value->total=$value->qty*$value->rate;
+                                                                 if($value->qty<1)
+                                                                 {
+                                                                    $value->total=0;
+                                                                 }
+
+                                                                 
 
                                                                  $bill_qty=abs($bill_qty-$edit_qty);
                                                                  $bill_nos=abs($bill_nos-$edit_nos);
