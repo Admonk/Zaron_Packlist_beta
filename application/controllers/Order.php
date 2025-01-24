@@ -26966,7 +26966,7 @@ $activel_qtys_234 = $resultloadss234->row();
 $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_234->dispatch_load : '0';
 
 
-
+ 
 
             $array[] = array(
             'no' => $i, 
