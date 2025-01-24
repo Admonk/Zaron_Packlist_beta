@@ -3291,12 +3291,14 @@ th {
 
 
 
-                                                                                                                    <label
-                                                                                                                        for="set_id{{name.id}}"
-                                                                                                                        ng-if="name.bill_nos!=name.dis_nos && namecate.labletype!=9">
+
+                                                                                                                    <span ng-if="name.empty_loadnos==0 && name.picked_status==0">
+
+
+
+                                                                                                                        <label for="set_id{{name.id}}" ng-if="name.bill_nos!=name.dis_nos && namecate.labletype!=9">
+
                                                                                                                         
-
-
                                                                                                                         <input
                                                                                                                             type="checkbox"
                                                                                                                             value="{{name.id}}"
@@ -3319,7 +3321,58 @@ th {
 
 
                                                                                                                     </label>
+                                                                                                                        
 
+
+
+                                                                                                                    </span>
+
+
+
+
+                                                                                                                    <span ng-if="name.empty_loadnos_input==0 && name.dis_nos>0">
+
+
+
+                                                                                                                        <label for="set_id{{name.id}}" ng-if="name.bill_nos!=name.dis_nos && namecate.labletype!=9">
+
+                                                                                                                        
+                                                                                                                        <input
+                                                                                                                            type="checkbox"
+                                                                                                                            value="{{name.id}}"
+                                                                                                                            id="set_id{{name.id}}"
+                                                                                                                            ng-click="loadProduct(name.id)"
+                                                                                                                            <?php echo $disabled; ?>
+                                                                                                                            class="loaditems"
+                                                                                                                            name="loaditems" 
+                                                                                                                            disabled
+                                                                                                                            checked
+
+                                                                                                                            >
+
+                                                                                                                        <span
+                                                                                                                            id="textchange_{{name.id}}">
+                                                                                                                            Pack
+                                                                                                                        </span>
+
+
+
+
+                                                                                                                    </label>
+                                                                                                                        
+
+
+
+                                                                                                                    </span>
+
+
+
+                                                                                                                    
+
+
+
+
+                                                                                                          <span ng-if="name.empty_loadqty==0 && name.picked_status==0">
 
                                                                                                                     <label
                                                                                                                         for="set_id{{name.id}}"
@@ -3344,6 +3397,43 @@ th {
 
 
                                                                                                                     </label>
+
+
+                                                                                                                </span>
+
+
+                                                                                                                  <span ng-if="name.empty_loadqty_input==0 && name.dispatch_qty>0">
+
+                                                                                                                    <label
+                                                                                                                        for="set_id{{name.id}}"
+                                                                                                                        ng-if="name.bill_qty!=name.dispatch_qty && namecate.labletype==9">
+                                                                                                                        <input
+                                                                                                                            type="checkbox"
+                                                                                                                            value="{{name.id}}"
+                                                                                                                            id="set_id{{name.id}}"
+                                                                                                                            ng-click="loadProduct(name.id)"
+                                                                                                                            <?php echo $disabled; ?>
+                                                                                                                            class="loaditems"
+                                                                                                                            name="loaditems"
+                                                                                                                            disabled
+                                                                                                                            checked
+
+                                                                                                                            >
+
+                                                                                                                        <span
+                                                                                                                            id="textchange_{{name.id}}">
+                                                                                                                            Pack
+                                                                                                                        </span>
+
+
+                                                                                                                    </label>
+
+
+                                                                                                                </span>
+
+
+
+
 
 
                                                                                                                     <label

@@ -31380,7 +31380,7 @@ $picked_amount_gst = sprintf("%.2f", $picked_amount_gst_picked);
 
 
 $return_amount_return_to_resale=0;
-$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base IN ('5','8')");
+$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0 AND order_base IN ('5','8')");
 $resultcss = $resultmainss->result();
 if(count($resultcss)>0)
 {
@@ -31401,7 +31401,7 @@ if(count($resultcss)>0)
 
 
 $return_amount_return_to_sale=0;
-$resultmainss_ss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base=2 AND remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')");
+$resultmainss_ss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0 AND order_base=2 AND remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')");
 $resultcss_gg = $resultmainss_ss->result();
 if(count($resultcss_gg)>0)
 {
@@ -46594,7 +46594,7 @@ if($tcs_status==1)
         
 
 $return_amount_return_to_resale=0;
-$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id . "' AND deleteid=0 AND order_base IN ('5','8')");
+$resultmainss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0 AND order_base IN ('5','8')");
 $resultcss = $resultmainss->result();
 if(count($resultcss)>0)
 {
@@ -46615,7 +46615,7 @@ if(count($resultcss)>0)
 
 
 $return_amount_return_to_sale=0;
-$resultmainss_ss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE id='" . $return_id. "' AND deleteid=0 AND order_base=2 AND remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')");
+$resultmainss_ss = $this->db->query("SELECT * FROM order_sales_return_complaints  WHERE order_id='" . $_GET['order_id'] . "' AND deleteid=0 AND order_base=2 AND remarks NOT IN ('Driver Return Trip Assigned','Driver Delivered The Order')");
 $resultcss_gg = $resultmainss_ss->result();
 if(count($resultcss_gg)>0)
 {
