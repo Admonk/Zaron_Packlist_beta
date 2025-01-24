@@ -32114,6 +32114,12 @@ $deliveredamount+= $valueloads_data->total_picked_amount_confirmed-$valueloads_d
                             }
                     
        }
+       
+    // if deliveredamount and bill amount difference 1 rupee means add bill round to delivered
+    $bill_balence=$discountfulltotal-$deliveredamount;
+    if($bill_balence==1){
+        $deliveredamount=$deliveredamount+1;
+    }
 
 
     // $resultmainss = $this->db->query("SELECT * FROM  sales_load_products  WHERE order_id='" . $_GET['order_id'] . "' AND loadstatus=1 AND delivered_products=1 AND pickedstatus=1 AND dispatch_load=1");
@@ -33101,7 +33107,8 @@ public function pickup_summary() {
                             $is_balence=$_GET['is_balence'];
                             if($is_final_partial == '0' && $is_balence == '1') {
 
-                                  $picked_summary->total_picked_amount=$picked_summary->total_picked_amount+1;
+                                  // gg changes hide due to excess 1 rupee showing in confirmed page
+                          //        $picked_summary->total_picked_amount=$picked_summary->total_picked_amount+1;
                                   $bill_roundoff_show_dc='1';
    
                             }
