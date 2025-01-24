@@ -27012,6 +27012,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             'categories' => $categories, 
             'type' => $type, 
             'edit_nos'=>$edit_nos,
+            'edit_qty'=>$edit_qty,
             'order_bill_no'=>$bill_nos,
             'order_qty'=>$qty,
             'description' => $description,
@@ -27067,7 +27068,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             'nos_tab_value'=> $nos_tab_values,
             'activel_qty' => $value->activel_qty,
             'activel_qty_packlist'=>isset($activel_qtys->activel_qty) ? $activel_qtys->activel_qty : '',
-
+ 
         );
             $i++;
     }
