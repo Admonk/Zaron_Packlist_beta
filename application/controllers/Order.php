@@ -27005,6 +27005,7 @@ $dispatch_status_load=isset($activel_qtys_234->dispatch_load) ? $activel_qtys_23
             'categories' => $categories, 
             'type' => $type, 
             'edit_nos'=>$edit_nos,
+            'edit_qty'=>$edit_qty,
             'order_bill_no'=>$bill_nos,
             'order_qty'=>$qty,
             'description' => $description,
@@ -32225,7 +32226,7 @@ foreach ($DC_list as $dd) {
 
                               $dc_amount=array_sum($already_loaded_value_onpage);
                           
-                              $finalbalnce = $discountfulltotal - $dc_amount - round($total_show_value);
+                              $finalbalnce = $discountfulltotal - $dc_amount - round($total_show_value)-round($return_amount_return_to_resale);
 
                               if($finalbalnce == 1) {
 
@@ -32429,7 +32430,7 @@ $return_amount_return_to_sale=round($return_amount_return_to_sale,2);
              'pickedtotalamount'=>round($total_show_value),
              'phone'=>$phone,'address'=>$address,'company_name_data'=>$company_name_data,'lengeth'=>$lengeth,'delivery_charge'=>$delivery_charge,'assign_date' => $assign_date . ' ' . $assign_time,'delivery_date_time' => $delivery_date_time,'SSD_check' => $SSD_check,'excess_payment_status' => $excess_payment_status,'order_no' => $order_no,'tcsamount' => $tcsamount_picked, 'unbilledloadamount' => round($unbilledloadamount),'deliveredamount' => round($deliveredamount),'loadtotalamount' => round($loadtotalamount),'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'start_reading' => $start_reading, 'paricel_mode' => $paricel_mode, 'delivery_mode' => $delivery_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff, 
              'fulltotal' => round($discountfulltotal,2),
-             'return_amount_return_to_resale' => round($return_amount_return_to_resale,2),
+             'return_amount_return_to_resale' => round($return_amount_return_to_resale),
               'discountfulltotal' => round($discountfulltotal), 'totalitems' => count($result), 'discount' => round($discount,2), 'gsttotal' => $amounttotalgst, 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2), 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2),
              'roundoffstatusval_data_picked'=>$roundoffstatusval_data,
              'current_packed_balence'=>round($current_packed_balence),

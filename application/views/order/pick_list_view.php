@@ -2694,6 +2694,32 @@ th {
 
                                                                                                                     </span>
 
+
+                                                                                                                    <span
+                                                                                                                        ng-if='name.empty_loadnos_input==0 && name.dis_nos>0 '
+                                                                                                                        class="loadamount">
+
+                                                                                                                        <input
+                                                                                                                            type="text"
+                                                                                                                            <?php echo $readdriver; ?>
+                                                                                                                            <?php echo $inputboxread; ?>
+                                                                                                                            ng-keyup="inputsave_1(name.id,'nos',namecate.categories_id,namecate.type)"
+                                                                                                                            style="border: #bbbbbb solid 2px;"
+                                                                                                                            data-val="{{name.bill_nos-name.edit_nos}}"
+                                                                                                                            class="nos_{{namecate.categories_id}}"
+                                                                                                                            id="nos_{{name.id}}"
+                                                                                                                            value="{{name.empty_loadnos_input}}">
+
+                                                                                                                    </span>
+
+
+
+
+
+
+
+
+
                                                                                                                     
 
                                                                                                                     <!-- gg changes -->
@@ -5091,13 +5117,26 @@ var return_pick_up_value = $('#return_pick_up_value').val();
                         // For one rupee issue
 
                     var pending_count = 0;
+                 
                             for(var i = 0; i < data.length; i++){
-                                var amount = parseFloat(data[i].bill_nos-data[i].empty_loadnos);
-                                pending_count += amount;
+                                
+                                        var amount = parseFloat(data[i].bill_nos-data[i].empty_loadnos);
+
+                                        // if return resale happen means we need to minus that qty or nos aswell
+                                        var resale_nos=0;
+                                        if(data[i].edit_nos !=0 || data[i].edit_nos !=''){
+                                            var resale_nos=data[i].edit_nos;
+                                        }else if(data[i].edit_qty !=0 || data[i].edit_qty !=''){
+                                            var resale_nos=data[i].edit_qty;
+                                        }
+                                        pending_count += parseFloat(amount-resale_nos);
+
                             }
+
                             if(pending_count <=0){
                                 pending_count=0;
                             }
+
                             $('#sum_bill_nos').val(pending_count);
                             $scope.fetchSingleDatatotaldel();
                             $scope.pickup_summary();
@@ -6668,15 +6707,15 @@ $scope.fetchSingleDatatotaldel = function(){
                     {
                          
 
-                        if(finalbalnce==1)
+                       /* if(finalbalnce==1)
                         {
                             $scope.finalbalnce =0;
                             var finalbalnce =0;
                         } 
                         else
-                        {
+                        {*/
                             $scope.finalbalnce = finalbalnce;
-                        }
+                        //}
 
                         
 
