@@ -3883,11 +3883,11 @@ $scope.fetchSingleDatatotaldel = function(){
  
          var picked_driver_panel="<?php echo $driver_pickip; ?>";
           if(picked_driver_panel !=1) {
-            var   finalbalnce=data.fulltotal-data.picked_amount-data.already_loaded_value_onpage-data.return_amount_return_to_resale;
+            var   finalbalnce=data.fulltotal-data.picked_amount-data.already_loaded_value_onpage-data.return_amount_return_to_resale_2;
           }else {
 
          
-            var   finalbalnce=data.fulltotal-data.already_loaded_value_onpage-data.finalbalnce_amount-data.return_amount_return_to_resale;
+            var   finalbalnce=data.fulltotal-data.already_loaded_value_onpage-data.finalbalnce_amount-data.return_amount_return_to_resale_2;
             //alert(data.fulltotal);
             //alert(data.already_loaded_value_onpage);
             //alert(data.finalbalnce_amount);
