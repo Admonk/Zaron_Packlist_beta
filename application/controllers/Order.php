@@ -47214,8 +47214,8 @@ if($unbilledloadamount>0)
                     'vehicle_name'=>$vehicle_name,  
                      'driver_name'=>$driver_name,
                      'picked_amount'=>round($picked_amount),
-                     'return_amount_return_to_sale'=>$return_amount_return_to_sale,
-                     'return_amount_return_to_resale'=>$return_amount_return_to_resale,
+                     'return_amount_return_to_sale'=>round($return_amount_return_to_sale),
+                     'return_amount_return_to_resale'=>round($return_amount_return_to_resale),
                      'pickedtotalamount'=>round($pickedtotalamount),
                      'phone'=>$phone,'address'=>$address,'company_name_data'=>$company_name_data,'lengeth'=>$lengeth,'delivery_charge'=>$delivery_charge,'assign_date' => $assign_date . ' ' . $assign_time,'delivery_date_time' => $delivery_date_time,'SSD_check' => $SSD_check,'excess_payment_status' => $excess_payment_status,'order_no' => $order_no,'tcsamount' => $tcsamount, 'unbilledloadamount' => round($unbilledloadamount),'deliveredamount' => round($deliveredamount),'loadtotalamount' => round($loadtotalamount),'user_id' => $user_id, 'salesphone' => $salesphone, 'salesphone2' => $salesphone2, 'salesname' => $salesname, 'reason' => $reason, 'start_reading' => $start_reading, 'paricel_mode' => $paricel_mode, 'delivery_mode' => $delivery_mode, 'production_assign' => $production_assign, 'create_date' => $create_date, 'create_time' => $create_time, 'minisroundoff' => $minisroundoff, 'fulltotal' => round($bill_total,2), 'discountfulltotal' => round($discountfulltotal), 'totalitems' => count($result), 'discount' => round($discount,2), 'gsttotal' => $amounttotalgst, 'commission' => round($commission,2), 'amounttotal_with_out_commission' => round($amounttotal_with_out_commission, 2), 'Meter_to_Sqr_feet' => round($Meter_to_Sqr_feet, 2), 'Sqr_feet_to_Meter' => round($Sqr_feet_to_Meter, 2),'return_amount'=>$return_amount, 'NOS' => round($nos, 2), 'UNIT' => round($unit, 2), 'FACT' => round($fact, 2), 'fullqty' => round($fullqty, 2),
 
