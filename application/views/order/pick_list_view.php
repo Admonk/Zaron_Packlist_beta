@@ -6668,7 +6668,7 @@ $scope.fetchSingleDatatotaldel = function(){
                     {
                          
 
-                        if(finalbalnce==0)
+                        if(finalbalnce==1)
                         {
                             $scope.finalbalnce =0;
                             var finalbalnce =0;
