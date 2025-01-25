@@ -386,7 +386,7 @@ th {
                                                                 <?php } ?>
 
 
-                                                                <p ng-if="return_amount_return_to_sale>0">
+                                                                <p>
                                                                     <span>Return To Sale</span><span> Rs.
                                                                       
                                                                         {{ return_amount_return_to_sale | indianCurrency }}
