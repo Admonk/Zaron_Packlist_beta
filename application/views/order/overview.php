@@ -772,7 +772,11 @@ p {
                                              <th class="table-width-6" ng-if="namecate.labletype==6 || namecate.labletype==11 || namecate.labletype==12"> </th> 
                                              <th class="table-width-6 hidmob" ng-if="namecate.labletype==15"> </th>
                                              <th class="table-width-6" ng-if="namecate.labletype==1 || namecate.labletype==2 || namecate.labletype==3 || namecate.labletype==4 || namecate.labletype==5 || namecate.labletype==6 || namecate.labletype==7 || namecate.labletype==16 || namecate.labletype==8 || namecate.labletype==10 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==13 || namecate.labletype==14 || namecate.labletype==15 || namecate.categories_id==599"> </th>
-                                             <th class="table-width-6" ng-if="namecate.labletype==1 || namecate.labletype==2 || namecate.labletype==3 || namecate.labletype==4 || namecate.labletype==5 || namecate.labletype==6 || namecate.labletype==7 || namecate.labletype==16 || namecate.labletype==8 || namecate.labletype==10 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==13 || namecate.labletype==14 || namecate.labletype==15"> </th>
+
+                                             <th class="table-width-6" ng-if="(namecate.labletype==1 || namecate.labletype==2 || namecate.labletype==3 || namecate.labletype==4 || namecate.labletype==5 || namecate.labletype==6 || namecate.labletype==7 || namecate.labletype==16 || namecate.labletype==8 || namecate.labletype==10 || namecate.labletype==11 || namecate.labletype==12 || namecate.labletype==13 || namecate.labletype==14 || namecate.labletype==15) &&  namecate.categories_id !=627 &&  namecate.categories_id !=628 &&  namecate.categories_id!=630"> </th>
+
+                                             <td class="table-width-6 hidmob ng-scope" ng-if="namecate.labletype==7 && namecate.categories_id != 5"> </td>
+
                                              <th class="table-width-6" ng-if="namecate.labletype==8" style="display:none;"> </th>
                                              <th class="table-width-6" ng-if="namecate.labletype==8"> </th>
                                              <th class="table-width-6" ng-if="namecate.labletype==5 || namecate.labletype==6"> </th>    
@@ -780,6 +784,7 @@ p {
                                              <th ng-if="namecate.labletype==1"></th>
                                              <th ng-if="namecate.categories_id==582"></th>
                                              <th ng-if="namecate.categories_id==40"></th>
+                                             <th style="text-align:right;" ng-if="namecate.categories_id==13"></th>
                                              <th ng-if="namecate.labletype!=9" style="text-align:right;"><b  id="nostot_{{namecate.type}}" >{{namecate.nos_total}}</b></th>
 
  <th ng-if="namecate.categories_id==13" style="text-align:right;"><b  id="nostot_{{namecate.type}}" >{{namecate.fact_total}}</b></th>
